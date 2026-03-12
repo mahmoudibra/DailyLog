@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- App / Window -->
+    <string name="app_title">متتبع العمل اليومي</string>
+    <string name="daily_tracker">المتتبع اليومي</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_history">السجل</string>
+    <string name="nav_objectives">الأهداف</string>
+    <string name="nav_time_tracking">تتبع الوقت</string>
+    <string name="nav_analytics">التحليلات</string>
+    <string name="nav_export">تصدير</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Common actions -->
+    <string name="action_add">إضافة</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_edit">تعديل</string>
+    <string name="action_close">إغلاق</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_update">تحديث</string>
+    <string name="action_create">إنشاء</string>
+    <string name="action_start">بدء</string>
+    <string name="action_stop">إيقاف</string>
+    <string name="action_refresh">تحديث</string>
+    <string name="action_preview">معاينة</string>
+
+    <!-- Greetings -->
+    <string name="good_morning">صباح الخير</string>
+    <string name="good_afternoon">مساء الخير</string>
+    <string name="good_evening">مساء الخير</string>
+    <string name="ready_to_track">هل أنت مستعد لتتبع يومك؟</string>
+
+    <!-- Calendar -->
+    <string name="previous_month">الشهر السابق</string>
+    <string name="next_month">الشهر التالي</string>
+    <string name="day_mon">اثن</string>
+    <string name="day_tue">ثلا</string>
+    <string name="day_wed">أرب</string>
+    <string name="day_thu">خمي</string>
+    <string name="day_fri">جمع</string>
+    <string name="day_sat">سبت</string>
+    <string name="day_sun">أحد</string>
+
+    <!-- Daily Log Screen -->
+    <string name="start_your_day">ابدأ يومك</string>
+    <string name="daily_log">السجل اليومي</string>
+    <string name="record_work_entries">سجّل إنجازاتك</string>
+    <string name="objectives">الأهداف</string>
+    <string name="check_your_goals">تحقق من أهدافك</string>
+    <string name="quick_timer">مؤقت سريع</string>
+    <string name="start_tracking_time">ابدأ تتبع الوقت</string>
+    <string name="add_entry">إضافة إدخال</string>
+    <string name="no_entries_yet">لا توجد إدخالات بعد. انقر \'إضافة إدخال\' لتسجيل عملك.</string>
+    <string name="entry_deleted">✓ تم حذف الإدخال</string>
+    <string name="entry_added">✓ تمت إضافة الإدخال بنجاح!</string>
+    <string name="tags">العلامات</string>
+    <string name="add_new_tag">إضافة علامة جديدة</string>
+    <string name="no_tags_yet">لا توجد علامات بعد. أنشئ علامتك الأولى!</string>
+    <string name="delete_entry">حذف الإدخال</string>
+
+    <!-- Add Entry Dialog -->
+    <string name="add_work_entry">إضافة إدخال عمل</string>
+    <string name="what_did_you_accomplish">ماذا أنجزت؟</string>
+    <string name="entry_placeholder">إصلاح خلل في نظام الدفع</string>
+
+    <!-- New Tag Dialog -->
+    <string name="create_new_tag">إنشاء علامة جديدة</string>
+    <string name="tag_name">اسم العلامة</string>
+    <string name="tag_name_placeholder">مثلاً: إصلاح، اجتماع، ميزة</string>
+    <string name="color_label">اللون:</string>
+
+    <!-- History / Log List -->
+    <string name="history">السجل</string>
+    <string name="no_logs_yet">لا توجد سجلات بعد. ابدأ بتسجيل عملك اليومي!</string>
+    <string name="log_detail">تفاصيل السجل</string>
+    <string name="work_log">سجل العمل</string>
+
+    <!-- Objectives Screen -->
+    <string name="work_objectives">أهداف العمل</string>
+    <string name="add_objective">إضافة هدف</string>
+    <string name="yearly">سنوي</string>
+    <string name="quarterly">ربع سنوي</string>
+    <string name="year_label">السنة:</string>
+    <string name="quarter_label">الربع:</string>
+    <string name="previous_year">السنة السابقة</string>
+    <string name="next_year">السنة التالية</string>
+    <string name="previous_quarter">الربع السابق</string>
+    <string name="next_quarter">الربع التالي</string>
+    <string name="no_objectives_yet">لا توجد أهداف بعد. أضف هدفك الأول لبدء تتبع التقدم!</string>
+    <string name="in_progress">قيد التنفيذ</string>
+    <string name="completed">مكتمل</string>
+    <string name="cancelled">ملغى</string>
+    <string name="collapse">طي</string>
+    <string name="expand">توسيع</string>
+    <string name="add_checklist_item">إضافة عنصر قائمة</string>
+    <string name="edit_objective">تعديل الهدف</string>
+    <string name="objective_title">عنوان الهدف</string>
+    <string name="objective_title_placeholder">مثلاً: إطلاق ميزة منتج جديدة</string>
+    <string name="description_optional">الوصف (اختياري)</string>
+    <string name="description_placeholder">أضف تفاصيل حول هذا الهدف...</string>
+
+    <!-- Checklist -->
+    <string name="add_checklist_item_title">إضافة عنصر قائمة</string>
+    <string name="task">المهمة</string>
+    <string name="task_placeholder">مثلاً: إكمال تصميمات الواجهة</string>
+
+    <!-- Time Tracking Screen -->
+    <string name="time_tracking">تتبع الوقت</string>
+    <string name="start_timer">بدء المؤقت</string>
+    <string name="stop_timer">إيقاف المؤقت</string>
+    <string name="add_manual">إضافة يدوية</string>
+    <string name="status">الحالة</string>
+    <string name="timer_running">المؤقت يعمل</string>
+    <string name="todays_summary">ملخص اليوم</string>
+    <string name="time_entries">إدخالات الوقت</string>
+    <string name="no_time_entries">لا توجد إدخالات وقت لليوم. ابدأ مؤقتًا أو أضف إدخالًا يدويًا!</string>
+    <string name="what_are_you_working_on">على ماذا تعمل؟</string>
+    <string name="working_on_placeholder">مثلاً: تنفيذ الميزة X</string>
+    <string name="category">الفئة</string>
+    <string name="add_manual_entry">إضافة إدخال يدوي</string>
+    <string name="description">الوصف</string>
+    <string name="what_did_you_work_on">على ماذا عملت؟</string>
+    <string name="start_time">وقت البدء</string>
+    <string name="end_time">وقت الانتهاء</string>
+    <string name="time_format_placeholder">HH:MM</string>
+
+    <!-- Analytics Screen -->
+    <string name="analytics_and_insights">التحليلات والرؤى</string>
+    <string name="no_data_available">لا توجد بيانات متاحة بعد. ابدأ بتسجيل عملك لرؤية التحليلات!</string>
+    <string name="streaks">التوالي</string>
+    <string name="current_streak">التوالي الحالي</string>
+    <string name="best_streak">أفضل توالي</string>
+    <string name="days_logged">أيام التسجيل</string>
+    <string name="overview">نظرة عامة</string>
+    <string name="total_entries">إجمالي الإدخالات</string>
+    <string name="avg_per_day">المعدل/يوم</string>
+    <string name="most_active_day">أكثر يوم نشاطًا</string>
+    <string name="total">الإجمالي</string>
+    <string name="checklist_completion">إكمال قائمة المهام</string>
+    <string name="tag_usage">استخدام العلامات</string>
+    <string name="weekly_activity">النشاط الأسبوعي (آخر 12 أسبوع)</string>
+    <string name="recent_daily_activity">النشاط اليومي الأخير</string>
+
+    <!-- Export Screen -->
+    <string name="export_data">تصدير البيانات</string>
+    <string name="date_range">النطاق الزمني</string>
+    <string name="start_date">تاريخ البدء</string>
+    <string name="end_date">تاريخ الانتهاء</string>
+    <string name="date_format_placeholder">YYYY-MM-DD</string>
+    <string name="include">تضمين</string>
+    <string name="work_entries">إدخالات العمل</string>
+    <string name="format">التنسيق</string>
+    <string name="plain_text">نص عادي</string>
+    <string name="csv">CSV</string>
+    <string name="markdown">Markdown</string>
+    <string name="exporting">جارٍ التصدير...</string>
+    <string name="export_to_file">تصدير إلى ملف</string>
+    <string name="export_dialog_title">تصدير بيانات متتبع العمل</string>
+
+    <!-- Settings Screen -->
+    <string name="settings">الإعدادات</string>
+    <string name="reminder_times">أوقات التذكير</string>
+    <string name="morning_reminder">تذكير الصباح</string>
+    <string name="morning_reminder_desc">تذكير يومي لمراجعة عمل الأمس والتخطيط ليومك</string>
+    <string name="afternoon_reminder">تذكير بعد الظهر</string>
+    <string name="afternoon_reminder_desc">تذكير يومي لتسجيل عملك (فقط إذا لم تسجل بعد)</string>
+    <string name="time_hhmm">الوقت (HH:MM)</string>
+    <string name="save_settings">حفظ الإعدادات</string>
+    <string name="settings_saved">✓ تم حفظ الإعدادات! أعد تشغيل التطبيق لتطبيق التغييرات.</string>
+    <string name="danger_zone">منطقة الخطر</string>
+    <string name="danger_zone_desc">حذف جميع السجلات والأهداف والعلامات وإدخالات الوقت والإعدادات نهائيًا.</string>
+    <string name="delete_all_data">حذف جميع البيانات</string>
+    <string name="about_reminders">حول التذكيرات</string>
+    <string name="about_reminders_message">• تذكير الصباح يساعدك على مراجعة عمل الأمس والتخطيط ليومك\n• تذكير بعد الظهر يظهر فقط إذا لم تسجل عملك بعد\n• التذكيرات تظهر كإشعارات macOS\n• يجب إعادة تشغيل التطبيق لتطبيق تغييرات الوقت</string>
+    <string name="delete_all_data_confirm_title">حذف جميع البيانات؟</string>
+    <string name="delete_all_data_confirm_message">سيتم حذف جميع السجلات والأهداف والعلامات وإدخالات الوقت والإعدادات نهائيًا. لا يمكن التراجع.</string>
+    <string name="delete_everything">حذف الكل</string>
+    <string name="all_data_deleted">✓ تم حذف جميع البيانات. أعد تشغيل التطبيق لبداية جديدة.</string>
+    <string name="language">اللغة</string>
+
+    <!-- Notifications -->
+    <string name="notification_morning_title">متتبع العمل اليومي</string>
+    <string name="notification_morning_message">صباح الخير! راجع عمل الأمس وخطط ليومك.</string>
+    <string name="notification_afternoon_title">متتبع العمل اليومي</string>
+    <string name="notification_afternoon_message">حان وقت تسجيل عملك لليوم!</string>
+
+    <!-- Parameterized strings -->
+    <string name="viewing_date">عرض: %1$s</string>
+    <string name="work_entries_count">إدخالات العمل (%1$d)</string>
+    <string name="quarter_year">ر%1$d %2$d</string>
+    <string name="year_display">السنة: %1$d</string>
+    <string name="quarter_display">الربع: ر%1$d %2$d</string>
+    <string name="started_at">بدأ في %1$s | %2$s</string>
+    <string name="total_time">الإجمالي: %1$s</string>
+    <string name="time_range_ended">%1$s - %2$s</string>
+    <string name="time_range_running">%1$s - جارٍ</string>
+    <string name="percent_value">%1$d%%</string>
+    <string name="active_days">%1$d/7 أيام نشطة</string>
+    <string name="error_message">خطأ: %1$s</string>
+
+    <!-- Plural strings -->
+    <plurals name="day_streak">
+        <item quantity="zero">لا توالي</item>
+        <item quantity="one">يوم واحد متواصل</item>
+        <item quantity="two">يومان متواصلان</item>
+        <item quantity="few">%1$d أيام متواصلة</item>
+        <item quantity="many">%1$d يومًا متواصلًا</item>
+        <item quantity="other">%1$d يومًا متواصلًا</item>
+    </plurals>
+    <plurals name="entries_count">
+        <item quantity="zero">لا إدخالات</item>
+        <item quantity="one">إدخال واحد</item>
+        <item quantity="two">إدخالان</item>
+        <item quantity="few">%1$d إدخالات</item>
+        <item quantity="many">%1$d إدخال</item>
+        <item quantity="other">%1$d إدخال</item>
+    </plurals>
+    <plurals name="logged_count">
+        <item quantity="one">تم تسجيل واحد</item>
+        <item quantity="two">تم تسجيل اثنين</item>
+        <item quantity="few">تم تسجيل %1$d</item>
+        <item quantity="many">تم تسجيل %1$d</item>
+        <item quantity="other">تم تسجيل %1$d</item>
+    </plurals>
+    <plurals name="entry_count">
+        <item quantity="zero">لا إدخالات</item>
+        <item quantity="one">إدخال واحد</item>
+        <item quantity="two">إدخالان</item>
+        <item quantity="few">%1$d إدخالات</item>
+        <item quantity="many">%1$d إدخال</item>
+        <item quantity="other">%1$d إدخال</item>
+    </plurals>
+    <plurals name="and_more_entries">
+        <item quantity="one">  ... وإدخال آخر</item>
+        <item quantity="two">  ... وإدخالان آخران</item>
+        <item quantity="few">  ... و%1$d إدخالات أخرى</item>
+        <item quantity="many">  ... و%1$d إدخالات أخرى</item>
+        <item quantity="other">  ... و%1$d إدخالات أخرى</item>
+    </plurals>
+    <plurals name="times_used">
+        <item quantity="one">استُخدم مرة واحدة</item>
+        <item quantity="two">استُخدم مرتين</item>
+        <item quantity="few">استُخدم %1$d مرات</item>
+        <item quantity="many">استُخدم %1$d مرة</item>
+        <item quantity="other">استُخدم %1$d مرة</item>
+    </plurals>
+    <plurals name="entries_count_label">
+        <item quantity="one">إدخال واحد</item>
+        <item quantity="two">إدخالان</item>
+        <item quantity="few">%1$d إدخالات</item>
+        <item quantity="many">%1$d إدخال</item>
+        <item quantity="other">%1$d إدخال</item>
+    </plurals>
+    <plurals name="tags_count">
+        <item quantity="one">علامة واحدة</item>
+        <item quantity="two">علامتان</item>
+        <item quantity="few">%1$d علامات</item>
+        <item quantity="many">%1$d علامة</item>
+        <item quantity="other">%1$d علامة</item>
+    </plurals>
+</resources>

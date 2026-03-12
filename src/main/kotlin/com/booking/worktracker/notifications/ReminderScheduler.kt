@@ -3,9 +3,8 @@ package com.booking.worktracker.notifications
 import com.booking.worktracker.data.repository.LogRepository
 import com.booking.worktracker.data.repository.SettingsRepository
 import com.booking.worktracker.ui.localization.AppLocale
-import com.booking.worktracker.ui.localization.ArabicStrings
-import com.booking.worktracker.ui.localization.EnglishStrings
-import com.booking.worktracker.ui.localization.Strings
+import com.booking.worktracker.core.generated.resources.*
+import org.jetbrains.compose.resources.getString
 import kotlinx.coroutines.*
 import kotlinx.datetime.*
 
@@ -17,12 +16,9 @@ class ReminderScheduler(
     private var morningJob: Job? = null
     private var afternoonJob: Job? = null
 
-    private fun getStrings(): Strings {
+    private fun setLocale() {
         val locale = AppLocale.fromCode(settingsRepository.getLanguage())
-        return when (locale) {
-            AppLocale.ENGLISH -> EnglishStrings
-            AppLocale.ARABIC -> ArabicStrings
-        }
+        java.util.Locale.setDefault(java.util.Locale(locale.code))
     }
 
     fun start() {
@@ -30,11 +26,10 @@ class ReminderScheduler(
         morningJob = scheduleDaily(
             timeSupplier = { settingsRepository.getMorningReminderTime() }
         ) {
-            val strings = getStrings()
-            MacOSNotification.send(
-                title = strings.notificationMorningTitle,
-                message = strings.notificationMorningMessage
-            )
+            setLocale()
+            val title = getString(Res.string.notification_morning_title)
+            val message = getString(Res.string.notification_morning_message)
+            MacOSNotification.send(title = title, message = message)
         }
 
         // Afternoon reminder: 4:30 PM (default)
@@ -45,11 +40,10 @@ class ReminderScheduler(
             val hasLogged = logRepository.hasLogForDate(today)
 
             if (!hasLogged) {
-                val strings = getStrings()
-                MacOSNotification.send(
-                    title = strings.notificationAfternoonTitle,
-                    message = strings.notificationAfternoonMessage
-                )
+                setLocale()
+                val title = getString(Res.string.notification_afternoon_title)
+                val message = getString(Res.string.notification_afternoon_message)
+                MacOSNotification.send(title = title, message = message)
             }
         }
     }
@@ -60,7 +54,7 @@ class ReminderScheduler(
         scope.cancel()
     }
 
-    private fun scheduleDaily(timeSupplier: () -> String, action: () -> Unit): Job {
+    private fun scheduleDaily(timeSupplier: () -> String, action: suspend () -> Unit): Job {
         return scope.launch {
             while (isActive) {
                 try {

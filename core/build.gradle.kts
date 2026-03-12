@@ -25,6 +25,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
+    implementation(compose.components.resources)
 
     // SQLite
     implementation("org.xerial:sqlite-jdbc:3.44.1.0")
@@ -35,6 +36,10 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0")
+}
+
+compose.resources {
+    publicResClass = true
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

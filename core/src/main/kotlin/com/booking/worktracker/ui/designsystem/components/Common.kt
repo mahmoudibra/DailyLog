@@ -21,7 +21,9 @@ import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
 import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
 import com.booking.worktracker.ui.designsystem.tokens.SizeTokens
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
-import com.booking.worktracker.ui.localization.LocalStrings
+import com.booking.worktracker.core.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.pluralStringResource
 import kotlinx.datetime.*
 
 @Composable
@@ -142,12 +144,11 @@ fun GreetingHeader(
     modifier: Modifier = Modifier,
     streakCount: Int = 0
 ) {
-    val strings = LocalStrings.current
     val hour = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).hour
     val greeting = when {
-        hour < 12 -> strings.goodMorning
-        hour < 17 -> strings.goodAfternoon
-        else -> strings.goodEvening
+        hour < 12 -> stringResource(Res.string.good_morning)
+        hour < 17 -> stringResource(Res.string.good_afternoon)
+        else -> stringResource(Res.string.good_evening)
     }
 
     Row(
@@ -162,7 +163,7 @@ fun GreetingHeader(
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = strings.readyToTrack,
+                text = stringResource(Res.string.ready_to_track),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -174,7 +175,7 @@ fun GreetingHeader(
                 color = ColorTokens.Primary.copy(alpha = 0.15f)
             ) {
                 Text(
-                    text = strings.dayStreak(streakCount),
+                    text = pluralStringResource(Res.plurals.day_streak, streakCount, streakCount),
                     style = MaterialTheme.typography.labelLarge,
                     color = ColorTokens.Primary,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -191,7 +192,6 @@ fun MonthlyCalendarPicker(
     modifier: Modifier = Modifier,
     onDayClick: (LocalDate) -> Unit = {}
 ) {
-    val strings = LocalStrings.current
     val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
     var displayedYear by remember { mutableStateOf(selectedDate.year) }
     var displayedMonth by remember { mutableStateOf(selectedDate.month) }
@@ -216,7 +216,7 @@ fun MonthlyCalendarPicker(
             }) {
                 Icon(
                     Icons.Default.ChevronLeft,
-                    contentDescription = strings.previousMonth,
+                    contentDescription = stringResource(Res.string.previous_month),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -237,7 +237,7 @@ fun MonthlyCalendarPicker(
             }) {
                 Icon(
                     Icons.Default.ChevronRight,
-                    contentDescription = strings.nextMonth,
+                    contentDescription = stringResource(Res.string.next_month),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -249,8 +249,8 @@ fun MonthlyCalendarPicker(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             listOf(
-                strings.dayMon, strings.dayTue, strings.dayWed, strings.dayThu,
-                strings.dayFri, strings.daySat, strings.daySun
+                stringResource(Res.string.day_mon), stringResource(Res.string.day_tue), stringResource(Res.string.day_wed), stringResource(Res.string.day_thu),
+                stringResource(Res.string.day_fri), stringResource(Res.string.day_sat), stringResource(Res.string.day_sun)
             ).forEach { name ->
                 Box(
                     modifier = Modifier.weight(1f),

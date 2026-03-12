@@ -1,5 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-
 plugins {
     kotlin("jvm") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
@@ -23,50 +21,16 @@ configurations.all {
 }
 
 dependencies {
-    // Feature modules
     implementation(project(":core"))
-    implementation(project(":features:dailylog"))
-    implementation(project(":features:objectives"))
-    implementation(project(":features:settings"))
-    implementation(project(":features:timetracking"))
-    implementation(project(":features:analytics"))
-    implementation(project(":features:export"))
-
-    // Compose Desktop
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
     implementation(compose.components.resources)
-
-    // SQLite
-    implementation("org.xerial:sqlite-jdbc:3.44.1.0")
-
-    // Date/Time
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
-
-    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
-}
-
-compose.desktop {
-    application {
-        mainClass = "com.booking.worktracker.MainKt"
-
-        jvmArgs += listOf("-Djavax.accessibility.assistive_technologies= ")
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Pkg)
-            packageName = "DailyWorkTracker"
-            packageVersion = "1.0.0"
-
-            macOS {
-                iconFile.set(project.file("src/main/resources/icon.icns"))
-            }
-        }
-    }
 }

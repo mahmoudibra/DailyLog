@@ -21,8 +21,9 @@ import com.booking.worktracker.data.repository.AnalyticsRepository
 import com.booking.worktracker.data.repository.ExportRepository
 import com.booking.worktracker.notifications.ReminderScheduler
 import com.booking.worktracker.ui.localization.AppLocale
-import com.booking.worktracker.ui.localization.EnglishStrings
-import com.booking.worktracker.ui.localization.ArabicStrings
+import com.booking.worktracker.core.generated.resources.*
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 import com.booking.worktracker.ui.App
 
 fun main() = application {
@@ -47,12 +48,12 @@ fun main() = application {
     val analyticsRepository = AnalyticsRepository(analyticsLocalDataSource)
     val exportRepository = ExportRepository(exportLocalDataSource)
 
-    // Resolve window title from saved language
+    // Set system locale for Compose Resources
     val locale = AppLocale.fromCode(settingsRepository.getLanguage())
-    val strings = when (locale) {
-        AppLocale.ENGLISH -> EnglishStrings
-        AppLocale.ARABIC -> ArabicStrings
-    }
+    java.util.Locale.setDefault(java.util.Locale(locale.code))
+
+    // Resolve window title from saved language
+    val windowTitle = runBlocking { getString(Res.string.app_title) }
 
     // Start reminder scheduler
     val reminderScheduler = ReminderScheduler(logRepository, settingsRepository)
@@ -64,7 +65,7 @@ fun main() = application {
             Database.close()
             exitApplication()
         },
-        title = strings.appTitle,
+        title = windowTitle,
         state = rememberWindowState(width = 900.dp, height = 700.dp)
     ) {
         App(

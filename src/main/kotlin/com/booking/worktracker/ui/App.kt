@@ -22,7 +22,8 @@ import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
 import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
 import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
 import com.booking.worktracker.ui.localization.AppLocale
-import com.booking.worktracker.ui.localization.LocalStrings
+import com.booking.worktracker.core.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.ui.localization.ProvideLocalization
 import com.booking.worktracker.ui.screens.*
 
@@ -50,7 +51,6 @@ fun App(
 
     ProvideLocalization(locale = currentLocale) {
         WorkTrackerTheme {
-            val strings = LocalStrings.current
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -71,7 +71,7 @@ fun App(
                     ) {
                         // App title
                         Text(
-                            text = strings.dailyTracker,
+                            text = stringResource(Res.string.daily_tracker),
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
@@ -82,13 +82,13 @@ fun App(
                         // Main nav items
                         SideNavItem(
                             icon = Icons.Default.Home,
-                            label = strings.navHome,
+                            label = stringResource(Res.string.nav_home),
                             selected = currentScreen == Screen.DAILY_LOG,
                             onClick = { currentScreen = Screen.DAILY_LOG }
                         )
                         SideNavItem(
                             icon = Icons.Default.History,
-                            label = strings.navHistory,
+                            label = stringResource(Res.string.nav_history),
                             selected = currentScreen == Screen.LOG_LIST,
                             onClick = { currentScreen = Screen.LOG_LIST }
                         )
@@ -102,25 +102,25 @@ fun App(
 
                         SideNavItem(
                             icon = Icons.Default.Flag,
-                            label = strings.navObjectives,
+                            label = stringResource(Res.string.nav_objectives),
                             selected = currentScreen == Screen.OBJECTIVES,
                             onClick = { currentScreen = Screen.OBJECTIVES }
                         )
                         SideNavItem(
                             icon = Icons.Default.Timer,
-                            label = strings.navTimeTracking,
+                            label = stringResource(Res.string.nav_time_tracking),
                             selected = currentScreen == Screen.TIME_TRACKING,
                             onClick = { currentScreen = Screen.TIME_TRACKING }
                         )
                         SideNavItem(
                             icon = Icons.Default.BarChart,
-                            label = strings.navAnalytics,
+                            label = stringResource(Res.string.nav_analytics),
                             selected = currentScreen == Screen.ANALYTICS,
                             onClick = { currentScreen = Screen.ANALYTICS }
                         )
                         SideNavItem(
                             icon = Icons.Default.FileDownload,
-                            label = strings.navExport,
+                            label = stringResource(Res.string.nav_export),
                             selected = currentScreen == Screen.EXPORT,
                             onClick = { currentScreen = Screen.EXPORT }
                         )
@@ -135,7 +135,7 @@ fun App(
 
                         SideNavItem(
                             icon = Icons.Default.Settings,
-                            label = strings.navSettings,
+                            label = stringResource(Res.string.nav_settings),
                             selected = currentScreen == Screen.SETTINGS,
                             onClick = { currentScreen = Screen.SETTINGS }
                         )
