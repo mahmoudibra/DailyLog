@@ -15,8 +15,8 @@ import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.data.Database
 import com.booking.worktracker.data.repository.SettingsRepository
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import com.booking.worktracker.ui.localization.AppLocale
 import kotlinx.coroutines.launch
 
@@ -48,9 +48,9 @@ fun SettingsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding)
+            .padding(DSTheme.spacing.screenPadding)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         DSScreenTitle(stringResource(Res.string.settings))
 
@@ -60,11 +60,11 @@ fun SettingsScreen(
         ) {
             Text(
                 text = stringResource(Res.string.language),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
+                style = DSTheme.font.titleLarge,
+                color = DSTheme.colors.primary
             )
 
-            Spacer(Modifier.height(SpacingTokens.medium))
+            Spacer(Modifier.height(DSTheme.spacing.medium))
 
             AppLocale.values().forEach { locale ->
                 Row(
@@ -77,7 +77,7 @@ fun SettingsScreen(
                     )
                     Text(
                         text = "${locale.displayName} / ${locale.nativeDisplayName}",
-                        style = MaterialTheme.typography.bodyLarge
+                        style = DSTheme.font.bodyLarge
                     )
                 }
             }
@@ -93,24 +93,24 @@ fun SettingsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         Icons.Default.DarkMode,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = DSTheme.colors.primary
                     )
                     Column {
                         Text(
                             text = stringResource(Res.string.dark_mode),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.primary
+                            style = DSTheme.font.titleLarge,
+                            color = DSTheme.colors.primary
                         )
                         Text(
                             text = stringResource(Res.string.dark_mode_desc),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = DSTheme.font.bodySmall,
+                            color = DSTheme.colors.onSurfaceVariant
                         )
                     }
                 }
@@ -127,24 +127,24 @@ fun SettingsScreen(
         ) {
             Text(
                 text = stringResource(Res.string.reminder_times),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
+                style = DSTheme.font.titleLarge,
+                color = DSTheme.colors.primary
             )
 
-            Spacer(Modifier.height(SpacingTokens.large))
+            Spacer(Modifier.height(DSTheme.spacing.large))
 
             // Morning reminder
             Column(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
             ) {
                 Text(
                     text = stringResource(Res.string.morning_reminder),
-                    style = MaterialTheme.typography.titleMedium
+                    style = DSTheme.font.titleMedium
                 )
                 Text(
                     text = stringResource(Res.string.morning_reminder_desc),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.bodySmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
                 DSOutlinedTextField(
                     value = morningTime,
@@ -156,20 +156,20 @@ fun SettingsScreen(
                 )
             }
 
-            Spacer(Modifier.height(SpacingTokens.large))
+            Spacer(Modifier.height(DSTheme.spacing.large))
 
             // Afternoon reminder
             Column(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
             ) {
                 Text(
                     text = stringResource(Res.string.afternoon_reminder),
-                    style = MaterialTheme.typography.titleMedium
+                    style = DSTheme.font.titleMedium
                 )
                 Text(
                     text = stringResource(Res.string.afternoon_reminder_desc),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.bodySmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
                 DSOutlinedTextField(
                     value = afternoonTime,
@@ -190,8 +190,8 @@ fun SettingsScreen(
             saveMessage?.let { message ->
                 Text(
                     text = message,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = DSTheme.font.bodyMedium,
+                    color = DSTheme.colors.primary
                 )
             }
 
@@ -217,16 +217,16 @@ fun SettingsScreen(
         DSCard(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = stringResource(Res.string.danger_zone),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.error
+                style = DSTheme.font.titleLarge,
+                color = DSTheme.colors.error
             )
-            Spacer(Modifier.height(SpacingTokens.small))
+            Spacer(Modifier.height(DSTheme.spacing.small))
             Text(
                 text = stringResource(Res.string.danger_zone_desc),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = DSTheme.font.bodySmall,
+                color = DSTheme.colors.onSurfaceVariant
             )
-            Spacer(Modifier.height(SpacingTokens.medium))
+            Spacer(Modifier.height(DSTheme.spacing.medium))
             DSButton(
                 text = stringResource(Res.string.delete_all_data),
                 icon = Icons.Default.DeleteForever,
@@ -242,7 +242,7 @@ fun SettingsScreen(
                 Icon(
                     Icons.Default.Info,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    tint = DSTheme.colors.onSecondaryContainer
                 )
             }
         )

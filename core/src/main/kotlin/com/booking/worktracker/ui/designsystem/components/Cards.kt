@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
+import com.booking.worktracker.ui.designsystem.DSTheme
 
 @Composable
 fun DSCard(
@@ -20,13 +19,13 @@ fun DSCard(
         Card(
             onClick = onClick,
             modifier = modifier,
-            shape = ShapeTokens.large,
+            shape = DSTheme.shapes.large,
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = DSTheme.colors.surface
             )
         ) {
             Column(
-                modifier = Modifier.padding(SpacingTokens.cardPadding)
+                modifier = Modifier.padding(DSTheme.spacing.cardPadding)
             ) {
                 content()
             }
@@ -34,13 +33,13 @@ fun DSCard(
     } else {
         Card(
             modifier = modifier,
-            shape = ShapeTokens.large,
+            shape = DSTheme.shapes.large,
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = DSTheme.colors.surface
             )
         ) {
             Column(
-                modifier = Modifier.padding(SpacingTokens.cardPadding)
+                modifier = Modifier.padding(DSTheme.spacing.cardPadding)
             ) {
                 content()
             }
@@ -55,10 +54,10 @@ fun DSElevatedCard(
 ) {
     ElevatedCard(
         modifier = modifier,
-        shape = ShapeTokens.large
+        shape = DSTheme.shapes.large
     ) {
         Column(
-            modifier = Modifier.padding(SpacingTokens.cardPadding)
+            modifier = Modifier.padding(DSTheme.spacing.cardPadding)
         ) {
             content()
         }
@@ -72,10 +71,10 @@ fun DSOutlinedCard(
 ) {
     OutlinedCard(
         modifier = modifier,
-        shape = ShapeTokens.large
+        shape = DSTheme.shapes.large
     ) {
         Column(
-            modifier = Modifier.padding(SpacingTokens.cardPadding)
+            modifier = Modifier.padding(DSTheme.spacing.cardPadding)
         ) {
             content()
         }

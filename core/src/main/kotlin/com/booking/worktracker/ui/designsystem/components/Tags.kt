@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.tokens.DSColors
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,7 +22,7 @@ fun DSTagChip(
     selected: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
-    val chipColor = tagColor?.let { parseColor(it) } ?: DSColors.Primary
+    val chipColor = tagColor?.let { parseColor(it) } ?: DSTheme.colors.primary
 
     FilterChip(
         selected = selected,
@@ -30,7 +30,7 @@ fun DSTagChip(
         label = { Text(tagName) },
         colors = FilterChipDefaults.filterChipColors(
             selectedContainerColor = chipColor.copy(alpha = 0.3f),
-            selectedLabelColor = MaterialTheme.colorScheme.onSurface
+            selectedLabelColor = DSTheme.colors.onSurface
         )
     )
 }
@@ -40,16 +40,16 @@ fun DSTagBadge(
     tagName: String,
     tagColor: String?
 ) {
-    val badgeColor = tagColor?.let { parseColor(it) } ?: DSColors.Primary
+    val badgeColor = tagColor?.let { parseColor(it) } ?: DSTheme.colors.primary
 
     Surface(
         shape = RoundedCornerShape(12.dp),
         color = badgeColor.copy(alpha = 0.2f),
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = DSTheme.colors.onSurface
     ) {
         Text(
             text = tagName,
-            style = MaterialTheme.typography.labelSmall,
+            style = DSTheme.font.labelSmall,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
     }
@@ -61,7 +61,7 @@ fun DSColorPicker(
     onColorSelected: (Int) -> Unit
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+        horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
     ) {
         DSColors.TagColors.forEachIndexed { index, color ->
             Box(

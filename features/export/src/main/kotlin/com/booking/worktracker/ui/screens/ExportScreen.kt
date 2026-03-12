@@ -13,8 +13,8 @@ import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.data.models.ExportFormat
 import com.booking.worktracker.presentation.viewmodels.ExportViewModel
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.filechooser.FileNameExtensionFilter
@@ -44,8 +44,8 @@ fun ExportScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+            .padding(DSTheme.spacing.screenPadding),
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Header
         DSScreenTitle(stringResource(Res.string.export_data))
@@ -61,13 +61,13 @@ fun ExportScreen(
 
         Column(
             modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+            verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
         ) {
             // Date range
             DSCard(modifier = Modifier.fillMaxWidth()) {
-                Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+                Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                     DSSectionHeader(title = stringResource(Res.string.date_range))
-                    Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                         DSOutlinedTextField(
                             value = startDate,
                             onValueChange = { viewModel.setStartDate(it) },
@@ -90,28 +90,28 @@ fun ExportScreen(
 
             // Include options
             DSCard(modifier = Modifier.fillMaxWidth()) {
-                Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+                Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                     DSSectionHeader(title = stringResource(Res.string.include))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(checked = includeEntries, onCheckedChange = { viewModel.toggleEntries() })
-                        Text(stringResource(Res.string.work_entries), style = MaterialTheme.typography.bodyLarge)
+                        Text(stringResource(Res.string.work_entries), style = DSTheme.font.bodyLarge)
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(checked = includeTags, onCheckedChange = { viewModel.toggleTags() })
-                        Text(stringResource(Res.string.tags), style = MaterialTheme.typography.bodyLarge)
+                        Text(stringResource(Res.string.tags), style = DSTheme.font.bodyLarge)
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(checked = includeObjectives, onCheckedChange = { viewModel.toggleObjectives() })
-                        Text(stringResource(Res.string.objectives), style = MaterialTheme.typography.bodyLarge)
+                        Text(stringResource(Res.string.objectives), style = DSTheme.font.bodyLarge)
                     }
                 }
             }
 
             // Format selector
             DSCard(modifier = Modifier.fillMaxWidth()) {
-                Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+                Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                     DSSectionHeader(title = stringResource(Res.string.format))
-                    Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                         ExportFormat.values().forEach { fmt ->
                             FilterChip(
                                 selected = format == fmt,
@@ -132,7 +132,7 @@ fun ExportScreen(
             }
 
             // Action buttons
-            Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                 DSButton(
                     text = stringResource(Res.string.action_preview),
                     icon = Icons.Default.Visibility,
@@ -161,7 +161,7 @@ fun ExportScreen(
             // Preview
             preview?.let { content ->
                 DSCard(modifier = Modifier.fillMaxWidth()) {
-                    Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -173,7 +173,7 @@ fun ExportScreen(
                         DSDivider()
                         Text(
                             text = content,
-                            style = MaterialTheme.typography.bodySmall,
+                            style = DSTheme.font.bodySmall,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }

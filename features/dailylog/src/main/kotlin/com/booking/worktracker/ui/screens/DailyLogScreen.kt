@@ -17,10 +17,9 @@ import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
 import com.booking.worktracker.data.repository.LogRepository
 import com.booking.worktracker.data.repository.TagRepository
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 import com.booking.worktracker.ui.designsystem.tokens.DSColors
-import com.booking.worktracker.ui.designsystem.tokens.SizeTokens
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
@@ -99,9 +98,9 @@ fun DailyLogScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding)
+            .padding(DSTheme.spacing.screenPadding)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Greeting header
         GreetingHeader(
@@ -123,13 +122,13 @@ fun DailyLogScreen(
                 title = stringResource(Res.string.start_your_day),
                 action = {
                     Surface(
-                        shape = com.booking.worktracker.ui.designsystem.tokens.ShapeTokens.pill,
-                        color = DSColors.Primary.copy(alpha = 0.1f)
+                        shape = DSTheme.shapes.pill,
+                        color = DSTheme.colors.primary.copy(alpha = 0.1f)
                     ) {
                         Text(
                             text = pluralStringResource(Res.plurals.entries_count, workEntries.size, workEntries.size),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = DSColors.Primary,
+                            style = DSTheme.font.labelMedium,
+                            color = DSTheme.colors.primary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                         )
                     }
@@ -167,7 +166,7 @@ fun DailyLogScreen(
 
         // Work entries section
         Column(
-            verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+            verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
         ) {
             DSSectionHeader(
                 title = stringResource(Res.string.work_entries_count, workEntries.size),
@@ -186,8 +185,8 @@ fun DailyLogScreen(
                 ) {
                     Text(
                         text = stringResource(Res.string.no_entries_yet),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = DSTheme.font.bodyMedium,
+                        color = DSTheme.colors.onSurfaceVariant
                     )
                 }
             } else {
@@ -210,7 +209,7 @@ fun DailyLogScreen(
 
         // Tags section
         Column(
-            verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+            verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
         ) {
             DSSectionHeader(
                 title = stringResource(Res.string.tags),
@@ -224,14 +223,14 @@ fun DailyLogScreen(
             if (availableTags.isEmpty()) {
                 Text(
                     text = stringResource(Res.string.no_tags_yet),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.bodyMedium,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
             } else {
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
-                    verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
+                    verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
                 ) {
                     availableTags.forEach { tag ->
                         DSTagChip(
@@ -258,8 +257,8 @@ fun DailyLogScreen(
         saveMessage?.let { message ->
             Text(
                 text = message,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary
+                style = DSTheme.font.bodyMedium,
+                color = DSTheme.colors.primary
             )
         }
     }
@@ -315,18 +314,18 @@ fun WorkEntryCard(
         ) {
             Text(
                 text = "\u2022 ${entry.content}",
-                style = MaterialTheme.typography.bodyLarge,
+                style = DSTheme.font.bodyLarge,
                 modifier = Modifier.weight(1f)
             )
 
             IconButton(
                 onClick = onDelete,
-                modifier = Modifier.size(SizeTokens.iconMedium)
+                modifier = Modifier.size(DSTheme.sizes.iconMedium)
             ) {
                 Icon(
                     Icons.Default.Delete,
                     contentDescription = stringResource(Res.string.delete_entry),
-                    tint = MaterialTheme.colorScheme.error
+                    tint = DSTheme.colors.error
                 )
             }
         }
@@ -345,11 +344,11 @@ fun AddEntryDialog(
         title = { Text(stringResource(Res.string.add_work_entry)) },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
             ) {
                 Text(
                     text = stringResource(Res.string.what_did_you_accomplish),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = DSTheme.font.bodyMedium
                 )
 
                 DSOutlinedTextField(
@@ -358,7 +357,7 @@ fun AddEntryDialog(
                     placeholder = stringResource(Res.string.entry_placeholder),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(SpacingTokens.space16 * 2),
+                        .height(DSTheme.spacing.space16 * 2),
                     maxLines = 4
                 )
             }
@@ -396,7 +395,7 @@ fun NewTagDialog(
         title = { Text(stringResource(Res.string.create_new_tag)) },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
             ) {
                 DSOutlinedTextField(
                     value = tagName,
@@ -409,7 +408,7 @@ fun NewTagDialog(
 
                 Text(
                     text = stringResource(Res.string.color_label),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = DSTheme.font.bodyMedium
                 )
 
                 DSColorPicker(

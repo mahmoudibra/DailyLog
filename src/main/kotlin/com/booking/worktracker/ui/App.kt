@@ -17,9 +17,8 @@ import com.booking.worktracker.presentation.viewmodels.FocusZonesViewModel
 import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
 import com.booking.worktracker.ui.screens.ReviewsScreen
 import com.booking.worktracker.ui.screens.FocusZonesScreen
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
-import com.booking.worktracker.ui.designsystem.tokens.DSColors
-import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
 import com.booking.worktracker.ui.localization.AppLocale
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -49,14 +48,14 @@ fun App(
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(DSTheme.colors.background)
             ) {
                 // Permanent side rail
                 Surface(
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(220.dp),
-                    color = MaterialTheme.colorScheme.surface,
+                    color = DSTheme.colors.surface,
                     tonalElevation = 1.dp
                 ) {
                     Column(
@@ -67,8 +66,8 @@ fun App(
                         // App title
                         Text(
                             text = stringResource(Res.string.daily_tracker),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.primary,
+                            style = DSTheme.font.titleLarge,
+                            color = DSTheme.colors.primary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
                         )
 
@@ -91,7 +90,7 @@ fun App(
                         Spacer(Modifier.height(12.dp))
                         Divider(
                             modifier = Modifier.padding(horizontal = 12.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant
+                            color = DSTheme.colors.outlineVariant
                         )
                         Spacer(Modifier.height(12.dp))
 
@@ -142,7 +141,7 @@ fun App(
 
                         Divider(
                             modifier = Modifier.padding(horizontal = 12.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant
+                            color = DSTheme.colors.outlineVariant
                         )
                         Spacer(Modifier.height(8.dp))
 
@@ -209,17 +208,17 @@ private fun SideNavItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    val bgColor = if (selected) DSColors.Primary.copy(alpha = 0.12f)
+    val bgColor = if (selected) DSTheme.colors.primary.copy(alpha = 0.12f)
         else Color.Transparent
-    val contentColor = if (selected) DSColors.Primary
-        else MaterialTheme.colorScheme.onSurfaceVariant
+    val contentColor = if (selected) DSTheme.colors.primary
+        else DSTheme.colors.onSurfaceVariant
 
     Surface(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 2.dp),
-        shape = ShapeTokens.medium,
+        shape = DSTheme.shapes.medium,
         color = bgColor
     ) {
         Row(
@@ -235,7 +234,7 @@ private fun SideNavItem(
             )
             Text(
                 text = label,
-                style = MaterialTheme.typography.bodyMedium,
+                style = DSTheme.font.bodyMedium,
                 color = contentColor
             )
         }

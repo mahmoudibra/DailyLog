@@ -8,8 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.booking.worktracker.ui.designsystem.tokens.SizeTokens
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
+import com.booking.worktracker.ui.designsystem.DSTheme
 
 @Composable
 fun DSButton(
@@ -28,9 +27,9 @@ fun DSButton(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(SizeTokens.iconSmall)
+                modifier = Modifier.size(DSTheme.sizes.iconSmall)
             )
-            Spacer(Modifier.width(SpacingTokens.small))
+            Spacer(Modifier.width(DSTheme.spacing.small))
         }
         Text(text)
     }
@@ -53,9 +52,9 @@ fun DSOutlinedButton(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(SizeTokens.iconSmall)
+                modifier = Modifier.size(DSTheme.sizes.iconSmall)
             )
-            Spacer(Modifier.width(SpacingTokens.small))
+            Spacer(Modifier.width(DSTheme.spacing.small))
         }
         Text(text)
     }

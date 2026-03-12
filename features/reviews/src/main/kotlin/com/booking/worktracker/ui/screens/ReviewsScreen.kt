@@ -13,9 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.booking.worktracker.data.models.AutoSummary
 import com.booking.worktracker.presentation.viewmodels.ReviewsViewModel
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 import com.booking.worktracker.ui.designsystem.tokens.DSColors
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import com.booking.worktracker.core.generated.resources.*
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -39,17 +39,17 @@ fun ReviewsScreen(viewModel: ReviewsViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding)
+            .padding(DSTheme.spacing.screenPadding)
     ) {
         DSScreenTitle(stringResource(Res.string.review_reflection))
 
-        Spacer(Modifier.height(SpacingTokens.large))
+        Spacer(Modifier.height(DSTheme.spacing.large))
 
         // Tab toggle between Daily and Weekly
         TabRow(
             selectedTabIndex = if (isWeeklyView) 1 else 0,
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = DSColors.Primary
+            containerColor = DSTheme.colors.surface,
+            contentColor = DSTheme.colors.primary
         ) {
             Tab(
                 selected = !isWeeklyView,
@@ -63,30 +63,30 @@ fun ReviewsScreen(viewModel: ReviewsViewModel) {
             )
         }
 
-        Spacer(Modifier.height(SpacingTokens.large))
+        Spacer(Modifier.height(DSTheme.spacing.large))
 
         // Save message banner
         saveMessage?.let { message ->
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                color = DSColors.TertiaryContainer,
-                shape = MaterialTheme.shapes.medium
+                color = DSTheme.colors.tertiaryContainer,
+                shape = DSTheme.shapes.medium
             ) {
                 Row(
-                    modifier = Modifier.padding(SpacingTokens.medium),
+                    modifier = Modifier.padding(DSTheme.spacing.medium),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
                 ) {
                     Icon(
                         Icons.Default.CheckCircle,
                         contentDescription = null,
-                        tint = DSColors.Tertiary,
+                        tint = DSTheme.colors.tertiary,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = message,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = DSColors.OnTertiaryContainer,
+                        style = DSTheme.font.bodyMedium,
+                        color = DSTheme.colors.onTertiaryContainer,
                         modifier = Modifier.weight(1f)
                     )
                     DSIconButton(
@@ -96,7 +96,7 @@ fun ReviewsScreen(viewModel: ReviewsViewModel) {
                     )
                 }
             }
-            Spacer(Modifier.height(SpacingTokens.medium))
+            Spacer(Modifier.height(DSTheme.spacing.medium))
         }
 
         if (!isWeeklyView) {
@@ -157,7 +157,7 @@ private fun DailyReviewContent(
             )
             Text(
                 text = selectedDate.toString(),
-                style = MaterialTheme.typography.titleMedium,
+                style = DSTheme.font.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             DSIconButton(
@@ -168,7 +168,7 @@ private fun DailyReviewContent(
         }
 
         if (hasExistingReview) {
-            Spacer(Modifier.height(SpacingTokens.small))
+            Spacer(Modifier.height(DSTheme.spacing.small))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -182,13 +182,13 @@ private fun DailyReviewContent(
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = stringResource(Res.string.review_saved),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = DSTheme.font.bodySmall,
                     color = DSColors.CompletedGreen
                 )
             }
         }
 
-        Spacer(Modifier.height(SpacingTokens.extraLarge))
+        Spacer(Modifier.height(DSTheme.spacing.extraLarge))
 
         // Prompt 1: What went well?
         PromptCard(
@@ -200,7 +200,7 @@ private fun DailyReviewContent(
             onTextChange = onWentWellChange
         )
 
-        Spacer(Modifier.height(SpacingTokens.large))
+        Spacer(Modifier.height(DSTheme.spacing.large))
 
         // Prompt 2: What could improve?
         PromptCard(
@@ -212,7 +212,7 @@ private fun DailyReviewContent(
             onTextChange = onCouldImproveChange
         )
 
-        Spacer(Modifier.height(SpacingTokens.large))
+        Spacer(Modifier.height(DSTheme.spacing.large))
 
         // Prompt 3: Tomorrow priority
         PromptCard(
@@ -224,7 +224,7 @@ private fun DailyReviewContent(
             onTextChange = onTomorrowPriorityChange
         )
 
-        Spacer(Modifier.height(SpacingTokens.extraLarge))
+        Spacer(Modifier.height(DSTheme.spacing.extraLarge))
 
         DSButton(
             text = stringResource(Res.string.save_review),
@@ -232,7 +232,7 @@ private fun DailyReviewContent(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(Modifier.height(SpacingTokens.extraLarge))
+        Spacer(Modifier.height(DSTheme.spacing.extraLarge))
     }
 }
 
@@ -250,7 +250,7 @@ private fun PromptCard(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+            horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
         ) {
             Icon(
                 icon,
@@ -260,11 +260,11 @@ private fun PromptCard(
             )
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleSmall,
+                style = DSTheme.font.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
         }
-        Spacer(Modifier.height(SpacingTokens.medium))
+        Spacer(Modifier.height(DSTheme.spacing.medium))
         DSOutlinedTextField(
             value = text,
             onValueChange = onTextChange,
@@ -303,7 +303,7 @@ private fun WeeklySummaryContent(
             )
             Text(
                 text = stringResource(Res.string.week_of, weekStartDate.toString()),
-                style = MaterialTheme.typography.titleMedium,
+                style = DSTheme.font.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             DSIconButton(
@@ -313,17 +313,17 @@ private fun WeeklySummaryContent(
             )
         }
 
-        Spacer(Modifier.height(SpacingTokens.extraLarge))
+        Spacer(Modifier.height(DSTheme.spacing.extraLarge))
 
         DSSectionHeader(title = stringResource(Res.string.weekly_stats))
 
-        Spacer(Modifier.height(SpacingTokens.medium))
+        Spacer(Modifier.height(DSTheme.spacing.medium))
 
         if (autoSummary != null) {
-            Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+            Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
                 ) {
                     StatCard(
                         title = stringResource(Res.string.entries_logged_stat),
@@ -340,7 +340,7 @@ private fun WeeklySummaryContent(
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
                 ) {
                     StatCard(
                         title = stringResource(Res.string.objectives_progressed_stat),
@@ -357,7 +357,7 @@ private fun WeeklySummaryContent(
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
                 ) {
                     StatCard(
                         title = stringResource(Res.string.reviews_completed_stat),
@@ -371,20 +371,20 @@ private fun WeeklySummaryContent(
                                 Icon(
                                     Icons.Default.Label,
                                     contentDescription = null,
-                                    tint = DSColors.Primary,
+                                    tint = DSTheme.colors.primary,
                                     modifier = Modifier.size(20.dp)
                                 )
-                                Spacer(Modifier.width(SpacingTokens.small))
+                                Spacer(Modifier.width(DSTheme.spacing.small))
                                 Text(
                                     stringResource(Res.string.top_tags_stat),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    style = DSTheme.font.bodySmall,
+                                    color = DSTheme.colors.onSurfaceVariant
                                 )
                             }
-                            Spacer(Modifier.height(SpacingTokens.small))
+                            Spacer(Modifier.height(DSTheme.spacing.small))
                             Text(
                                 autoSummary.topTags.joinToString(", "),
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = DSTheme.font.bodyMedium,
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -397,11 +397,11 @@ private fun WeeklySummaryContent(
             DSEmptyState(message = stringResource(Res.string.no_data_available))
         }
 
-        Spacer(Modifier.height(SpacingTokens.extraLarge))
+        Spacer(Modifier.height(DSTheme.spacing.extraLarge))
 
         DSSectionHeader(title = stringResource(Res.string.weekly_reflection_prompt))
 
-        Spacer(Modifier.height(SpacingTokens.medium))
+        Spacer(Modifier.height(DSTheme.spacing.medium))
 
         DSOutlinedTextField(
             value = weeklySummaryText,
@@ -411,7 +411,7 @@ private fun WeeklySummaryContent(
             singleLine = false
         )
 
-        Spacer(Modifier.height(SpacingTokens.large))
+        Spacer(Modifier.height(DSTheme.spacing.large))
 
         DSButton(
             text = stringResource(Res.string.save_weekly_summary),
@@ -419,7 +419,7 @@ private fun WeeklySummaryContent(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(Modifier.height(SpacingTokens.extraLarge))
+        Spacer(Modifier.height(DSTheme.spacing.extraLarge))
     }
 }
 
@@ -435,22 +435,22 @@ private fun StatCard(
             Icon(
                 icon,
                 contentDescription = null,
-                tint = DSColors.Primary,
+                tint = DSTheme.colors.primary,
                 modifier = Modifier.size(20.dp)
             )
-            Spacer(Modifier.width(SpacingTokens.small))
+            Spacer(Modifier.width(DSTheme.spacing.small))
             Text(
                 title,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = DSTheme.font.bodySmall,
+                color = DSTheme.colors.onSurfaceVariant
             )
         }
-        Spacer(Modifier.height(SpacingTokens.small))
+        Spacer(Modifier.height(DSTheme.spacing.small))
         Text(
             value,
-            style = MaterialTheme.typography.headlineSmall,
+            style = DSTheme.font.headlineSmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = DSTheme.colors.onSurface
         )
     }
 }

@@ -15,8 +15,8 @@ import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.data.models.TimeEntry
 import com.booking.worktracker.presentation.viewmodels.TimeTrackingViewModel
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
@@ -50,8 +50,8 @@ fun TimeTrackingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+            .padding(DSTheme.spacing.screenPadding),
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Header
         Row(
@@ -61,7 +61,7 @@ fun TimeTrackingScreen(
         ) {
             DSScreenTitle(stringResource(Res.string.time_tracking))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                 if (runningEntry == null) {
                     DSButton(
                         text = stringResource(Res.string.start_timer),
@@ -103,17 +103,17 @@ fun TimeTrackingScreen(
                     Column {
                         Text(
                             text = stringResource(Res.string.timer_running),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary
+                            style = DSTheme.font.titleMedium,
+                            color = DSTheme.colors.primary
                         )
                         Text(
                             text = running.description,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = DSTheme.font.bodyLarge
                         )
                         Text(
                             text = stringResource(Res.string.started_at, running.startTime, running.category),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = DSTheme.font.bodyMedium,
+                            color = DSTheme.colors.onSurfaceVariant
                         )
                     }
                     DSButton(
@@ -127,12 +127,12 @@ fun TimeTrackingScreen(
 
         // Summary card
         DSCard(modifier = Modifier.fillMaxWidth()) {
-            Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+            Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                 DSSectionHeader(title = stringResource(Res.string.todays_summary))
                 Text(
                     text = stringResource(Res.string.total_time, viewModel.formatTotalTime(totalMinutes)),
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = DSTheme.font.headlineMedium,
+                    color = DSTheme.colors.primary
                 )
                 if (categoryBreakdown.isNotEmpty()) {
                     DSDivider()
@@ -141,11 +141,11 @@ fun TimeTrackingScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(text = category, style = MaterialTheme.typography.bodyMedium)
+                            Text(text = category, style = DSTheme.font.bodyMedium)
                             Text(
                                 text = viewModel.formatTotalTime(minutes),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.primary
+                                style = DSTheme.font.bodyMedium,
+                                color = DSTheme.colors.primary
                             )
                         }
                     }
@@ -163,7 +163,7 @@ fun TimeTrackingScreen(
             )
         } else {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
                 modifier = Modifier.weight(1f)
             ) {
                 items(entries) { entry ->
@@ -226,26 +226,26 @@ fun TimeEntryCard(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = entry.description,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = DSTheme.font.bodyLarge
                 )
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
                 ) {
                     Text(
                         text = if (entry.endTime != null) stringResource(Res.string.time_range_ended, entry.startTime, entry.endTime) else stringResource(Res.string.time_range_running, entry.startTime),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = DSTheme.font.bodySmall,
+                        color = DSTheme.colors.onSurfaceVariant
                     )
                     Text(
                         text = entry.category,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary
+                        style = DSTheme.font.bodySmall,
+                        color = DSTheme.colors.primary
                     )
                     if (!entry.isRunning) {
                         Text(
                             text = entry.formattedDuration(),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.tertiary
+                            style = DSTheme.font.bodySmall,
+                            color = DSTheme.colors.tertiary
                         )
                     }
                     entry.focusRating?.let { rating ->
@@ -254,7 +254,7 @@ fun TimeEntryCard(
                                 Icon(
                                     Icons.Default.Star,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    tint = DSTheme.colors.primary,
                                     modifier = Modifier.size(12.dp)
                                 )
                             }
@@ -287,7 +287,7 @@ fun StartTimerDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.start_timer)) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+            Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                 DSOutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
@@ -356,7 +356,7 @@ fun ManualEntryDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.add_manual_entry)) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+            Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                 DSOutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
@@ -394,7 +394,7 @@ fun ManualEntryDialog(
                     }
                 }
 
-                Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                     DSOutlinedTextField(
                         value = startTime,
                         onValueChange = { startTime = it },
@@ -416,10 +416,10 @@ fun ManualEntryDialog(
                 // Focus rating
                 Text(
                     text = stringResource(Res.string.focus_rating_optional),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = DSTheme.font.bodyMedium
                 )
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -430,9 +430,9 @@ fun ManualEntryDialog(
                                 if (rating <= focusRating) Icons.Default.Star else Icons.Default.StarBorder,
                                 contentDescription = stringResource(Res.string.focus_stars_desc, rating),
                                 tint = if (rating <= focusRating)
-                                    MaterialTheme.colorScheme.primary
+                                    DSTheme.colors.primary
                                 else
-                                    MaterialTheme.colorScheme.outlineVariant,
+                                    DSTheme.colors.outlineVariant,
                                 modifier = Modifier.size(36.dp)
                             )
                         }
@@ -466,17 +466,17 @@ fun FocusRatingDialog(
         title = { Text(stringResource(Res.string.focus_rate_title)) },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = stringResource(Res.string.focus_rate_prompt),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = DSTheme.font.bodyMedium
                 )
                 // Star rating row
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -487,9 +487,9 @@ fun FocusRatingDialog(
                                 if (rating <= selectedRating) Icons.Default.Star else Icons.Default.StarBorder,
                                 contentDescription = stringResource(Res.string.focus_stars_desc, rating),
                                 tint = if (rating <= selectedRating)
-                                    MaterialTheme.colorScheme.primary
+                                    DSTheme.colors.primary
                                 else
-                                    MaterialTheme.colorScheme.outlineVariant,
+                                    DSTheme.colors.outlineVariant,
                                 modifier = Modifier.size(36.dp)
                             )
                         }
@@ -506,8 +506,8 @@ fun FocusRatingDialog(
                         5 -> stringResource(Res.string.focus_rating_5)
                         else -> stringResource(Res.string.focus_tap_to_rate)
                     },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.bodySmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
             }
         },

@@ -15,8 +15,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import com.booking.worktracker.data.models.*
 import com.booking.worktracker.presentation.viewmodels.AnalyticsViewModel
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,8 +29,8 @@ fun AnalyticsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+            .padding(DSTheme.spacing.screenPadding),
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Header
         Row(
@@ -57,7 +57,7 @@ fun AnalyticsScreen(
             val data = summary!!
 
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
                 modifier = Modifier.weight(1f)
             ) {
                 // Streak card
@@ -117,7 +117,7 @@ fun AnalyticsScreen(
 @Composable
 fun StreakCard(streakInfo: StreakInfo) {
     DSCard(modifier = Modifier.fillMaxWidth()) {
-        Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+        Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
             DSSectionHeader(title = stringResource(Res.string.streaks))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -151,7 +151,7 @@ fun OverviewCard(
     totalDaysLogged: Int
 ) {
     DSCard(modifier = Modifier.fillMaxWidth()) {
-        Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+        Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
             DSSectionHeader(title = stringResource(Res.string.overview))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -176,12 +176,12 @@ fun OverviewCard(
                 ) {
                     Text(
                         text = stringResource(Res.string.most_active_day),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = DSTheme.font.bodyMedium,
+                        color = DSTheme.colors.onSurfaceVariant
                     )
                     Text(
                         text = mostActiveDay,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = DSTheme.font.bodyMedium,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -193,7 +193,7 @@ fun OverviewCard(
 @Composable
 fun ObjectiveStatsCard(stats: ObjectiveStats) {
     DSCard(modifier = Modifier.fillMaxWidth()) {
-        Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+        Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
             DSSectionHeader(title = stringResource(Res.string.objectives))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -211,14 +211,14 @@ fun ObjectiveStatsCard(stats: ObjectiveStats) {
                 ) {
                     Text(
                         text = stringResource(Res.string.checklist_completion),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = DSTheme.font.bodyMedium,
+                        color = DSTheme.colors.onSurfaceVariant
                     )
                     Text(
                         text = stringResource(Res.string.percent_value, stats.averageChecklistCompletion),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = DSTheme.font.bodyMedium,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
+                        color = DSTheme.colors.primary
                     )
                 }
                 LinearProgressIndicator(
@@ -240,17 +240,17 @@ fun StatItem(
         Icon(
             icon,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary
+            tint = DSTheme.colors.primary
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.headlineSmall,
+            style = DSTheme.font.headlineSmall,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = label,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = DSTheme.font.bodySmall,
+            color = DSTheme.colors.onSurfaceVariant
         )
     }
 }
@@ -264,16 +264,16 @@ fun TagStatRow(tag: TagStats, maxUsage: Int) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = tag.tagName, style = MaterialTheme.typography.bodyLarge)
+                Text(text = tag.tagName, style = DSTheme.font.bodyLarge)
                 Text(
                     text = pluralStringResource(Res.plurals.times_used, tag.usageCount, tag.usageCount),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.bodySmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
             }
             LinearProgressIndicator(
                 progress = if (maxUsage > 0) tag.usageCount.toFloat() / maxUsage else 0f,
-                modifier = Modifier.width(SpacingTokens.space16 * 6)
+                modifier = Modifier.width(DSTheme.spacing.space16 * 6)
             )
         }
     }
@@ -290,19 +290,19 @@ fun WeeklyStatRow(week: WeeklyStats) {
             Column {
                 Text(
                     text = "${week.weekStart} - ${week.weekEnd}",
-                    style = MaterialTheme.typography.bodyMedium
+                    style = DSTheme.font.bodyMedium
                 )
                 Text(
                     text = stringResource(Res.string.active_days, week.activeDays),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.bodySmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
             }
             Text(
                 text = pluralStringResource(Res.plurals.entries_count_label, week.totalEntries, week.totalEntries),
-                style = MaterialTheme.typography.bodyLarge,
+                style = DSTheme.font.bodyLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = DSTheme.colors.primary
             )
         }
     }
@@ -316,18 +316,18 @@ fun DailyStatRow(day: DailyStats) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = day.date, style = MaterialTheme.typography.bodyMedium)
-            Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+            Text(text = day.date, style = DSTheme.font.bodyMedium)
+            Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                 Text(
                     text = pluralStringResource(Res.plurals.entries_count_label, day.entryCount, day.entryCount),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = DSTheme.font.bodyMedium,
+                    color = DSTheme.colors.primary
                 )
                 if (day.tagCount > 0) {
                     Text(
                         text = pluralStringResource(Res.plurals.tags_count, day.tagCount, day.tagCount),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = DSTheme.font.bodySmall,
+                        color = DSTheme.colors.onSurfaceVariant
                     )
                 }
             }

@@ -17,10 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.tokens.DSColors
-import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
-import com.booking.worktracker.ui.designsystem.tokens.SizeTokens
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
@@ -33,8 +31,8 @@ fun DSScreenTitle(
 ) {
     Text(
         text = title,
-        style = MaterialTheme.typography.headlineSmall,
-        color = MaterialTheme.colorScheme.onBackground,
+        style = DSTheme.font.headlineSmall,
+        color = DSTheme.colors.onBackground,
         modifier = modifier
     )
 }
@@ -52,8 +50,8 @@ fun DSSectionHeader(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            style = DSTheme.font.titleMedium,
+            color = DSTheme.colors.onBackground
         )
         action?.invoke()
     }
@@ -70,8 +68,8 @@ fun DSEmptyState(
     ) {
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = DSTheme.font.bodyLarge,
+            color = DSTheme.colors.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
     }
@@ -86,30 +84,30 @@ fun DSInfoBanner(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = ShapeTokens.large,
+        shape = DSTheme.shapes.large,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = DSTheme.colors.secondaryContainer
         )
     ) {
         Column(
-            modifier = Modifier.padding(SpacingTokens.cardPadding),
-            verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+            modifier = Modifier.padding(DSTheme.spacing.cardPadding),
+            verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.invoke()
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    style = DSTheme.font.titleSmall,
+                    color = DSTheme.colors.onSecondaryContainer
                 )
             }
             Text(
                 text = message,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                style = DSTheme.font.bodySmall,
+                color = DSTheme.colors.onSecondaryContainer
             )
         }
     }
@@ -133,7 +131,7 @@ fun DSDivider(
 ) {
     Divider(
         modifier = modifier,
-        color = MaterialTheme.colorScheme.outlineVariant
+        color = DSTheme.colors.outlineVariant
     )
 }
 
@@ -159,25 +157,25 @@ fun GreetingHeader(
         Column {
             Text(
                 text = "$greeting,",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                style = DSTheme.font.headlineLarge,
+                color = DSTheme.colors.onBackground
             )
             Text(
                 text = stringResource(Res.string.ready_to_track),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = DSTheme.font.bodyLarge,
+                color = DSTheme.colors.onSurfaceVariant
             )
         }
 
         if (streakCount > 0) {
             Surface(
-                shape = ShapeTokens.pill,
-                color = DSColors.Primary.copy(alpha = 0.15f)
+                shape = DSTheme.shapes.pill,
+                color = DSTheme.colors.primary.copy(alpha = 0.15f)
             ) {
                 Text(
                     text = pluralStringResource(Res.plurals.day_streak, streakCount, streakCount),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = DSColors.Primary,
+                    style = DSTheme.font.labelLarge,
+                    color = DSTheme.colors.primary,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                 )
             }
@@ -198,7 +196,7 @@ fun MonthlyCalendarPicker(
 
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
     ) {
         // Month/Year selector row
         Row(
@@ -217,14 +215,14 @@ fun MonthlyCalendarPicker(
                 Icon(
                     Icons.Default.ChevronLeft,
                     contentDescription = stringResource(Res.string.previous_month),
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = DSTheme.colors.onSurface
                 )
             }
 
             Text(
                 text = "${displayedMonth.name.lowercase().replaceFirstChar { it.uppercase() }} $displayedYear",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                style = DSTheme.font.titleMedium,
+                color = DSTheme.colors.onSurface
             )
 
             IconButton(onClick = {
@@ -238,7 +236,7 @@ fun MonthlyCalendarPicker(
                 Icon(
                     Icons.Default.ChevronRight,
                     contentDescription = stringResource(Res.string.next_month),
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = DSTheme.colors.onSurface
                 )
             }
         }
@@ -258,8 +256,8 @@ fun MonthlyCalendarPicker(
                 ) {
                     Text(
                         text = name,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = DSTheme.font.labelSmall,
+                        color = DSTheme.colors.onSurfaceVariant
                     )
                 }
             }
@@ -328,15 +326,15 @@ private fun MonthCalendarDayItem(
     }
 
     val bgColor = when {
-        isSelected -> DSColors.Primary
+        isSelected -> DSTheme.colors.primary
         entryCount > 0 -> indicatorColor.copy(alpha = 0.15f)
         else -> Color.Transparent
     }
 
     val textColor = when {
         isSelected -> Color.White
-        isToday -> DSColors.Primary
-        else -> MaterialTheme.colorScheme.onSurface
+        isToday -> DSTheme.colors.primary
+        else -> DSTheme.colors.onSurface
     }
 
     Box(
@@ -350,7 +348,7 @@ private fun MonthCalendarDayItem(
                 .background(bgColor)
                 .then(
                     if (isToday && !isSelected)
-                        Modifier.border(1.5.dp, DSColors.Primary, RoundedCornerShape(10.dp))
+                        Modifier.border(1.5.dp, DSTheme.colors.primary, RoundedCornerShape(10.dp))
                     else Modifier
                 )
                 .clickable(onClick = onClick),
@@ -361,7 +359,7 @@ private fun MonthCalendarDayItem(
             ) {
                 Text(
                     text = dayNumber.toString(),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = DSTheme.font.labelMedium,
                     color = textColor
                 )
             }
@@ -394,13 +392,13 @@ fun ActionCard(
     Card(
         onClick = onClick,
         modifier = modifier.fillMaxWidth().height(120.dp),
-        shape = ShapeTokens.actionCard,
+        shape = DSTheme.shapes.actionCard,
         colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpacingTokens.cardPadding)
+                .padding(DSTheme.spacing.cardPadding)
         ) {
             Column(
                 modifier = Modifier.align(Alignment.BottomStart),
@@ -408,12 +406,12 @@ fun ActionCard(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = DSTheme.font.titleLarge,
                     color = Color.White
                 )
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = DSTheme.font.bodyMedium,
                     color = Color.White.copy(alpha = 0.85f)
                 )
             }
@@ -430,12 +428,12 @@ fun ActionCard(
             if (badge != null) {
                 Surface(
                     modifier = Modifier.align(Alignment.TopStart),
-                    shape = ShapeTokens.pill,
+                    shape = DSTheme.shapes.pill,
                     color = Color.White.copy(alpha = 0.25f)
                 ) {
                     Text(
                         text = badge,
-                        style = MaterialTheme.typography.labelSmall,
+                        style = DSTheme.font.labelSmall,
                         color = Color.White,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                     )
@@ -457,8 +455,8 @@ fun PillNavigationBar(
         contentAlignment = Alignment.Center
     ) {
         Surface(
-            shape = ShapeTokens.pill,
-            color = MaterialTheme.colorScheme.surface,
+            shape = DSTheme.shapes.pill,
+            color = DSTheme.colors.surface,
             shadowElevation = 8.dp,
             tonalElevation = 2.dp
         ) {
@@ -480,13 +478,13 @@ fun PillNavItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val containerColor = if (selected) DSColors.Primary else Color.Transparent
-    val contentColor = if (selected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+    val containerColor = if (selected) DSTheme.colors.primary else Color.Transparent
+    val contentColor = if (selected) Color.White else DSTheme.colors.onSurfaceVariant
 
     Surface(
         onClick = onClick,
         modifier = modifier,
-        shape = ShapeTokens.pill,
+        shape = DSTheme.shapes.pill,
         color = containerColor
     ) {
         Row(
@@ -503,7 +501,7 @@ fun PillNavItem(
             if (selected) {
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = DSTheme.font.labelLarge,
                     color = contentColor
                 )
             }

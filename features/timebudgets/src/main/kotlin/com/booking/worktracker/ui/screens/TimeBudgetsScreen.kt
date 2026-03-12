@@ -19,9 +19,8 @@ import com.booking.worktracker.data.models.BudgetProgress
 import com.booking.worktracker.data.models.BudgetStatus
 import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.DSColors
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 
 @Composable
 fun TimeBudgetsScreen(
@@ -46,8 +45,8 @@ fun TimeBudgetsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+            .padding(DSTheme.spacing.screenPadding),
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Header
         Row(
@@ -85,7 +84,7 @@ fun TimeBudgetsScreen(
             )
         } else {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
                 modifier = Modifier.weight(1f)
             ) {
                 items(budgetProgress) { progress ->
@@ -142,9 +141,9 @@ private fun PaceIndicatorCard(
         else -> "behind"
     }
     val paceColor = when (paceDirection) {
-        "ahead" -> DSColors.Tertiary
-        "on pace" -> DSColors.Secondary
-        else -> DSColors.Error
+        "ahead" -> DSTheme.colors.tertiary
+        "on pace" -> DSTheme.colors.secondary
+        else -> DSTheme.colors.error
     }
     val paceIcon = when (paceDirection) {
         "ahead" -> Icons.Default.TrendingUp
@@ -153,7 +152,7 @@ private fun PaceIndicatorCard(
     }
 
     DSCard(modifier = Modifier.fillMaxWidth()) {
-        Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+        Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -161,13 +160,13 @@ private fun PaceIndicatorCard(
             ) {
                 DSSectionHeader(title = "Weekly Pace")
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.extraSmall),
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(paceIcon, contentDescription = null, tint = paceColor, modifier = Modifier.size(20.dp))
                     Text(
                         text = "You're $paceDirection",
-                        style = MaterialTheme.typography.titleSmall,
+                        style = DSTheme.font.titleSmall,
                         color = paceColor
                     )
                 }
@@ -178,16 +177,16 @@ private fun PaceIndicatorCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Logged", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(viewModel.formatMinutes(totalActual), style = MaterialTheme.typography.titleMedium)
+                    Text("Logged", style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
+                    Text(viewModel.formatMinutes(totalActual), style = DSTheme.font.titleMedium)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Expected by now", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(viewModel.formatMinutes(expectedByNow), style = MaterialTheme.typography.titleMedium)
+                    Text("Expected by now", style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
+                    Text(viewModel.formatMinutes(expectedByNow), style = DSTheme.font.titleMedium)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text("Total target", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(viewModel.formatMinutes(totalTarget), style = MaterialTheme.typography.titleMedium)
+                    Text("Total target", style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
+                    Text(viewModel.formatMinutes(totalTarget), style = DSTheme.font.titleMedium)
                 }
             }
 
@@ -195,14 +194,14 @@ private fun PaceIndicatorCard(
             val periodPercent = (periodElapsed * 100).toInt()
             Text(
                 text = "Period: $periodPercent% elapsed",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = DSTheme.font.bodySmall,
+                color = DSTheme.colors.onSurfaceVariant
             )
             LinearProgressIndicator(
                 progress = { periodElapsed.coerceIn(0f, 1f) },
                 modifier = Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp)),
-                color = MaterialTheme.colorScheme.outlineVariant,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant
+                color = DSTheme.colors.outlineVariant,
+                trackColor = DSTheme.colors.surfaceVariant
             )
         }
     }
@@ -217,9 +216,9 @@ private fun BudgetProgressCard(
     onDelete: () -> Unit
 ) {
     val statusColor = when (progress.status) {
-        BudgetStatus.ON_TRACK -> DSColors.Tertiary
-        BudgetStatus.AT_RISK -> DSColors.Secondary
-        BudgetStatus.BEHIND -> DSColors.Error
+        BudgetStatus.ON_TRACK -> DSTheme.colors.tertiary
+        BudgetStatus.AT_RISK -> DSTheme.colors.secondary
+        BudgetStatus.BEHIND -> DSTheme.colors.error
     }
 
     val animatedProgress by animateFloatAsState(
@@ -234,7 +233,7 @@ private fun BudgetProgressCard(
     }
 
     DSCard(modifier = Modifier.fillMaxWidth()) {
-        Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+        Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -243,24 +242,24 @@ private fun BudgetProgressCard(
                 Column {
                     Text(
                         text = progress.budget.category,
-                        style = MaterialTheme.typography.titleMedium
+                        style = DSTheme.font.titleMedium
                     )
-                    Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                         Text(
                             text = progress.budget.periodType.name.lowercase().replaceFirstChar { it.uppercase() },
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = DSTheme.font.bodySmall,
+                            color = DSTheme.colors.onSurfaceVariant
                         )
                         progress.objectiveTitle?.let { title ->
                             Text(
                                 text = "| $title",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary
+                                style = DSTheme.font.bodySmall,
+                                color = DSTheme.colors.primary
                             )
                         }
                     }
                 }
-                Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.extraSmall)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall)) {
                     DSIconButton(
                         icon = Icons.Default.Edit,
                         contentDescription = "Edit",
@@ -282,11 +281,11 @@ private fun BudgetProgressCard(
                 ) {
                     Text(
                         text = "${progress.formattedActual()} / ${progress.budget.formattedTarget()}",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = DSTheme.font.bodyMedium
                     )
                     Text(
                         text = "${(progress.percentage * 100).toInt()}%",
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = DSTheme.font.bodyMedium,
                         color = statusColor
                     )
                 }
@@ -296,7 +295,7 @@ private fun BudgetProgressCard(
                         .fillMaxWidth()
                         .height(12.dp)
                         .clip(RoundedCornerShape(6.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .background(DSTheme.colors.surfaceVariant)
                 ) {
                     Box(
                         modifier = Modifier
@@ -312,14 +311,14 @@ private fun BudgetProgressCard(
                                 .fillMaxHeight()
                                 .offset(x = (periodElapsed * 300).dp.coerceAtMost(296.dp))
                                 .width(2.dp)
-                                .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                                .background(DSTheme.colors.onSurface.copy(alpha = 0.5f))
                         )
                     }
                 }
 
                 Text(
                     text = paceText,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = DSTheme.font.bodySmall,
                     color = statusColor
                 )
             }
@@ -351,7 +350,7 @@ private fun BudgetDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)) {
+            Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
                 // Category dropdown
                 ExposedDropdownMenuBox(
                     expanded = categoryExpanded,
@@ -381,7 +380,7 @@ private fun BudgetDialog(
                 }
 
                 // Target hours and minutes
-                Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                     DSOutlinedTextField(
                         value = targetHours,
                         onValueChange = { targetHours = it.filter { c -> c.isDigit() } },

@@ -23,9 +23,8 @@ import com.booking.worktracker.data.models.FocusPattern
 import com.booking.worktracker.data.models.HourlyFocusData
 import com.booking.worktracker.presentation.viewmodels.FocusZonesViewModel
 import com.booking.worktracker.core.generated.resources.*
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.DSColors
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -39,8 +38,8 @@ fun FocusZonesScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+            .padding(DSTheme.spacing.screenPadding),
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Header
         item {
@@ -52,7 +51,7 @@ fun FocusZonesScreen(
                 DSScreenTitle(stringResource(Res.string.focus_zones_title))
 
                 // Weeks selector
-                Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.extraSmall)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall)) {
                     listOf(2, 4, 8, 12).forEach { weeks ->
                         FilterChip(
                             selected = weeksBack == weeks,
@@ -84,19 +83,19 @@ fun FocusZonesScreen(
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
                 ) {
                     DSCard(modifier = Modifier.weight(1f)) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 text = "${data.totalRatedEntries}",
-                                style = MaterialTheme.typography.headlineMedium,
-                                color = MaterialTheme.colorScheme.primary
+                                style = DSTheme.font.headlineMedium,
+                                color = DSTheme.colors.primary
                             )
                             Text(
                                 text = stringResource(Res.string.focus_rated_entries),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                style = DSTheme.font.bodySmall,
+                                color = DSTheme.colors.onSurfaceVariant
                             )
                         }
                     }
@@ -104,13 +103,13 @@ fun FocusZonesScreen(
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 text = String.format("%.1f", data.averageFocusRating),
-                                style = MaterialTheme.typography.headlineMedium,
-                                color = MaterialTheme.colorScheme.primary
+                                style = DSTheme.font.headlineMedium,
+                                color = DSTheme.colors.primary
                             )
                             Text(
                                 text = stringResource(Res.string.focus_avg_focus),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                style = DSTheme.font.bodySmall,
+                                color = DSTheme.colors.onSurfaceVariant
                             )
                             // Star rating visual
                             Row {
@@ -119,8 +118,8 @@ fun FocusZonesScreen(
                                         if (i < data.averageFocusRating.toInt()) Icons.Default.Star
                                         else Icons.Default.StarBorder,
                                         contentDescription = null,
-                                        tint = if (i < data.averageFocusRating.toInt()) DSColors.Primary
-                                        else DSColors.OutlineVariant,
+                                        tint = if (i < data.averageFocusRating.toInt()) DSTheme.colors.primary
+                                        else DSTheme.colors.outlineVariant,
                                         modifier = Modifier.size(16.dp)
                                     )
                                 }
@@ -140,24 +139,24 @@ fun FocusZonesScreen(
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                            horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
                         ) {
                             Icon(
                                 Icons.Default.TrendingUp,
                                 contentDescription = null,
-                                tint = DSColors.Tertiary,
+                                tint = DSTheme.colors.tertiary,
                                 modifier = Modifier.size(24.dp)
                             )
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = pattern.description,
-                                    style = MaterialTheme.typography.bodyLarge,
+                                    style = DSTheme.font.bodyLarge,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Text(
                                     text = stringResource(Res.string.focus_avg_rating, String.format("%.1f", pattern.averagePeakRating)),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    style = DSTheme.font.bodySmall,
+                                    color = DSTheme.colors.onSurfaceVariant
                                 )
                             }
                         }
@@ -175,18 +174,18 @@ fun FocusZonesScreen(
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                            horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
                         ) {
                             Icon(
                                 Icons.Default.Schedule,
                                 contentDescription = null,
-                                tint = DSColors.Primary,
+                                tint = DSTheme.colors.primary,
                                 modifier = Modifier.size(24.dp)
                             )
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = rec.description,
-                                    style = MaterialTheme.typography.bodyLarge,
+                                    style = DSTheme.font.bodyLarge,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -194,7 +193,7 @@ fun FocusZonesScreen(
                                         Icon(
                                             Icons.Default.Star,
                                             contentDescription = null,
-                                            tint = DSColors.Primary,
+                                            tint = DSTheme.colors.primary,
                                             modifier = Modifier.size(14.dp)
                                         )
                                     }
@@ -249,9 +248,9 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
                         if (hour % 3 == 0) {
                             Text(
                                 text = FocusZonesViewModel.formatHour(hour),
-                                style = MaterialTheme.typography.labelSmall,
+                                style = DSTheme.font.labelSmall,
                                 fontSize = 9.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = DSTheme.colors.onSurfaceVariant
                             )
                         }
                     }
@@ -269,9 +268,9 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
                     // Day label
                     Text(
                         text = dayLabel,
-                        style = MaterialTheme.typography.labelSmall,
+                        style = DSTheme.font.labelSmall,
                         modifier = Modifier.width(36.dp),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = DSTheme.colors.onSurfaceVariant
                     )
                     // Hour cells
                     hourRange.forEach { hour ->
@@ -279,7 +278,7 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
                         val color = if (cellData != null) {
                             focusRatingColor(cellData.averageRating)
                         } else {
-                            DSColors.SurfaceVariant.copy(alpha = 0.3f)
+                            DSTheme.colors.surfaceVariant.copy(alpha = 0.3f)
                         }
                         Box(
                             modifier = Modifier
@@ -287,13 +286,13 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
                                 .height(24.dp)
                                 .clip(RoundedCornerShape(3.dp))
                                 .background(color)
-                                .border(0.5.dp, DSColors.OutlineVariant.copy(alpha = 0.3f), RoundedCornerShape(3.dp))
+                                .border(0.5.dp, DSTheme.colors.outlineVariant.copy(alpha = 0.3f), RoundedCornerShape(3.dp))
                         )
                     }
                 }
             }
 
-            Spacer(Modifier.height(SpacingTokens.small))
+            Spacer(Modifier.height(DSTheme.spacing.small))
 
             // Legend
             Row(
@@ -303,8 +302,8 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
             ) {
                 Text(
                     text = stringResource(Res.string.focus_legend_low),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.labelSmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
                 Spacer(Modifier.width(4.dp))
                 listOf(1.0, 2.0, 3.0, 4.0, 5.0).forEach { rating ->
@@ -319,8 +318,8 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = stringResource(Res.string.focus_legend_high),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.labelSmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
             }
         }

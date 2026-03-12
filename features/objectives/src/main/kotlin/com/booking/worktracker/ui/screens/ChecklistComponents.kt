@@ -8,8 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.booking.worktracker.data.models.ChecklistItem
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
@@ -23,13 +23,13 @@ fun ChecklistItemRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = SpacingTokens.extraSmall),
+            .padding(vertical = DSTheme.spacing.extraSmall),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+            horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
@@ -39,16 +39,16 @@ fun ChecklistItemRow(
             Text(
                 text = item.text,
                 style = if (item.completed) {
-                    MaterialTheme.typography.bodyMedium.copy(
+                    DSTheme.font.bodyMedium.copy(
                         textDecoration = androidx.compose.ui.text.style.TextDecoration.LineThrough
                     )
                 } else {
-                    MaterialTheme.typography.bodyMedium
+                    DSTheme.font.bodyMedium
                 },
                 color = if (item.completed) {
-                    MaterialTheme.colorScheme.onSurfaceVariant
+                    DSTheme.colors.onSurfaceVariant
                 } else {
-                    MaterialTheme.colorScheme.onSurface
+                    DSTheme.colors.onSurface
                 }
             )
         }
@@ -57,7 +57,7 @@ fun ChecklistItemRow(
             Icon(
                 Icons.Default.Close,
                 contentDescription = stringResource(Res.string.action_delete),
-                tint = MaterialTheme.colorScheme.error
+                tint = DSTheme.colors.error
             )
         }
     }

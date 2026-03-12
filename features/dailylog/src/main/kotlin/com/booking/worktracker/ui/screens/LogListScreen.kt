@@ -17,8 +17,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import com.booking.worktracker.data.models.DailyLog
 import com.booking.worktracker.data.repository.LogRepository
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -41,8 +41,8 @@ fun LogListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpacingTokens.screenPadding),
-            verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+                .padding(DSTheme.spacing.screenPadding),
+            verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
         ) {
             DSScreenTitle(stringResource(Res.string.history))
 
@@ -53,7 +53,7 @@ fun LogListScreen(
                 )
             } else {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                    verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
                     modifier = Modifier.weight(1f)
                 ) {
                     items(logs) { log ->
@@ -80,27 +80,27 @@ fun LogCard(
     ) {
         Text(
             text = log.date.toString(),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary
+            style = DSTheme.font.titleMedium,
+            color = DSTheme.colors.primary
         )
 
-        Spacer(Modifier.height(SpacingTokens.small))
+        Spacer(Modifier.height(DSTheme.spacing.small))
 
         Text(
             text = pluralStringResource(Res.plurals.entry_count, log.entries.size, log.entries.size),
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = DSTheme.font.labelMedium,
+            color = DSTheme.colors.onSurfaceVariant
         )
 
-        Spacer(Modifier.height(SpacingTokens.small))
+        Spacer(Modifier.height(DSTheme.spacing.small))
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(SpacingTokens.extraSmall)
+            verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall)
         ) {
             log.entries.take(3).forEach { entry ->
                 Text(
                     text = "\u2022 ${entry.content}",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = DSTheme.font.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -109,17 +109,17 @@ fun LogCard(
             if (log.entries.size > 3) {
                 Text(
                     text = pluralStringResource(Res.plurals.and_more_entries, log.entries.size - 3, log.entries.size - 3),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.bodySmall,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
             }
         }
 
         if (log.tags.isNotEmpty()) {
-            Spacer(Modifier.height(SpacingTokens.medium))
+            Spacer(Modifier.height(DSTheme.spacing.medium))
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.extraSmall)
+                horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall)
             ) {
                 log.tags.forEach { tag ->
                     DSTagBadge(tagName = tag.name, tagColor = tag.color)
@@ -138,9 +138,9 @@ fun LogDetailView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding)
+            .padding(DSTheme.spacing.screenPadding)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -163,13 +163,13 @@ fun LogDetailView(
             ) {
                 Text(
                     text = log.date.toString(),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    style = DSTheme.font.titleLarge,
+                    color = DSTheme.colors.primary
                 )
                 Text(
                     text = pluralStringResource(Res.plurals.entry_count, log.entries.size, log.entries.size),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = DSTheme.font.labelLarge,
+                    color = DSTheme.colors.onSurfaceVariant
                 )
             }
         }
@@ -179,18 +179,18 @@ fun LogDetailView(
         ) {
             Text(
                 text = stringResource(Res.string.work_log),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
+                style = DSTheme.font.titleMedium,
+                color = DSTheme.colors.primary
             )
-            Spacer(Modifier.height(SpacingTokens.small))
+            Spacer(Modifier.height(DSTheme.spacing.small))
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
             ) {
                 log.entries.forEach { entry ->
                     Text(
                         text = "\u2022 ${entry.content}",
-                        style = MaterialTheme.typography.bodyLarge
+                        style = DSTheme.font.bodyLarge
                     )
                 }
             }
@@ -202,13 +202,13 @@ fun LogDetailView(
             ) {
                 Text(
                     text = stringResource(Res.string.tags),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = DSTheme.font.titleMedium,
+                    color = DSTheme.colors.primary
                 )
-                Spacer(Modifier.height(SpacingTokens.small))
+                Spacer(Modifier.height(DSTheme.spacing.small))
                 FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
-                    verticalArrangement = Arrangement.spacedBy(SpacingTokens.small)
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
+                    verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
                 ) {
                     log.tags.forEach { tag ->
                         SuggestionChip(

@@ -15,8 +15,8 @@ import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
 import com.booking.worktracker.data.repository.ObjectiveRepository
+import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import kotlinx.coroutines.launch
@@ -56,8 +56,8 @@ fun ObjectivesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SpacingTokens.screenPadding),
-        verticalArrangement = Arrangement.spacedBy(SpacingTokens.sectionSpacing)
+            .padding(DSTheme.spacing.screenPadding),
+        verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Header
         Row(
@@ -97,24 +97,24 @@ fun ObjectivesScreen(
         DSCard {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = if (selectedTab == 0) stringResource(Res.string.year_label) else stringResource(Res.string.quarter_label),
-                    style = MaterialTheme.typography.titleMedium
+                    style = DSTheme.font.titleMedium
                 )
 
                 if (selectedTab == 0) {
                     // Year selector
-                    Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                         IconButton(onClick = { selectedYear-- }) {
                             Icon(Icons.Default.ChevronLeft, contentDescription = stringResource(Res.string.previous_year))
                         }
                         Text(
                             text = selectedYear.toString(),
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(horizontal = SpacingTokens.medium)
+                            style = DSTheme.font.titleLarge,
+                            modifier = Modifier.padding(horizontal = DSTheme.spacing.medium)
                         )
                         IconButton(onClick = { selectedYear++ }) {
                             Icon(Icons.Default.ChevronRight, contentDescription = stringResource(Res.string.next_year))
@@ -122,7 +122,7 @@ fun ObjectivesScreen(
                     }
                 } else {
                     // Quarter selector
-                    Row(horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                         IconButton(onClick = {
                             if (selectedQuarter == 1) {
                                 selectedQuarter = 4
@@ -135,8 +135,8 @@ fun ObjectivesScreen(
                         }
                         Text(
                             text = stringResource(Res.string.quarter_year, selectedQuarter, selectedYear),
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(horizontal = SpacingTokens.medium)
+                            style = DSTheme.font.titleLarge,
+                            modifier = Modifier.padding(horizontal = DSTheme.spacing.medium)
                         )
                         IconButton(onClick = {
                             if (selectedQuarter == 4) {
@@ -161,7 +161,7 @@ fun ObjectivesScreen(
             )
         } else {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
                 modifier = Modifier.weight(1f)
             ) {
                 items(objectives) { objective ->
@@ -279,7 +279,7 @@ fun ObjectiveCard(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                        horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Status icon
@@ -287,40 +287,40 @@ fun ObjectiveCard(
                             ObjectiveStatus.IN_PROGRESS -> Icon(
                                 Icons.Default.Schedule,
                                 contentDescription = stringResource(Res.string.in_progress),
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = DSTheme.colors.primary
                             )
                             ObjectiveStatus.COMPLETED -> Icon(
                                 Icons.Default.CheckCircle,
                                 contentDescription = stringResource(Res.string.completed),
-                                tint = MaterialTheme.colorScheme.tertiary
+                                tint = DSTheme.colors.tertiary
                             )
                             ObjectiveStatus.CANCELLED -> Icon(
                                 Icons.Default.Cancel,
                                 contentDescription = stringResource(Res.string.cancelled),
-                                tint = MaterialTheme.colorScheme.error
+                                tint = DSTheme.colors.error
                             )
                         }
 
                         Text(
                             text = objective.title,
-                            style = MaterialTheme.typography.titleMedium
+                            style = DSTheme.font.titleMedium
                         )
                     }
 
                     if (objective.description.isNotBlank()) {
-                        Spacer(Modifier.height(SpacingTokens.small))
+                        Spacer(Modifier.height(DSTheme.spacing.small))
                         Text(
                             text = objective.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = DSTheme.font.bodyMedium,
+                            color = DSTheme.colors.onSurfaceVariant
                         )
                     }
 
-                    Spacer(Modifier.height(SpacingTokens.small))
+                    Spacer(Modifier.height(DSTheme.spacing.small))
 
                     // Progress info and status chip
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                        horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box {
@@ -372,16 +372,16 @@ fun ObjectiveCard(
                         Icon(Icons.Default.Edit, contentDescription = stringResource(Res.string.action_edit))
                     }
                     IconButton(onClick = onDelete) {
-                        Icon(Icons.Default.Delete, contentDescription = stringResource(Res.string.action_delete), tint = MaterialTheme.colorScheme.error)
+                        Icon(Icons.Default.Delete, contentDescription = stringResource(Res.string.action_delete), tint = DSTheme.colors.error)
                     }
                 }
             }
 
             // Checklist items (shown when expanded)
             if (expanded && objective.checklistItems.isNotEmpty()) {
-                Spacer(Modifier.height(SpacingTokens.medium))
+                Spacer(Modifier.height(DSTheme.spacing.medium))
                 Divider()
-                Spacer(Modifier.height(SpacingTokens.small))
+                Spacer(Modifier.height(DSTheme.spacing.small))
 
                 objective.checklistItems.forEach { item ->
                     ChecklistItemRow(
@@ -440,12 +440,12 @@ fun ObjectiveDialog(
         },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium)
+                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)
             ) {
                 Text(
                     text = if (type == ObjectiveType.YEARLY) stringResource(Res.string.year_display, year) else stringResource(Res.string.quarter_display, quarter ?: 1, year),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = DSTheme.font.bodyMedium,
+                    color = DSTheme.colors.primary
                 )
 
                 DSOutlinedTextField(
@@ -464,7 +464,7 @@ fun ObjectiveDialog(
                     placeholder = stringResource(Res.string.description_placeholder),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(SpacingTokens.space16 * 2),
+                        .height(DSTheme.spacing.space16 * 2),
                     maxLines = 5
                 )
             }
