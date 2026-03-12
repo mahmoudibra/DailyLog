@@ -3,8 +3,7 @@ package com.booking.worktracker.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -14,44 +13,28 @@ import androidx.compose.ui.Modifier
 import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
-import com.booking.worktracker.data.repository.ObjectiveRepository
+import com.booking.worktracker.presentation.viewmodels.ObjectivesViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ObjectivesScreen(
-    objectiveRepository: ObjectiveRepository = ObjectiveRepository()
+    viewModel: ObjectivesViewModel
 ) {
 
-    var selectedTab by remember { mutableStateOf(0) }
-    var objectives by remember { mutableStateOf<List<Objective>>(emptyList()) }
+    val objectives by viewModel.objectives.collectAsState()
+    val selectedTab by viewModel.selectedTab.collectAsState()
+    val selectedYear by viewModel.selectedYear.collectAsState()
+    val selectedQuarter by viewModel.selectedQuarter.collectAsState()
+
     var showAddDialog by remember { mutableStateOf(false) }
     var editingObjective by remember { mutableStateOf<Objective?>(null) }
-    var selectedYear by remember {
-        mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).year)
-    }
-    var selectedQuarter by remember {
-        val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-        mutableStateOf((now.monthNumber - 1) / 3 + 1)
-    }
 
     val scope = rememberCoroutineScope()
-
-    // Load objectives based on selected tab
-    LaunchedEffect(selectedTab, selectedYear, selectedQuarter) {
-        objectives = when (selectedTab) {
-            0 -> objectiveRepository.getYearlyObjectives(selectedYear)
-            1 -> objectiveRepository.getQuarterlyObjectives(selectedYear, selectedQuarter)
-            else -> emptyList()
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -81,13 +64,13 @@ fun ObjectivesScreen(
         TabRow(selectedTabIndex = selectedTab) {
             Tab(
                 selected = selectedTab == 0,
-                onClick = { selectedTab = 0 },
+                onClick = { viewModel.setTab(0) },
                 text = { Text(stringResource(Res.string.yearly)) },
                 icon = { Icon(Icons.Default.CalendarToday, contentDescription = null) }
             )
             Tab(
                 selected = selectedTab == 1,
-                onClick = { selectedTab = 1 },
+                onClick = { viewModel.setTab(1) },
                 text = { Text(stringResource(Res.string.quarterly)) },
                 icon = { Icon(Icons.Default.DateRange, contentDescription = null) }
             )
@@ -108,7 +91,7 @@ fun ObjectivesScreen(
                 if (selectedTab == 0) {
                     // Year selector
                     Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
-                        IconButton(onClick = { selectedYear-- }) {
+                        IconButton(onClick = { viewModel.setYear(selectedYear - 1) }) {
                             Icon(Icons.Default.ChevronLeft, contentDescription = stringResource(Res.string.previous_year))
                         }
                         Text(
@@ -116,7 +99,7 @@ fun ObjectivesScreen(
                             style = DSTheme.font.titleLarge,
                             modifier = Modifier.padding(horizontal = DSTheme.spacing.medium)
                         )
-                        IconButton(onClick = { selectedYear++ }) {
+                        IconButton(onClick = { viewModel.setYear(selectedYear + 1) }) {
                             Icon(Icons.Default.ChevronRight, contentDescription = stringResource(Res.string.next_year))
                         }
                     }
@@ -125,10 +108,10 @@ fun ObjectivesScreen(
                     Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
                         IconButton(onClick = {
                             if (selectedQuarter == 1) {
-                                selectedQuarter = 4
-                                selectedYear--
+                                viewModel.setQuarter(4)
+                                viewModel.setYear(selectedYear - 1)
                             } else {
-                                selectedQuarter--
+                                viewModel.setQuarter(selectedQuarter - 1)
                             }
                         }) {
                             Icon(Icons.Default.ChevronLeft, contentDescription = stringResource(Res.string.previous_quarter))
@@ -140,10 +123,10 @@ fun ObjectivesScreen(
                         )
                         IconButton(onClick = {
                             if (selectedQuarter == 4) {
-                                selectedQuarter = 1
-                                selectedYear++
+                                viewModel.setQuarter(1)
+                                viewModel.setYear(selectedYear + 1)
                             } else {
-                                selectedQuarter++
+                                viewModel.setQuarter(selectedQuarter + 1)
                             }
                         }) {
                             Icon(Icons.Default.ChevronRight, contentDescription = stringResource(Res.string.next_quarter))
@@ -167,41 +150,24 @@ fun ObjectivesScreen(
                 items(objectives) { objective ->
                     ObjectiveCard(
                         objective = objective,
-                        objectiveRepository = objectiveRepository,
+                        viewModel = viewModel,
                         onEdit = {
                             editingObjective = objective
                             showAddDialog = true
                         },
                         onDelete = {
                             scope.launch {
-                                objectiveRepository.deleteObjective(objective.id)
-                                objectives = objectives.filter { it.id != objective.id }
+                                viewModel.deleteObjective(objective.id)
                             }
                         },
                         onStatusChange = { newStatus ->
                             scope.launch {
-                                objectiveRepository.updateObjective(
+                                viewModel.updateObjective(
                                     id = objective.id,
                                     title = objective.title,
                                     description = objective.description,
                                     status = newStatus
                                 )
-                                // Reload objectives
-                                objectives = when (selectedTab) {
-                                    0 -> objectiveRepository.getYearlyObjectives(selectedYear)
-                                    1 -> objectiveRepository.getQuarterlyObjectives(selectedYear, selectedQuarter)
-                                    else -> emptyList()
-                                }
-                            }
-                        },
-                        onChecklistChanged = {
-                            // Reload to show updated checklist
-                            scope.launch {
-                                objectives = when (selectedTab) {
-                                    0 -> objectiveRepository.getYearlyObjectives(selectedYear)
-                                    1 -> objectiveRepository.getQuarterlyObjectives(selectedYear, selectedQuarter)
-                                    else -> emptyList()
-                                }
                             }
                         }
                     )
@@ -221,29 +187,20 @@ fun ObjectivesScreen(
             onSave = { title, description ->
                 scope.launch {
                     if (editingObjective != null) {
-                        // Update existing
-                        objectiveRepository.updateObjective(
+                        viewModel.updateObjective(
                             id = editingObjective!!.id,
                             title = title,
                             description = description,
                             status = editingObjective!!.status
                         )
                     } else {
-                        // Create new
-                        objectiveRepository.createObjective(
+                        viewModel.createObjective(
                             title = title,
                             description = description,
                             type = if (selectedTab == 0) ObjectiveType.YEARLY else ObjectiveType.QUARTERLY,
                             year = selectedYear,
                             quarter = if (selectedTab == 1) selectedQuarter else null
                         )
-                    }
-
-                    // Reload
-                    objectives = when (selectedTab) {
-                        0 -> objectiveRepository.getYearlyObjectives(selectedYear)
-                        1 -> objectiveRepository.getQuarterlyObjectives(selectedYear, selectedQuarter)
-                        else -> emptyList()
                     }
                     showAddDialog = false
                 }
@@ -255,11 +212,10 @@ fun ObjectivesScreen(
 @Composable
 fun ObjectiveCard(
     objective: Objective,
-    objectiveRepository: ObjectiveRepository,
+    viewModel: ObjectivesViewModel,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
-    onStatusChange: (ObjectiveStatus) -> Unit,
-    onChecklistChanged: () -> Unit
+    onStatusChange: (ObjectiveStatus) -> Unit
 ) {
 
     var showMenu by remember { mutableStateOf(false) }
@@ -388,14 +344,12 @@ fun ObjectiveCard(
                         item = item,
                         onToggle = {
                             scope.launch {
-                                objectiveRepository.toggleChecklistItem(item.id)
-                                onChecklistChanged()
+                                viewModel.toggleChecklistItem(item.id)
                             }
                         },
                         onDelete = {
                             scope.launch {
-                                objectiveRepository.deleteChecklistItem(item.id)
-                                onChecklistChanged()
+                                viewModel.deleteChecklistItem(item.id)
                             }
                         }
                     )
@@ -411,8 +365,7 @@ fun ObjectiveCard(
             onDismiss = { showChecklistDialog = false },
             onAdd = { text ->
                 scope.launch {
-                    objectiveRepository.addChecklistItem(objective.id, text)
-                    onChecklistChanged()
+                    viewModel.addChecklistItem(objective.id, text)
                     showChecklistDialog = false
                 }
             }

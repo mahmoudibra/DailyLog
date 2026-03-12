@@ -23,7 +23,7 @@ import com.booking.worktracker.ui.designsystem.components.*
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LogListScreen(
-    logRepository: LogRepository = LogRepository()
+    logRepository: LogRepository
 ) {
     var logs by remember { mutableStateOf<List<DailyLog>>(emptyList()) }
     var selectedLog by remember { mutableStateOf<DailyLog?>(null) }

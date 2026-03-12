@@ -7,7 +7,7 @@ import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
 
 class ObjectiveRepository(
-    private val localDataSource: ObjectiveLocalDataSource = ObjectiveLocalDataSource()
+    private val localDataSource: ObjectiveLocalDataSource
 ) {
 
     fun getYearlyObjectives(year: Int): List<Objective> {

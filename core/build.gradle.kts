@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("org.jetbrains.compose") version "1.10.2"
+    id("app.cash.sqldelight")
 }
 
 group = "com.booking.worktracker"
@@ -27,8 +28,9 @@ dependencies {
     implementation(compose.materialIconsExtended)
     implementation(compose.components.resources)
 
-    // SQLite
-    implementation("org.xerial:sqlite-jdbc:3.44.1.0")
+    // SQLDelight
+    api("app.cash.sqldelight:sqlite-driver:2.0.2")
+    api("app.cash.sqldelight:coroutines-extensions-jvm:2.0.2")
 
     // Date/Time
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
@@ -44,4 +46,13 @@ compose.resources {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+}
+
+sqldelight {
+    databases {
+        create("DailyWorkTrackerDatabase") {
+            packageName.set("com.booking.worktracker.data")
+            dialect("app.cash.sqldelight:sqlite-3-38-dialect:2.0.2")
+        }
+    }
 }

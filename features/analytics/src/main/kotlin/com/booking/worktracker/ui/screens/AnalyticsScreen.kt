@@ -21,7 +21,7 @@ import com.booking.worktracker.ui.designsystem.components.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsScreen(
-    viewModel: AnalyticsViewModel = remember { AnalyticsViewModel() }
+    viewModel: AnalyticsViewModel
 ) {
     val summary by viewModel.summary.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()

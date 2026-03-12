@@ -4,9 +4,9 @@ A Kotlin/JVM desktop application built with Jetpack Compose Desktop for tracking
 
 ## Tech Stack
 
-- **Language**: Kotlin 1.9.22
-- **UI**: Jetpack Compose Desktop 1.5.12 (Material 3)
-- **Database**: SQLite via sqlite-jdbc 3.44.1.0 (file: `daily_work_tracker.db`)
+- **Language**: Kotlin 2.1.0
+- **UI**: Jetpack Compose Desktop 1.10.2 (Material 3)
+- **Database**: SQLDelight 2.0.2 (SQLite, type-safe queries) — file: `daily_work_tracker.db`
 - **Async**: kotlinx-coroutines
 - **Date/Time**: kotlinx-datetime
 - **Build**: Gradle (Kotlin DSL)
@@ -16,16 +16,23 @@ A Kotlin/JVM desktop application built with Jetpack Compose Desktop for tracking
 Multi-module Gradle project with feature modules:
 
 ```
-├── core/          # Shared: Database singleton, design system (theme, tokens, components)
-├── dailylog/      # Daily log feature: entries, tags, log list
-├── objectives/    # Objectives feature: yearly/quarterly goals with checklists
-├── settings/      # App settings
+├── core/          # Shared: DatabaseProvider, SQLDelight .sq files, design system (theme, tokens, components)
+├── features/
+│   ├── dailylog/      # Daily log feature: entries, tags, log list
+│   ├── objectives/    # Objectives feature: yearly/quarterly goals with checklists
+│   ├── timetracking/  # Timer & manual time entries
+│   ├── analytics/     # Dashboard & statistics
+│   ├── export/        # Data export (TXT, CSV, MD)
+│   ├── reviews/       # Daily reviews & weekly summaries
+│   ├── focuszones/    # Focus zone analysis
+│   ├── timebudgets/   # Time budget allocation
+│   └── settings/      # App settings
 └── src/           # App entry point (Main.kt, App.kt, notifications)
 ```
 
 Each feature module follows a layered architecture:
 - `data/models/` - Data classes
-- `data/datasource/` - SQLite data sources (raw JDBC)
+- `data/datasource/` - SQLDelight-backed data sources (using generated *Queries classes)
 - `data/repository/` - Repository layer
 - `domain/usecases/` - Business logic
 - `presentation/viewmodels/` - UI state management
@@ -43,7 +50,8 @@ Each feature module follows a layered architecture:
 - Package: `com.booking.worktracker`
 - Main class: `com.booking.worktracker.MainKt`
 - Manual dependency wiring in `Main.kt` (no DI framework)
-- Database schema lives in `core/src/main/resources/database/schema.sql`
+- Database schema defined in `.sq` files at `core/src/main/sqldelight/com/booking/worktracker/data/`
+- SQLDelight generates `DailyWorkTrackerDatabase` with typed `*Queries` classes
+- `DatabaseProvider` object in `core/.../data/DatabaseProvider.kt` manages driver and database lifecycle
 - Design system tokens in `core/.../ui/designsystem/tokens/` (colors, spacing, typography)
-- SQLite accessed via raw JDBC `Connection` through `Database.getConnection()`
 - Material 3 ExperimentalApi opt-in enabled globally via compiler args

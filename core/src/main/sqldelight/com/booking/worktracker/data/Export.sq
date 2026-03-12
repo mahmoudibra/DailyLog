@@ -1,0 +1,28 @@
+-- Export queries (no tables owned)
+
+getEntriesForRange:
+SELECT dl.date, we.content, we.created_at,
+       GROUP_CONCAT(t.name) AS tag_names
+FROM daily_logs dl
+INNER JOIN work_entries we ON dl.id = we.daily_log_id
+LEFT JOIN log_tags lt ON dl.id = lt.daily_log_id
+LEFT JOIN tags t ON lt.tag_id = t.id
+WHERE dl.date BETWEEN ? AND ?
+GROUP BY we.id
+ORDER BY dl.date ASC, we.created_at ASC;
+
+getObjectives:
+SELECT o.title, o.description, o.type, o.status,
+       GROUP_CONCAT(ci.text, '||') AS items,
+       SUM(CASE WHEN ci.completed = 1 THEN 1 ELSE 0 END) AS completed_count,
+       COUNT(ci.id) AS total_count
+FROM objectives o
+LEFT JOIN checklist_items ci ON o.id = ci.objective_id
+GROUP BY o.id
+ORDER BY o.created_at DESC;
+
+getDaysInRange:
+SELECT COUNT(DISTINCT dl.date)
+FROM daily_logs dl
+INNER JOIN work_entries we ON dl.id = we.daily_log_id
+WHERE dl.date BETWEEN ? AND ?;

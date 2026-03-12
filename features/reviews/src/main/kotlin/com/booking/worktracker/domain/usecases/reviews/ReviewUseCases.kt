@@ -9,11 +9,11 @@ import com.booking.worktracker.data.repository.ReviewRepository
 import com.booking.worktracker.data.repository.TimeEntryRepository
 import kotlinx.datetime.*
 
-class GetReviewForDateUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+class GetReviewForDateUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(date: String): DailyReview? = reviewRepository.getReviewForDate(date)
 }
 
-class SaveDailyReviewUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+class SaveDailyReviewUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(date: String, wentWell: String?, couldImprove: String?, tomorrowPriority: String?): Result<DailyReview> {
         return try {
             if (wentWell == null && couldImprove == null && tomorrowPriority == null) {
@@ -27,11 +27,11 @@ class SaveDailyReviewUseCase(private val reviewRepository: ReviewRepository = Re
     }
 }
 
-class LoadWeeklySummaryUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+class LoadWeeklySummaryUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(weekStartDate: String): WeeklySummary? = reviewRepository.getWeeklySummary(weekStartDate)
 }
 
-class SaveWeeklySummaryUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+class SaveWeeklySummaryUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(
         weekStartDate: String,
         weekEndDate: String,
@@ -48,10 +48,10 @@ class SaveWeeklySummaryUseCase(private val reviewRepository: ReviewRepository = 
 }
 
 class GenerateAutoSummaryUseCase(
-    private val logRepository: LogRepository = LogRepository(),
-    private val timeEntryRepository: TimeEntryRepository = TimeEntryRepository(),
-    private val objectiveRepository: ObjectiveRepository = ObjectiveRepository(),
-    private val reviewRepository: ReviewRepository = ReviewRepository()
+    private val logRepository: LogRepository,
+    private val timeEntryRepository: TimeEntryRepository,
+    private val objectiveRepository: ObjectiveRepository,
+    private val reviewRepository: ReviewRepository
 ) {
     operator fun invoke(weekStart: LocalDate, weekEnd: LocalDate): Result<AutoSummary> {
         return try {

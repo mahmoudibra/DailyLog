@@ -1,0 +1,67 @@
+CREATE TABLE IF NOT EXISTS objectives (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    type TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    quarter INTEGER,
+    status TEXT NOT NULL DEFAULT 'IN_PROGRESS',
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS checklist_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    objective_id INTEGER NOT NULL,
+    text TEXT NOT NULL,
+    completed INTEGER NOT NULL DEFAULT 0,
+    position INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (objective_id) REFERENCES objectives(id) ON DELETE CASCADE
+);
+
+getYearlyObjectives:
+SELECT id, title, description, type, year, quarter, status, created_at, updated_at
+FROM objectives WHERE type = 'YEARLY' AND year = ? ORDER BY created_at DESC;
+
+getQuarterlyObjectives:
+SELECT id, title, description, type, year, quarter, status, created_at, updated_at
+FROM objectives WHERE type = 'QUARTERLY' AND year = ? AND quarter = ? ORDER BY created_at DESC;
+
+getObjectiveById:
+SELECT id, title, description, type, year, quarter, status, created_at, updated_at
+FROM objectives WHERE id = ?;
+
+insertObjective:
+INSERT INTO objectives (title, description, type, year, quarter) VALUES (?, ?, ?, ?, ?);
+
+updateObjective:
+UPDATE objectives SET title = ?, description = ?, status = ?, updated_at = datetime('now') WHERE id = ?;
+
+deleteObjective:
+DELETE FROM objectives WHERE id = ?;
+
+getActiveObjectives:
+SELECT id, title FROM objectives WHERE status = 'IN_PROGRESS' ORDER BY title;
+
+-- Checklist queries
+
+getChecklistItems:
+SELECT id, objective_id, text, completed, position, created_at
+FROM checklist_items WHERE objective_id = ? ORDER BY position ASC;
+
+getChecklistItemById:
+SELECT id, objective_id, text, completed, position, created_at
+FROM checklist_items WHERE id = ?;
+
+getNextChecklistPosition:
+SELECT COALESCE(MAX(position), -1) + 1 FROM checklist_items WHERE objective_id = ?;
+
+insertChecklistItem:
+INSERT INTO checklist_items (objective_id, text, position) VALUES (?, ?, ?);
+
+toggleChecklistItem:
+UPDATE checklist_items SET completed = CASE WHEN completed = 0 THEN 1 ELSE 0 END WHERE id = ?;
+
+deleteChecklistItem:
+DELETE FROM checklist_items WHERE id = ?;

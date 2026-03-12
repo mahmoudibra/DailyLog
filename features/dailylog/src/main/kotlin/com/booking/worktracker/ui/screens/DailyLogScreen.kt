@@ -16,7 +16,7 @@ import org.jetbrains.compose.resources.pluralStringResource
 import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
 import com.booking.worktracker.data.repository.LogRepository
-import com.booking.worktracker.data.repository.TagRepository
+import com.booking.worktracker.presentation.viewmodels.DailyLogViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 import kotlinx.coroutines.launch
@@ -25,19 +25,19 @@ import kotlinx.datetime.*
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DailyLogScreen(
-    logRepository: LogRepository = LogRepository(),
-    tagRepository: TagRepository = TagRepository(),
+    viewModel: DailyLogViewModel,
+    logRepository: LogRepository,
     onNavigateToObjectives: () -> Unit = {},
     onNavigateToTimer: () -> Unit = {}
 ) {
     val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
     var selectedDate by remember { mutableStateOf(today) }
-    var workEntries by remember { mutableStateOf<List<WorkEntry>>(emptyList()) }
-    var selectedTags by remember { mutableStateOf<Set<Tag>>(emptySet()) }
-    var availableTags by remember { mutableStateOf<List<Tag>>(emptyList()) }
+    val workEntries by viewModel.workEntries.collectAsState()
+    val selectedTags by viewModel.selectedTags.collectAsState()
+    val availableTags by viewModel.availableTags.collectAsState()
+    val saveMessage by viewModel.saveMessage.collectAsState()
     var showNewTagDialog by remember { mutableStateOf(false) }
     var showAddEntryDialog by remember { mutableStateOf(false) }
-    var saveMessage by remember { mutableStateOf<String?>(null) }
     var entryCountByDate by remember { mutableStateOf<Map<LocalDate, Int>>(emptyMap()) }
     var streakCount by remember { mutableStateOf(0) }
 
@@ -47,17 +47,17 @@ fun DailyLogScreen(
     val entryDeletedMsg = stringResource(Res.string.entry_deleted)
     val entryAddedMsg = stringResource(Res.string.entry_added)
 
+    // Auto-clear save message
+    LaunchedEffect(saveMessage) {
+        if (saveMessage != null) {
+            kotlinx.coroutines.delay(2000)
+            viewModel.clearSaveMessage()
+        }
+    }
+
     // Load data
     LaunchedEffect(selectedDate) {
-        availableTags = tagRepository.getAllTags()
-
-        logRepository.getLogForDate(selectedDate)?.let { log ->
-            workEntries = log.entries
-            selectedTags = log.tags.toSet()
-        } ?: run {
-            workEntries = emptyList()
-            selectedTags = emptySet()
-        }
+        viewModel.setDate(selectedDate)
 
         // Build entry counts for the selected month
         val year = selectedDate.year
@@ -194,11 +194,7 @@ fun DailyLogScreen(
                         entry = entry,
                         onDelete = {
                             scope.launch {
-                                logRepository.deleteWorkEntry(entry.id)
-                                workEntries = workEntries.filter { it.id != entry.id }
-                                saveMessage = entryDeletedMsg
-                                kotlinx.coroutines.delay(2000)
-                                saveMessage = null
+                                viewModel.deleteWorkEntry(entry.id)
                             }
                         }
                     )
@@ -237,14 +233,7 @@ fun DailyLogScreen(
                             tagColor = tag.color,
                             selected = tag in selectedTags,
                             onClick = {
-                                selectedTags = if (tag in selectedTags) {
-                                    selectedTags - tag
-                                } else {
-                                    selectedTags + tag
-                                }
-                                scope.launch {
-                                    logRepository.updateLogTags(selectedDate, selectedTags.toList())
-                                }
+                                viewModel.toggleTag(tag)
                             }
                         )
                     }
@@ -269,14 +258,10 @@ fun DailyLogScreen(
             onConfirm = { content ->
                 scope.launch {
                     try {
-                        val newEntry = logRepository.addWorkEntry(selectedDate, content)
-                        workEntries = workEntries + newEntry
-                        saveMessage = entryAddedMsg
+                        viewModel.addWorkEntry(content)
                         showAddEntryDialog = false
-                        kotlinx.coroutines.delay(2000)
-                        saveMessage = null
                     } catch (e: Exception) {
-                        saveMessage = "Error: ${e.message ?: ""}"
+                        // ViewModel handles error state
                     }
                 }
             }
@@ -289,8 +274,7 @@ fun DailyLogScreen(
             onDismiss = { showNewTagDialog = false },
             onConfirm = { name, color ->
                 scope.launch {
-                    tagRepository.createTag(name, color)
-                    availableTags = tagRepository.getAllTags()
+                    viewModel.createTag(name, color)
                     showNewTagDialog = false
                 }
             }

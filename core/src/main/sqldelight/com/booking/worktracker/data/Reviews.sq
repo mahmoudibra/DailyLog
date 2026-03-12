@@ -1,0 +1,66 @@
+CREATE TABLE IF NOT EXISTS daily_reviews (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL UNIQUE,
+    went_well TEXT,
+    could_improve TEXT,
+    tomorrow_priority TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS weekly_summaries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    week_start_date TEXT NOT NULL UNIQUE,
+    week_end_date TEXT NOT NULL,
+    summary_text TEXT,
+    auto_summary_json TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Daily review queries
+
+getReviewForDate:
+SELECT id, date, went_well, could_improve, tomorrow_priority, created_at, updated_at
+FROM daily_reviews WHERE date = ?;
+
+insertReview:
+INSERT INTO daily_reviews (date, went_well, could_improve, tomorrow_priority) VALUES (?, ?, ?, ?);
+
+updateReview:
+UPDATE daily_reviews SET went_well = ?, could_improve = ?, tomorrow_priority = ?, updated_at = datetime('now')
+WHERE date = ?;
+
+deleteReview:
+DELETE FROM daily_reviews WHERE date = ?;
+
+getReviewsForDateRange:
+SELECT id, date, went_well, could_improve, tomorrow_priority, created_at, updated_at
+FROM daily_reviews WHERE date BETWEEN ? AND ? ORDER BY date DESC;
+
+getAllReviews:
+SELECT id, date, went_well, could_improve, tomorrow_priority, created_at, updated_at
+FROM daily_reviews ORDER BY date DESC;
+
+getReviewCountForDateRange:
+SELECT COUNT(*) FROM daily_reviews WHERE date BETWEEN ? AND ?;
+
+-- Weekly summary queries
+
+getWeeklySummary:
+SELECT id, week_start_date, week_end_date, summary_text, auto_summary_json, created_at, updated_at
+FROM weekly_summaries WHERE week_start_date = ?;
+
+insertWeeklySummary:
+INSERT INTO weekly_summaries (week_start_date, week_end_date, summary_text, auto_summary_json) VALUES (?, ?, ?, ?);
+
+updateWeeklySummary:
+UPDATE weekly_summaries SET week_end_date = ?, summary_text = ?, auto_summary_json = ?, updated_at = datetime('now')
+WHERE week_start_date = ?;
+
+getWeeklySummariesForDateRange:
+SELECT id, week_start_date, week_end_date, summary_text, auto_summary_json, created_at, updated_at
+FROM weekly_summaries WHERE week_start_date BETWEEN ? AND ? ORDER BY week_start_date DESC;
+
+getRawAutoSummaryJson:
+SELECT auto_summary_json FROM weekly_summaries WHERE week_start_date = ?;

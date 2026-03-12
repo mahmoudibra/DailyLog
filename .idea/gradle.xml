@@ -10,13 +10,17 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/analytics" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/dailylog" />
-            <option value="$PROJECT_DIR$/export" />
-            <option value="$PROJECT_DIR$/objectives" />
-            <option value="$PROJECT_DIR$/settings" />
-            <option value="$PROJECT_DIR$/timetracking" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/analytics" />
+            <option value="$PROJECT_DIR$/features/dailylog" />
+            <option value="$PROJECT_DIR$/features/export" />
+            <option value="$PROJECT_DIR$/features/focuszones" />
+            <option value="$PROJECT_DIR$/features/objectives" />
+            <option value="$PROJECT_DIR$/features/reviews" />
+            <option value="$PROJECT_DIR$/features/settings" />
+            <option value="$PROJECT_DIR$/features/timebudgets" />
+            <option value="$PROJECT_DIR$/features/timetracking" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class ExportViewModel(
-    private val generateExport: GenerateExportUseCase = GenerateExportUseCase(),
+    private val generateExport: GenerateExportUseCase,
     private val saveExport: SaveExportToFileUseCase = SaveExportToFileUseCase()
 ) : ViewModel() {
 

@@ -1,0 +1,69 @@
+-- Analytics queries (no tables owned — queries cross-table data)
+
+getTotalEntries:
+SELECT COUNT(*) FROM work_entries;
+
+getAverageEntriesPerDay:
+SELECT CAST(COUNT(we.id) AS REAL) / COUNT(DISTINCT dl.date)
+FROM work_entries we
+INNER JOIN daily_logs dl ON we.daily_log_id = dl.id;
+
+getMostActiveDay:
+SELECT dl.date, COUNT(we.id) AS entry_count
+FROM daily_logs dl
+INNER JOIN work_entries we ON dl.id = we.daily_log_id
+GROUP BY dl.date
+ORDER BY entry_count DESC
+LIMIT 1;
+
+getRecentDailyStats:
+SELECT dl.date,
+       COUNT(DISTINCT we.id) AS entry_count,
+       COUNT(DISTINCT lt.tag_id) AS tag_count
+FROM daily_logs dl
+LEFT JOIN work_entries we ON dl.id = we.daily_log_id
+LEFT JOIN log_tags lt ON dl.id = lt.daily_log_id
+GROUP BY dl.date
+ORDER BY dl.date DESC
+LIMIT ?;
+
+getWeeklyStats:
+SELECT
+    date(dl.date, 'weekday 0', '-6 days') AS week_start,
+    date(dl.date, 'weekday 0') AS week_end,
+    COUNT(DISTINCT we.id) AS total_entries,
+    COUNT(DISTINCT dl.date) AS active_days
+FROM daily_logs dl
+LEFT JOIN work_entries we ON dl.id = we.daily_log_id
+WHERE we.id IS NOT NULL
+GROUP BY week_start
+ORDER BY week_start DESC
+LIMIT ?;
+
+getTagStats:
+SELECT t.name, t.color, COUNT(lt.daily_log_id) AS usage_count
+FROM tags t
+LEFT JOIN log_tags lt ON t.id = lt.tag_id
+GROUP BY t.id
+ORDER BY usage_count DESC;
+
+getObjectiveStats:
+SELECT
+    COUNT(*) AS total,
+    SUM(CASE WHEN status = 'COMPLETED' THEN 1 ELSE 0 END) AS completed,
+    SUM(CASE WHEN status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS in_progress,
+    SUM(CASE WHEN status = 'CANCELLED' THEN 1 ELSE 0 END) AS cancelled
+FROM objectives;
+
+getChecklistCompletion:
+SELECT
+    CASE WHEN COUNT(*) = 0 THEN 0
+    ELSE (SUM(CASE WHEN completed = 1 THEN 1 ELSE 0 END) * 100) / COUNT(*)
+    END
+FROM checklist_items;
+
+getAllDatesWithEntries:
+SELECT DISTINCT dl.date
+FROM daily_logs dl
+INNER JOIN work_entries we ON dl.id = we.daily_log_id
+ORDER BY dl.date DESC;

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:blog.hubstaff.com)",
+      "WebFetch(domain:clickup.com)"
+    ]
+  }
+}

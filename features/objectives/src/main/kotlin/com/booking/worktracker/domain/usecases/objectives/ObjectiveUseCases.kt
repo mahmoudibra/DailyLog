@@ -6,7 +6,7 @@ import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
 import com.booking.worktracker.data.repository.ObjectiveRepository
 
-class CreateObjectiveUseCase(private val repository: ObjectiveRepository = ObjectiveRepository()) {
+class CreateObjectiveUseCase(private val repository: ObjectiveRepository) {
     operator fun invoke(
         title: String,
         description: String,
@@ -24,12 +24,12 @@ class CreateObjectiveUseCase(private val repository: ObjectiveRepository = Objec
     }
 }
 
-class GetObjectivesUseCase(private val repository: ObjectiveRepository = ObjectiveRepository()) {
+class GetObjectivesUseCase(private val repository: ObjectiveRepository) {
     fun getYearly(year: Int): List<Objective> = repository.getYearlyObjectives(year)
     fun getQuarterly(year: Int, quarter: Int): List<Objective> = repository.getQuarterlyObjectives(year, quarter)
 }
 
-class UpdateObjectiveUseCase(private val repository: ObjectiveRepository = ObjectiveRepository()) {
+class UpdateObjectiveUseCase(private val repository: ObjectiveRepository) {
     operator fun invoke(
         id: Int,
         title: String,
@@ -46,7 +46,7 @@ class UpdateObjectiveUseCase(private val repository: ObjectiveRepository = Objec
     }
 }
 
-class DeleteObjectiveUseCase(private val repository: ObjectiveRepository = ObjectiveRepository()) {
+class DeleteObjectiveUseCase(private val repository: ObjectiveRepository) {
     operator fun invoke(id: Int): Result<Unit> {
         return try {
             repository.deleteObjective(id)
@@ -57,7 +57,7 @@ class DeleteObjectiveUseCase(private val repository: ObjectiveRepository = Objec
     }
 }
 
-class ManageChecklistUseCase(private val repository: ObjectiveRepository = ObjectiveRepository()) {
+class ManageChecklistUseCase(private val repository: ObjectiveRepository) {
     fun addItem(objectiveId: Int, text: String): Result<ChecklistItem> {
         return try {
             require(text.isNotBlank()) { "Checklist item text cannot be blank" }

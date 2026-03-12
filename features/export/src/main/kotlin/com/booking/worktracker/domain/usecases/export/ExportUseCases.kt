@@ -5,7 +5,7 @@ import com.booking.worktracker.data.models.ExportOptions
 import com.booking.worktracker.data.models.ExportResult
 import com.booking.worktracker.data.repository.ExportRepository
 
-class GenerateExportUseCase(private val repository: ExportRepository = ExportRepository()) {
+class GenerateExportUseCase(private val repository: ExportRepository) {
     operator fun invoke(options: ExportOptions): Result<String> {
         return try {
             val data = repository.getExportData(options.startDate, options.endDate, options.includeObjectives)

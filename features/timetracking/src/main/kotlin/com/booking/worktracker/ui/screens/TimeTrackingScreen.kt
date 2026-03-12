@@ -23,7 +23,7 @@ import kotlinx.datetime.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeTrackingScreen(
-    viewModel: TimeTrackingViewModel = remember { TimeTrackingViewModel() }
+    viewModel: TimeTrackingViewModel
 ) {
     val entries by viewModel.entries.collectAsState()
     val runningEntry by viewModel.runningEntry.collectAsState()

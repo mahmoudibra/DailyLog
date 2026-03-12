@@ -14,12 +14,12 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 
 class DailyLogViewModel(
-    private val getLogForDate: GetLogForDateUseCase = GetLogForDateUseCase(),
-    private val addWorkEntryUseCase: AddWorkEntryUseCase = AddWorkEntryUseCase(),
-    private val deleteWorkEntryUseCase: DeleteWorkEntryUseCase = DeleteWorkEntryUseCase(),
-    private val updateLogTagsUseCase: UpdateLogTagsUseCase = UpdateLogTagsUseCase(),
-    private val getAllTagsUseCase: GetAllTagsUseCase = GetAllTagsUseCase(),
-    private val createTagUseCase: CreateTagUseCase = CreateTagUseCase()
+    private val getLogForDate: GetLogForDateUseCase,
+    private val addWorkEntryUseCase: AddWorkEntryUseCase,
+    private val deleteWorkEntryUseCase: DeleteWorkEntryUseCase,
+    private val updateLogTagsUseCase: UpdateLogTagsUseCase,
+    private val getAllTagsUseCase: GetAllTagsUseCase,
+    private val createTagUseCase: CreateTagUseCase
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))

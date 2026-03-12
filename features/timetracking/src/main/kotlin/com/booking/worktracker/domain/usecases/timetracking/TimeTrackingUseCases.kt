@@ -4,7 +4,7 @@ import com.booking.worktracker.data.models.TimeEntry
 import com.booking.worktracker.data.repository.TimeEntryRepository
 import kotlinx.datetime.LocalDate
 
-class StartTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+class StartTimerUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(description: String, category: String, date: LocalDate, startTime: String): Result<TimeEntry> {
         return try {
             require(description.isNotBlank()) { "Description cannot be blank" }
@@ -21,7 +21,7 @@ class StartTimerUseCase(private val repository: TimeEntryRepository = TimeEntryR
     }
 }
 
-class StopTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+class StopTimerUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(id: Int, endTime: String, durationMinutes: Int): Result<TimeEntry> {
         return try {
             require(durationMinutes >= 0) { "Duration cannot be negative" }
@@ -33,7 +33,7 @@ class StopTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRe
     }
 }
 
-class AddManualEntryUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+class AddManualEntryUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(
         description: String,
         category: String,
@@ -53,7 +53,7 @@ class AddManualEntryUseCase(private val repository: TimeEntryRepository = TimeEn
     }
 }
 
-class DeleteTimeEntryUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+class DeleteTimeEntryUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(id: Int): Result<Unit> {
         return try {
             repository.delete(id)
@@ -72,7 +72,7 @@ data class TimeTrackingData(
     val categories: List<String>
 )
 
-class GetTimeTrackingDataUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+class GetTimeTrackingDataUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(date: LocalDate): Result<TimeTrackingData> {
         return try {
             val entries = repository.getEntriesForDate(date)

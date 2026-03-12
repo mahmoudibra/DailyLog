@@ -59,7 +59,7 @@ A Kotlin/JVM desktop application built with Jetpack Compose Desktop for tracking
 |-----------------|---------------------------------------------|
 | Language        | Kotlin 2.1.0                                |
 | UI Framework    | Jetpack Compose Desktop 1.10.2 (Material 3) |
-| Database        | SQLite via sqlite-jdbc 3.44.1.0             |
+| Database        | SQLDelight 2.0.2 (SQLite, type-safe queries)  |
 | Async           | kotlinx-coroutines 1.9.0                    |
 | Date/Time       | kotlinx-datetime 0.6.1                      |
 | Localization    | Compose Multiplatform Resources              |
@@ -73,7 +73,8 @@ Multi-module Gradle project organized by feature:
 DailyWorkTracker/
 ├── core/                        # Shared module
 │   ├── data/
-│   │   └── Database.kt          # SQLite singleton (daily_work_tracker.db)
+│   │   └── DatabaseProvider.kt  # SQLDelight database lifecycle (daily_work_tracker.db)
+│   ├── sqldelight/              # .sq files defining schema + queries (SQLDelight codegen)
 │   ├── ui/
 │   │   ├── designsystem/
 │   │   │   ├── tokens/          # ColorTokens, TypographyTokens, SpacingTokens
@@ -118,6 +119,11 @@ DailyWorkTracker/
 │       ├── data/repository/     # SettingsRepository
 │       └── ui/screens/          # SettingsScreen
 │
+├── features/ (also includes)
+│   ├── reviews/                 # Daily reviews & weekly summaries
+│   ├── focuszones/              # Focus zone analysis by time/category
+│   └── timebudgets/             # Time budget allocation goals
+│
 └── src/                         # App entry point
     └── main/kotlin/.../
         ├── Main.kt              # Bootstrap: DB init, dependency wiring, window setup
@@ -133,7 +139,7 @@ Each feature module follows a layered architecture:
 
 ```
 data/models/         →  Data classes & enums
-data/datasource/     →  SQLite access via raw JDBC
+data/datasource/     →  SQLDelight-backed data sources (using generated *Queries classes)
 data/repository/     →  Repository abstraction over data sources
 domain/usecases/     →  Business logic (where applicable)
 presentation/        →  ViewModels with StateFlow/mutableState
@@ -159,7 +165,7 @@ SQLite file-based database (`daily_work_tracker.db`) with the following schema:
 | `time_entries`   | Timer entries with category, start/end times     |
 | `settings`       | Key-value store for app configuration            |
 
-Schema is auto-loaded from `core/src/main/resources/database/schema.sql` on startup.
+Schema is defined in `.sq` files at `core/src/main/sqldelight/com/booking/worktracker/data/`. SQLDelight generates type-safe Kotlin query classes at compile time.
 
 ## Build & Run
 

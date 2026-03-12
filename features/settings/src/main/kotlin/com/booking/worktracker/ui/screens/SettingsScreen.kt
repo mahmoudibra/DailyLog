@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
-import com.booking.worktracker.data.Database
+import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.repository.SettingsRepository
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
-    settingsRepository: SettingsRepository = SettingsRepository(),
+    settingsRepository: SettingsRepository,
     currentLocale: AppLocale = AppLocale.ENGLISH,
     isDarkMode: Boolean = false,
     onLanguageChanged: (AppLocale) -> Unit = {},
@@ -259,7 +259,7 @@ fun SettingsScreen(
                     onClick = {
                         scope.launch {
                             try {
-                                Database.deleteAllData()
+                                DatabaseProvider.deleteAllData()
                                 saveMessage = deletedMsg
                             } catch (e: Exception) {
                                 saveMessage = "Error: ${e.message ?: ""}"

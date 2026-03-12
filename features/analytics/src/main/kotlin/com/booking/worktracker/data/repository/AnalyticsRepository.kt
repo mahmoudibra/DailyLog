@@ -4,7 +4,7 @@ import com.booking.worktracker.data.datasource.AnalyticsLocalDataSource
 import com.booking.worktracker.data.models.*
 
 class AnalyticsRepository(
-    private val localDataSource: AnalyticsLocalDataSource = AnalyticsLocalDataSource()
+    private val localDataSource: AnalyticsLocalDataSource
 ) {
     fun getTotalEntries(): Int = localDataSource.getTotalEntries()
     fun getAverageEntriesPerDay(): Double = localDataSource.getAverageEntriesPerDay()

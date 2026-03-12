@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("org.jetbrains.compose") version "1.10.2"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
+    id("app.cash.sqldelight") version "2.0.2" apply false
 }
 
 subprojects {
@@ -63,9 +64,6 @@ dependencies {
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
     implementation(compose.components.resources)
-
-    // SQLite
-    implementation("org.xerial:sqlite-jdbc:3.44.1.0")
 
     // Date/Time
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")

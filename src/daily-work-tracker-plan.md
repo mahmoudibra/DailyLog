@@ -21,7 +21,7 @@ The user needs a **simple desktop application** to track daily work, progress to
 - **IDE:** Android Studio or IntelliJ IDEA (both already installed)
 - **Scope:** Quick MVP (2-3 days) - get core functionality working, iterate later
 - **Platform:** macOS native
-- **Jira Integration:** Nice-to-have for later (not in MVP)
+- **Jira IntegratAion:** Nice-to-have for later (not in MVP)
 
 ## Technology Stack
 

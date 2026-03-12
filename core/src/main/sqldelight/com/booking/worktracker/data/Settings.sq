@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS settings (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+);
+
+getSetting:
+SELECT value FROM settings WHERE key = ?;
+
+setSetting:
+INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value;

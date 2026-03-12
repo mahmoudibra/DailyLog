@@ -1,0 +1,54 @@
+CREATE TABLE IF NOT EXISTS daily_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS work_entries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    daily_log_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (daily_log_id) REFERENCES daily_logs(id) ON DELETE CASCADE
+);
+
+-- Log queries
+
+getLogForDate:
+SELECT id, date, created_at, updated_at FROM daily_logs WHERE date = ?;
+
+getLogById:
+SELECT id, date, created_at, updated_at FROM daily_logs WHERE id = ?;
+
+getAllLogs:
+SELECT id, date, created_at, updated_at FROM daily_logs ORDER BY date DESC LIMIT ?;
+
+getLogsForDateRange:
+SELECT id, date, created_at, updated_at FROM daily_logs WHERE date BETWEEN ? AND ? ORDER BY date DESC;
+
+hasLogForDate:
+SELECT dl.id FROM daily_logs dl INNER JOIN work_entries we ON dl.id = we.daily_log_id WHERE dl.date = ? LIMIT 1;
+
+insertLog:
+INSERT INTO daily_logs (date) VALUES (?);
+
+updateLogTimestamp:
+UPDATE daily_logs SET updated_at = datetime('now') WHERE id = ?;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
+
+-- Work entry queries
+
+getEntriesForLog:
+SELECT id, daily_log_id, content, created_at FROM work_entries WHERE daily_log_id = ? ORDER BY created_at ASC;
+
+insertWorkEntry:
+INSERT INTO work_entries (daily_log_id, content) VALUES (?, ?);
+
+deleteWorkEntry:
+DELETE FROM work_entries WHERE id = ?;
+
+getWorkEntryById:
+SELECT id, daily_log_id, content, created_at FROM work_entries WHERE id = ?;

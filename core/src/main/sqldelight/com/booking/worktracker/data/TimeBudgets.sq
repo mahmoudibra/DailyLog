@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS time_budgets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category TEXT NOT NULL,
+    target_minutes INTEGER NOT NULL,
+    period_type TEXT NOT NULL,
+    objective_id INTEGER,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (objective_id) REFERENCES objectives(id) ON DELETE SET NULL
+);
+
+getAll:
+SELECT id, category, target_minutes, period_type, objective_id, created_at, updated_at
+FROM time_budgets ORDER BY category;
+
+getById:
+SELECT id, category, target_minutes, period_type, objective_id, created_at, updated_at
+FROM time_budgets WHERE id = ?;
+
+insertBudget:
+INSERT INTO time_budgets (category, target_minutes, period_type, objective_id) VALUES (?, ?, ?, ?);
+
+updateBudget:
+UPDATE time_budgets SET category = ?, target_minutes = ?, period_type = ?, objective_id = ?, updated_at = datetime('now')
+WHERE id = ?;
+
+deleteBudget:
+DELETE FROM time_budgets WHERE id = ?;
+
+getActualMinutesForCategory:
+SELECT COALESCE(SUM(duration_minutes), 0)
+FROM time_entries WHERE category = ? AND date >= ? AND date <= ? AND end_time IS NOT NULL;
+
+getObjectiveTitle:
+SELECT title FROM objectives WHERE id = ?;

@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class FocusZonesViewModel(
-    private val getFocusSummary: GetFocusSummaryUseCase = GetFocusSummaryUseCase()
+    private val getFocusSummary: GetFocusSummaryUseCase
 ) : ViewModel() {
 
     private val _focusSummary = MutableStateFlow<FocusSummary?>(null)

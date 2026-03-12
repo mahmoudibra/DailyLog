@@ -4,7 +4,7 @@ import com.booking.worktracker.data.datasource.TagLocalDataSource
 import com.booking.worktracker.data.models.Tag
 
 class TagRepository(
-    private val localDataSource: TagLocalDataSource = TagLocalDataSource()
+    private val localDataSource: TagLocalDataSource
 ) {
 
     fun getAllTags(): List<Tag> {

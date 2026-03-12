@@ -1,0 +1,52 @@
+-- Focus zones queries (no tables owned)
+
+getHourlyFocusData:
+SELECT
+    CAST(strftime('%w', date) AS INTEGER) AS day_of_week,
+    CAST(substr(start_time, 1, 2) AS INTEGER) AS hour,
+    AVG(focus_rating) AS avg_rating,
+    COUNT(*) AS entry_count
+FROM time_entries
+WHERE focus_rating IS NOT NULL
+    AND date >= ? AND date <= ?
+    AND end_time IS NOT NULL
+GROUP BY day_of_week, hour
+ORDER BY day_of_week, hour;
+
+getAverageFocusByCategory:
+SELECT category, AVG(focus_rating) AS avg_rating
+FROM time_entries
+WHERE focus_rating IS NOT NULL
+    AND date >= ? AND date <= ?
+    AND end_time IS NOT NULL
+GROUP BY category
+ORDER BY avg_rating DESC;
+
+getBestHoursForCategory:
+SELECT
+    CAST(substr(start_time, 1, 2) AS INTEGER) AS hour,
+    AVG(focus_rating) AS avg_rating,
+    COUNT(*) AS cnt
+FROM time_entries
+WHERE focus_rating IS NOT NULL
+    AND category = ?
+    AND date >= ? AND date <= ?
+    AND end_time IS NOT NULL
+GROUP BY hour
+HAVING cnt >= 2
+ORDER BY avg_rating DESC
+LIMIT 1;
+
+getTotalRatedEntries:
+SELECT COUNT(*)
+FROM time_entries
+WHERE focus_rating IS NOT NULL
+    AND date >= ? AND date <= ?
+    AND end_time IS NOT NULL;
+
+getOverallAverageRating:
+SELECT COALESCE(AVG(focus_rating), 0.0)
+FROM time_entries
+WHERE focus_rating IS NOT NULL
+    AND date >= ? AND date <= ?
+    AND end_time IS NOT NULL;

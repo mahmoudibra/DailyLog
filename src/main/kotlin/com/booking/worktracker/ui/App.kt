@@ -11,12 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.booking.worktracker.data.repository.LogRepository
+import com.booking.worktracker.data.repository.ObjectiveRepository
 import com.booking.worktracker.data.repository.SettingsRepository
-import com.booking.worktracker.presentation.viewmodels.ReviewsViewModel
-import com.booking.worktracker.presentation.viewmodels.FocusZonesViewModel
-import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
-import com.booking.worktracker.ui.screens.ReviewsScreen
-import com.booking.worktracker.ui.screens.FocusZonesScreen
+import com.booking.worktracker.data.repository.TagRepository
+import com.booking.worktracker.presentation.viewmodels.*
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
 import com.booking.worktracker.ui.localization.AppLocale
@@ -32,7 +31,18 @@ enum class Screen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
-    settingsRepository: SettingsRepository = SettingsRepository()
+    settingsRepository: SettingsRepository,
+    logRepository: LogRepository,
+    tagRepository: TagRepository,
+    objectiveRepository: ObjectiveRepository,
+    dailyLogViewModel: DailyLogViewModel,
+    objectivesViewModel: ObjectivesViewModel,
+    timeTrackingViewModel: TimeTrackingViewModel,
+    analyticsViewModel: AnalyticsViewModel,
+    exportViewModel: ExportViewModel,
+    reviewsViewModel: ReviewsViewModel,
+    focusZonesViewModel: FocusZonesViewModel,
+    timeBudgetsViewModel: TimeBudgetsViewModel
 ) {
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
@@ -162,27 +172,21 @@ fun App(
                 ) {
                     when (currentScreen) {
                         Screen.DAILY_LOG -> DailyLogScreen(
+                            viewModel = dailyLogViewModel,
+                            logRepository = logRepository,
                             onNavigateToObjectives = { currentScreen = Screen.OBJECTIVES },
                             onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING }
                         )
-                        Screen.LOG_LIST -> LogListScreen()
-                        Screen.OBJECTIVES -> ObjectivesScreen()
-                        Screen.TIME_TRACKING -> TimeTrackingScreen()
-                        Screen.ANALYTICS -> AnalyticsScreen()
-                        Screen.EXPORT -> ExportScreen()
-                        Screen.REVIEWS -> {
-                            val reviewsViewModel = remember { ReviewsViewModel() }
-                            ReviewsScreen(viewModel = reviewsViewModel)
-                        }
-                        Screen.FOCUS_ZONES -> {
-                            val focusZonesViewModel = remember { FocusZonesViewModel() }
-                            FocusZonesScreen(viewModel = focusZonesViewModel)
-                        }
-                        Screen.TIME_BUDGETS -> {
-                            val timeBudgetsViewModel = remember { TimeBudgetsViewModel() }
-                            TimeBudgetsScreen(viewModel = timeBudgetsViewModel)
-                        }
+                        Screen.LOG_LIST -> LogListScreen(logRepository = logRepository)
+                        Screen.OBJECTIVES -> ObjectivesScreen(viewModel = objectivesViewModel)
+                        Screen.TIME_TRACKING -> TimeTrackingScreen(viewModel = timeTrackingViewModel)
+                        Screen.ANALYTICS -> AnalyticsScreen(viewModel = analyticsViewModel)
+                        Screen.EXPORT -> ExportScreen(viewModel = exportViewModel)
+                        Screen.REVIEWS -> ReviewsScreen(viewModel = reviewsViewModel)
+                        Screen.FOCUS_ZONES -> FocusZonesScreen(viewModel = focusZonesViewModel)
+                        Screen.TIME_BUDGETS -> TimeBudgetsScreen(viewModel = timeBudgetsViewModel)
                         Screen.SETTINGS -> SettingsScreen(
+                            settingsRepository = settingsRepository,
                             currentLocale = currentLocale,
                             isDarkMode = isDarkMode,
                             onLanguageChanged = { locale ->
