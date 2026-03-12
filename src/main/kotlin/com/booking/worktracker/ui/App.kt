@@ -18,7 +18,7 @@ import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
 import com.booking.worktracker.ui.screens.ReviewsScreen
 import com.booking.worktracker.ui.screens.FocusZonesScreen
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
-import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
+import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
 import com.booking.worktracker.ui.localization.AppLocale
 import com.booking.worktracker.core.generated.resources.*
@@ -37,13 +37,15 @@ fun App(
 ) {
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
+    var isDarkMode by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         currentLocale = AppLocale.fromCode(settingsRepository.getLanguage())
+        isDarkMode = settingsRepository.isDarkMode()
     }
 
     ProvideLocalization(locale = currentLocale) {
-        WorkTrackerTheme {
+        WorkTrackerTheme(darkTheme = isDarkMode) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -183,9 +185,14 @@ fun App(
                         }
                         Screen.SETTINGS -> SettingsScreen(
                             currentLocale = currentLocale,
+                            isDarkMode = isDarkMode,
                             onLanguageChanged = { locale ->
                                 settingsRepository.setLanguage(locale.code)
                                 currentLocale = locale
+                            },
+                            onDarkModeChanged = { enabled ->
+                                settingsRepository.setDarkMode(enabled)
+                                isDarkMode = enabled
                             }
                         )
                     }
@@ -202,9 +209,9 @@ private fun SideNavItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    val bgColor = if (selected) ColorTokens.Primary.copy(alpha = 0.12f)
+    val bgColor = if (selected) DSColors.Primary.copy(alpha = 0.12f)
         else Color.Transparent
-    val contentColor = if (selected) ColorTokens.Primary
+    val contentColor = if (selected) DSColors.Primary
         else MaterialTheme.colorScheme.onSurfaceVariant
 
     Surface(

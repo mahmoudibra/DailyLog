@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
+import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,7 +22,7 @@ fun DSTagChip(
     selected: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
-    val chipColor = tagColor?.let { parseColor(it) } ?: ColorTokens.Primary
+    val chipColor = tagColor?.let { parseColor(it) } ?: DSColors.Primary
 
     FilterChip(
         selected = selected,
@@ -40,7 +40,7 @@ fun DSTagBadge(
     tagName: String,
     tagColor: String?
 ) {
-    val badgeColor = tagColor?.let { parseColor(it) } ?: ColorTokens.Primary
+    val badgeColor = tagColor?.let { parseColor(it) } ?: DSColors.Primary
 
     Surface(
         shape = RoundedCornerShape(12.dp),
@@ -63,7 +63,7 @@ fun DSColorPicker(
     Row(
         horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small)
     ) {
-        ColorTokens.TagColors.forEachIndexed { index, color ->
+        DSColors.TagColors.forEachIndexed { index, color ->
             Box(
                 modifier = Modifier
                     .size(32.dp)
@@ -95,6 +95,6 @@ private fun parseColor(hex: String): Color {
             blue = (colorLong and 0xFF).toInt()
         )
     } catch (e: Exception) {
-        ColorTokens.Primary
+        DSColors.Primary
     }
 }

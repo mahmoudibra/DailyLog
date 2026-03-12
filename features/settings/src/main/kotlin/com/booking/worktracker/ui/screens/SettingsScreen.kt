@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material3.*
@@ -23,7 +24,9 @@ import kotlinx.coroutines.launch
 fun SettingsScreen(
     settingsRepository: SettingsRepository = SettingsRepository(),
     currentLocale: AppLocale = AppLocale.ENGLISH,
-    onLanguageChanged: (AppLocale) -> Unit = {}
+    isDarkMode: Boolean = false,
+    onLanguageChanged: (AppLocale) -> Unit = {},
+    onDarkModeChanged: (Boolean) -> Unit = {}
 ) {
     var morningTime by remember { mutableStateOf("10:30") }
     var afternoonTime by remember { mutableStateOf("16:30") }
@@ -77,6 +80,44 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
+            }
+        }
+
+        // Dark mode card
+        DSCard(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Default.DarkMode,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Column {
+                        Text(
+                            text = stringResource(Res.string.dark_mode),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = stringResource(Res.string.dark_mode_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                Switch(
+                    checked = isDarkMode,
+                    onCheckedChange = { onDarkModeChanged(it) }
+                )
             }
         }
 

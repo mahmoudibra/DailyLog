@@ -20,7 +20,7 @@ import com.booking.worktracker.data.models.BudgetStatus
 import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
+import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 
 @Composable
@@ -142,9 +142,9 @@ private fun PaceIndicatorCard(
         else -> "behind"
     }
     val paceColor = when (paceDirection) {
-        "ahead" -> ColorTokens.Tertiary
-        "on pace" -> ColorTokens.Secondary
-        else -> ColorTokens.Error
+        "ahead" -> DSColors.Tertiary
+        "on pace" -> DSColors.Secondary
+        else -> DSColors.Error
     }
     val paceIcon = when (paceDirection) {
         "ahead" -> Icons.Default.TrendingUp
@@ -217,9 +217,9 @@ private fun BudgetProgressCard(
     onDelete: () -> Unit
 ) {
     val statusColor = when (progress.status) {
-        BudgetStatus.ON_TRACK -> ColorTokens.Tertiary
-        BudgetStatus.AT_RISK -> ColorTokens.Secondary
-        BudgetStatus.BEHIND -> ColorTokens.Error
+        BudgetStatus.ON_TRACK -> DSColors.Tertiary
+        BudgetStatus.AT_RISK -> DSColors.Secondary
+        BudgetStatus.BEHIND -> DSColors.Error
     }
 
     val animatedProgress by animateFloatAsState(

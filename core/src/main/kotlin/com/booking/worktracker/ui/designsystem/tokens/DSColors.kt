@@ -2,7 +2,7 @@ package com.booking.worktracker.ui.designsystem.tokens
 
 import androidx.compose.ui.graphics.Color
 
-object ColorTokens {
+object DSColors {
     // Primary palette - Vibrant Orange
     val Primary = Color(0xFFFF6B35)
     val OnPrimary = Color(0xFFFFFFFF)
@@ -46,6 +46,35 @@ object ColorTokens {
 
     // Scrim
     val Scrim = Color(0xFF000000)
+
+    // Dark theme colors
+    val DarkPrimary = Color(0xFFFFB899)
+    val DarkOnPrimary = Color(0xFF5A1E00)
+    val DarkPrimaryContainer = Color(0xFF7A2E00)
+    val DarkOnPrimaryContainer = Color(0xFFFFDBC9)
+    val DarkSecondary = Color(0xFFE8B89A)
+    val DarkOnSecondary = Color(0xFF4A2810)
+    val DarkSecondaryContainer = Color(0xFF5C3A20)
+    val DarkOnSecondaryContainer = Color(0xFFFFDBC9)
+    val DarkTertiary = Color(0xFF8FD88F)
+    val DarkOnTertiary = Color(0xFF003A06)
+    val DarkTertiaryContainer = Color(0xFF1B5E20)
+    val DarkOnTertiaryContainer = Color(0xFFD0F0CC)
+    val DarkBackground = Color(0xFF1C1712)
+    val DarkOnBackground = Color(0xFFEDE0D4)
+    val DarkSurface = Color(0xFF262018)
+    val DarkOnSurface = Color(0xFFEDE0D4)
+    val DarkSurfaceVariant = Color(0xFF3D352C)
+    val DarkOnSurfaceVariant = Color(0xFFCFC1B4)
+    val DarkError = Color(0xFFFFB4AB)
+    val DarkOnError = Color(0xFF690005)
+    val DarkErrorContainer = Color(0xFF93000A)
+    val DarkOnErrorContainer = Color(0xFFFFDAD6)
+    val DarkOutline = Color(0xFF9C8E80)
+    val DarkOutlineVariant = Color(0xFF534940)
+    val DarkInverseSurface = Color(0xFFEDE0D4)
+    val DarkInverseOnSurface = Color(0xFF362F28)
+    val DarkInversePrimary = Color(0xFFBF5B20)
 
     // Action card colors
     val CardBlue = Color(0xFF4A90D9)

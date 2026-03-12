@@ -180,6 +180,8 @@
     <string name="delete_everything">حذف الكل</string>
     <string name="all_data_deleted">✓ تم حذف جميع البيانات. أعد تشغيل التطبيق لبداية جديدة.</string>
     <string name="language">اللغة</string>
+    <string name="dark_mode">الوضع الداكن</string>
+    <string name="dark_mode_desc">التبديل إلى نظام ألوان أغمق</string>
 
     <!-- Notifications -->
     <string name="notification_morning_title">متتبع العمل اليومي</string>

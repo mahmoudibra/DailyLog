@@ -24,7 +24,7 @@ import com.booking.worktracker.data.models.HourlyFocusData
 import com.booking.worktracker.presentation.viewmodels.FocusZonesViewModel
 import com.booking.worktracker.core.generated.resources.*
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
+import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import org.jetbrains.compose.resources.stringResource
 
@@ -119,8 +119,8 @@ fun FocusZonesScreen(
                                         if (i < data.averageFocusRating.toInt()) Icons.Default.Star
                                         else Icons.Default.StarBorder,
                                         contentDescription = null,
-                                        tint = if (i < data.averageFocusRating.toInt()) ColorTokens.Primary
-                                        else ColorTokens.OutlineVariant,
+                                        tint = if (i < data.averageFocusRating.toInt()) DSColors.Primary
+                                        else DSColors.OutlineVariant,
                                         modifier = Modifier.size(16.dp)
                                     )
                                 }
@@ -145,7 +145,7 @@ fun FocusZonesScreen(
                             Icon(
                                 Icons.Default.TrendingUp,
                                 contentDescription = null,
-                                tint = ColorTokens.Tertiary,
+                                tint = DSColors.Tertiary,
                                 modifier = Modifier.size(24.dp)
                             )
                             Column(modifier = Modifier.weight(1f)) {
@@ -180,7 +180,7 @@ fun FocusZonesScreen(
                             Icon(
                                 Icons.Default.Schedule,
                                 contentDescription = null,
-                                tint = ColorTokens.Primary,
+                                tint = DSColors.Primary,
                                 modifier = Modifier.size(24.dp)
                             )
                             Column(modifier = Modifier.weight(1f)) {
@@ -194,7 +194,7 @@ fun FocusZonesScreen(
                                         Icon(
                                             Icons.Default.Star,
                                             contentDescription = null,
-                                            tint = ColorTokens.Primary,
+                                            tint = DSColors.Primary,
                                             modifier = Modifier.size(14.dp)
                                         )
                                     }
@@ -279,7 +279,7 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
                         val color = if (cellData != null) {
                             focusRatingColor(cellData.averageRating)
                         } else {
-                            ColorTokens.SurfaceVariant.copy(alpha = 0.3f)
+                            DSColors.SurfaceVariant.copy(alpha = 0.3f)
                         }
                         Box(
                             modifier = Modifier
@@ -287,7 +287,7 @@ fun FocusHeatmap(data: List<HourlyFocusData>) {
                                 .height(24.dp)
                                 .clip(RoundedCornerShape(3.dp))
                                 .background(color)
-                                .border(0.5.dp, ColorTokens.OutlineVariant.copy(alpha = 0.3f), RoundedCornerShape(3.dp))
+                                .border(0.5.dp, DSColors.OutlineVariant.copy(alpha = 0.3f), RoundedCornerShape(3.dp))
                         )
                     }
                 }

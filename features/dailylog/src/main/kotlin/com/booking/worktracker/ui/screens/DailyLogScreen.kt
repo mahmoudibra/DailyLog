@@ -18,7 +18,7 @@ import com.booking.worktracker.data.models.WorkEntry
 import com.booking.worktracker.data.repository.LogRepository
 import com.booking.worktracker.data.repository.TagRepository
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
+import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.ui.designsystem.tokens.SizeTokens
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import kotlinx.coroutines.launch
@@ -124,12 +124,12 @@ fun DailyLogScreen(
                 action = {
                     Surface(
                         shape = com.booking.worktracker.ui.designsystem.tokens.ShapeTokens.pill,
-                        color = ColorTokens.Primary.copy(alpha = 0.1f)
+                        color = DSColors.Primary.copy(alpha = 0.1f)
                     ) {
                         Text(
                             text = pluralStringResource(Res.plurals.entries_count, workEntries.size, workEntries.size),
                             style = MaterialTheme.typography.labelMedium,
-                            color = ColorTokens.Primary,
+                            color = DSColors.Primary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                         )
                     }
@@ -143,7 +143,7 @@ fun DailyLogScreen(
         ActionCard(
             title = stringResource(Res.string.daily_log),
             subtitle = stringResource(Res.string.record_work_entries),
-            backgroundColor = ColorTokens.CardBlue,
+            backgroundColor = DSColors.CardBlue,
             icon = Icons.Default.Edit,
             badge = if (workEntries.isNotEmpty()) pluralStringResource(Res.plurals.logged_count, workEntries.size, workEntries.size) else null,
             onClick = { showAddEntryDialog = true }
@@ -152,7 +152,7 @@ fun DailyLogScreen(
         ActionCard(
             title = stringResource(Res.string.objectives),
             subtitle = stringResource(Res.string.check_your_goals),
-            backgroundColor = ColorTokens.CardGreen,
+            backgroundColor = DSColors.CardGreen,
             icon = Icons.Default.Flag,
             onClick = onNavigateToObjectives
         )
@@ -160,7 +160,7 @@ fun DailyLogScreen(
         ActionCard(
             title = stringResource(Res.string.quick_timer),
             subtitle = stringResource(Res.string.start_tracking_time),
-            backgroundColor = ColorTokens.CardOrange,
+            backgroundColor = DSColors.CardOrange,
             icon = Icons.Default.Timer,
             onClick = onNavigateToTimer
         )
@@ -425,7 +425,7 @@ fun NewTagDialog(
                     if (tagName.isNotBlank()) {
                         val colorHex = String.format(
                             "#%06X",
-                            (0xFFFFFF and ColorTokens.TagColors[selectedColorIndex].value.toInt())
+                            (0xFFFFFF and DSColors.TagColors[selectedColorIndex].value.toInt())
                         )
                         onConfirm(tagName, colorHex)
                     }

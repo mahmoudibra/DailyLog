@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
+import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
 import com.booking.worktracker.ui.designsystem.tokens.SizeTokens
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
@@ -172,12 +172,12 @@ fun GreetingHeader(
         if (streakCount > 0) {
             Surface(
                 shape = ShapeTokens.pill,
-                color = ColorTokens.Primary.copy(alpha = 0.15f)
+                color = DSColors.Primary.copy(alpha = 0.15f)
             ) {
                 Text(
                     text = pluralStringResource(Res.plurals.day_streak, streakCount, streakCount),
                     style = MaterialTheme.typography.labelLarge,
-                    color = ColorTokens.Primary,
+                    color = DSColors.Primary,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                 )
             }
@@ -322,20 +322,20 @@ private fun MonthCalendarDayItem(
     onClick: () -> Unit
 ) {
     val indicatorColor = when {
-        entryCount >= 3 -> ColorTokens.CompletedGreen
-        entryCount >= 1 -> ColorTokens.CompletedOrange
+        entryCount >= 3 -> DSColors.CompletedGreen
+        entryCount >= 1 -> DSColors.CompletedOrange
         else -> Color.Transparent
     }
 
     val bgColor = when {
-        isSelected -> ColorTokens.Primary
+        isSelected -> DSColors.Primary
         entryCount > 0 -> indicatorColor.copy(alpha = 0.15f)
         else -> Color.Transparent
     }
 
     val textColor = when {
         isSelected -> Color.White
-        isToday -> ColorTokens.Primary
+        isToday -> DSColors.Primary
         else -> MaterialTheme.colorScheme.onSurface
     }
 
@@ -350,7 +350,7 @@ private fun MonthCalendarDayItem(
                 .background(bgColor)
                 .then(
                     if (isToday && !isSelected)
-                        Modifier.border(1.5.dp, ColorTokens.Primary, RoundedCornerShape(10.dp))
+                        Modifier.border(1.5.dp, DSColors.Primary, RoundedCornerShape(10.dp))
                     else Modifier
                 )
                 .clickable(onClick = onClick),
@@ -480,7 +480,7 @@ fun PillNavItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val containerColor = if (selected) ColorTokens.Primary else Color.Transparent
+    val containerColor = if (selected) DSColors.Primary else Color.Transparent
     val contentColor = if (selected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
 
     Surface(

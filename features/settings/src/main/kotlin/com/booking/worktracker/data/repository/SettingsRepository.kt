@@ -22,6 +22,14 @@ class SettingsRepository(
         localDataSource.setSetting("afternoon_reminder_time", time)
     }
 
+    fun isDarkMode(): Boolean {
+        return localDataSource.getSetting("dark_mode") == "true"
+    }
+
+    fun setDarkMode(enabled: Boolean) {
+        localDataSource.setSetting("dark_mode", if (enabled) "true" else "false")
+    }
+
     fun getLanguage(): String {
         return localDataSource.getSetting("language") ?: "en"
     }

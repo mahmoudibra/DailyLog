@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.booking.worktracker.data.models.AutoSummary
 import com.booking.worktracker.presentation.viewmodels.ReviewsViewModel
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
+import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 import com.booking.worktracker.core.generated.resources.*
 import kotlinx.datetime.DatePeriod
@@ -49,7 +49,7 @@ fun ReviewsScreen(viewModel: ReviewsViewModel) {
         TabRow(
             selectedTabIndex = if (isWeeklyView) 1 else 0,
             containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = ColorTokens.Primary
+            contentColor = DSColors.Primary
         ) {
             Tab(
                 selected = !isWeeklyView,
@@ -69,7 +69,7 @@ fun ReviewsScreen(viewModel: ReviewsViewModel) {
         saveMessage?.let { message ->
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                color = ColorTokens.TertiaryContainer,
+                color = DSColors.TertiaryContainer,
                 shape = MaterialTheme.shapes.medium
             ) {
                 Row(
@@ -80,13 +80,13 @@ fun ReviewsScreen(viewModel: ReviewsViewModel) {
                     Icon(
                         Icons.Default.CheckCircle,
                         contentDescription = null,
-                        tint = ColorTokens.Tertiary,
+                        tint = DSColors.Tertiary,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = message,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = ColorTokens.OnTertiaryContainer,
+                        color = DSColors.OnTertiaryContainer,
                         modifier = Modifier.weight(1f)
                     )
                     DSIconButton(
@@ -176,14 +176,14 @@ private fun DailyReviewContent(
                 Icon(
                     Icons.Default.CheckCircle,
                     contentDescription = null,
-                    tint = ColorTokens.CompletedGreen,
+                    tint = DSColors.CompletedGreen,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = stringResource(Res.string.review_saved),
                     style = MaterialTheme.typography.bodySmall,
-                    color = ColorTokens.CompletedGreen
+                    color = DSColors.CompletedGreen
                 )
             }
         }
@@ -194,7 +194,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.went_well_prompt),
             icon = Icons.Default.ThumbUp,
-            iconColor = ColorTokens.CardGreen,
+            iconColor = DSColors.CardGreen,
             text = wentWellText,
             placeholder = stringResource(Res.string.went_well_placeholder),
             onTextChange = onWentWellChange
@@ -206,7 +206,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.could_improve_prompt),
             icon = Icons.Default.TrendingUp,
-            iconColor = ColorTokens.CardOrange,
+            iconColor = DSColors.CardOrange,
             text = couldImproveText,
             placeholder = stringResource(Res.string.could_improve_placeholder),
             onTextChange = onCouldImproveChange
@@ -218,7 +218,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.tomorrow_priority_prompt),
             icon = Icons.Default.Star,
-            iconColor = ColorTokens.CardBlue,
+            iconColor = DSColors.CardBlue,
             text = tomorrowPriorityText,
             placeholder = stringResource(Res.string.tomorrow_priority_placeholder),
             onTextChange = onTomorrowPriorityChange
@@ -371,7 +371,7 @@ private fun WeeklySummaryContent(
                                 Icon(
                                     Icons.Default.Label,
                                     contentDescription = null,
-                                    tint = ColorTokens.Primary,
+                                    tint = DSColors.Primary,
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(Modifier.width(SpacingTokens.small))
@@ -435,7 +435,7 @@ private fun StatCard(
             Icon(
                 icon,
                 contentDescription = null,
-                tint = ColorTokens.Primary,
+                tint = DSColors.Primary,
                 modifier = Modifier.size(20.dp)
             )
             Spacer(Modifier.width(SpacingTokens.small))

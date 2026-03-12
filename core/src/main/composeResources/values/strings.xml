@@ -180,6 +180,8 @@
     <string name="delete_everything">Delete Everything</string>
     <string name="all_data_deleted">✓ All data deleted. Restart app for a fresh start.</string>
     <string name="language">Language</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_desc">Switch to a darker color scheme</string>
 
     <!-- Notifications -->
     <string name="notification_morning_title">Daily Work Tracker</string>
