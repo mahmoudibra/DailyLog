@@ -7,12 +7,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.data.models.TimeEntry
-import com.booking.worktracker.data.repository.TimeEntryRepository
 import com.booking.worktracker.presentation.viewmodels.TimeTrackingViewModel
 import com.booking.worktracker.ui.designsystem.components.*
 import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
@@ -22,9 +23,8 @@ import kotlinx.datetime.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeTrackingScreen(
-    timeEntryRepository: TimeEntryRepository
+    viewModel: TimeTrackingViewModel = remember { TimeTrackingViewModel() }
 ) {
-    val viewModel = remember { TimeTrackingViewModel(timeEntryRepository) }
     val entries by viewModel.entries.collectAsState()
     val runningEntry by viewModel.runningEntry.collectAsState()
     val totalMinutes by viewModel.totalMinutes.collectAsState()
@@ -35,6 +35,7 @@ fun TimeTrackingScreen(
 
     var showAddDialog by remember { mutableStateOf(false) }
     var showManualDialog by remember { mutableStateOf(false) }
+    var showFocusRatingDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
@@ -71,7 +72,7 @@ fun TimeTrackingScreen(
                     DSButton(
                         text = stringResource(Res.string.stop_timer),
                         icon = Icons.Default.Stop,
-                        onClick = { viewModel.stopTimer() }
+                        onClick = { showFocusRatingDialog = true }
                     )
                 }
                 DSOutlinedButton(
@@ -118,7 +119,7 @@ fun TimeTrackingScreen(
                     DSButton(
                         text = stringResource(Res.string.action_stop),
                         icon = Icons.Default.Stop,
-                        onClick = { viewModel.stopTimer() }
+                        onClick = { showFocusRatingDialog = true }
                     )
                 }
             }
@@ -192,9 +193,20 @@ fun TimeTrackingScreen(
         ManualEntryDialog(
             categories = categories,
             onDismiss = { showManualDialog = false },
-            onAdd = { description, category, startTime, endTime ->
-                viewModel.addManualEntry(description, category, startTime, endTime)
+            onAdd = { description, category, startTime, endTime, focusRating ->
+                viewModel.addManualEntry(description, category, startTime, endTime, focusRating)
                 showManualDialog = false
+            }
+        )
+    }
+
+    // Focus rating dialog
+    if (showFocusRatingDialog) {
+        FocusRatingDialog(
+            onDismiss = { showFocusRatingDialog = false },
+            onRate = { rating ->
+                viewModel.stopTimer(rating)
+                showFocusRatingDialog = false
             }
         )
     }
@@ -235,6 +247,18 @@ fun TimeEntryCard(
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.tertiary
                         )
+                    }
+                    entry.focusRating?.let { rating ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(1.dp)) {
+                            repeat(rating) {
+                                Icon(
+                                    Icons.Default.Star,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(12.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -319,13 +343,14 @@ fun StartTimerDialog(
 fun ManualEntryDialog(
     categories: List<String>,
     onDismiss: () -> Unit,
-    onAdd: (String, String, String, String) -> Unit
+    onAdd: (String, String, String, String, Int?) -> Unit
 ) {
     var description by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(categories.firstOrNull() ?: "General") }
     var startTime by remember { mutableStateOf("09:00") }
     var endTime by remember { mutableStateOf("10:00") }
     var categoryExpanded by remember { mutableStateOf(false) }
+    var focusRating by remember { mutableIntStateOf(0) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -387,17 +412,116 @@ fun ManualEntryDialog(
                         modifier = Modifier.weight(1f)
                     )
                 }
+
+                // Focus rating
+                Text(
+                    text = stringResource(Res.string.focus_rating_optional),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    (1..5).forEach { rating ->
+                        IconButton(onClick = { focusRating = rating }) {
+                            Icon(
+                                if (rating <= focusRating) Icons.Default.Star else Icons.Default.StarBorder,
+                                contentDescription = stringResource(Res.string.focus_stars_desc, rating),
+                                tint = if (rating <= focusRating)
+                                    MaterialTheme.colorScheme.primary
+                                else
+                                    MaterialTheme.colorScheme.outlineVariant,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+                    }
+                    Spacer(Modifier.weight(1f))
+                }
             }
         },
         confirmButton = {
             DSButton(
                 text = stringResource(Res.string.action_add),
-                onClick = { if (description.isNotBlank()) onAdd(description, selectedCategory, startTime, endTime) },
+                onClick = { if (description.isNotBlank()) onAdd(description, selectedCategory, startTime, endTime, if (focusRating > 0) focusRating else null) },
                 enabled = description.isNotBlank()
             )
         },
         dismissButton = {
             DSTextButton(text = stringResource(Res.string.action_cancel), onClick = onDismiss)
+        }
+    )
+}
+
+@Composable
+fun FocusRatingDialog(
+    onDismiss: () -> Unit,
+    onRate: (Int?) -> Unit
+) {
+    var selectedRating by remember { mutableIntStateOf(0) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.focus_rate_title)) },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(SpacingTokens.medium),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(Res.string.focus_rate_prompt),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                // Star rating row
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(SpacingTokens.small),
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    (1..5).forEach { rating ->
+                        IconButton(onClick = { selectedRating = rating }) {
+                            Icon(
+                                if (rating <= selectedRating) Icons.Default.Star else Icons.Default.StarBorder,
+                                contentDescription = stringResource(Res.string.focus_stars_desc, rating),
+                                tint = if (rating <= selectedRating)
+                                    MaterialTheme.colorScheme.primary
+                                else
+                                    MaterialTheme.colorScheme.outlineVariant,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+                    }
+                    Spacer(Modifier.weight(1f))
+                }
+                // Rating label
+                Text(
+                    text = when (selectedRating) {
+                        1 -> stringResource(Res.string.focus_rating_1)
+                        2 -> stringResource(Res.string.focus_rating_2)
+                        3 -> stringResource(Res.string.focus_rating_3)
+                        4 -> stringResource(Res.string.focus_rating_4)
+                        5 -> stringResource(Res.string.focus_rating_5)
+                        else -> stringResource(Res.string.focus_tap_to_rate)
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        },
+        confirmButton = {
+            DSButton(
+                text = stringResource(Res.string.focus_save_rating),
+                onClick = { onRate(if (selectedRating > 0) selectedRating else null) }
+            )
+        },
+        dismissButton = {
+            DSTextButton(
+                text = stringResource(Res.string.focus_skip),
+                onClick = { onRate(null) }
+            )
         }
     )
 }

@@ -3,8 +3,7 @@ package com.booking.worktracker.presentation.viewmodels
 import com.booking.worktracker.data.models.DailyLog
 import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
-import com.booking.worktracker.data.repository.LogRepository
-import com.booking.worktracker.data.repository.TagRepository
+import com.booking.worktracker.domain.usecases.logs.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,8 +14,12 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 
 class DailyLogViewModel(
-    private val logRepository: LogRepository,
-    private val tagRepository: TagRepository
+    private val getLogForDate: GetLogForDateUseCase = GetLogForDateUseCase(),
+    private val addWorkEntryUseCase: AddWorkEntryUseCase = AddWorkEntryUseCase(),
+    private val deleteWorkEntryUseCase: DeleteWorkEntryUseCase = DeleteWorkEntryUseCase(),
+    private val updateLogTagsUseCase: UpdateLogTagsUseCase = UpdateLogTagsUseCase(),
+    private val getAllTagsUseCase: GetAllTagsUseCase = GetAllTagsUseCase(),
+    private val createTagUseCase: CreateTagUseCase = CreateTagUseCase()
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))
@@ -40,7 +43,7 @@ class DailyLogViewModel(
 
     fun loadData() {
         viewModelScope.launch {
-            _availableTags.value = tagRepository.getAllTags()
+            _availableTags.value = getAllTagsUseCase()
             loadLogForDate(_selectedDate.value)
         }
     }
@@ -51,7 +54,7 @@ class DailyLogViewModel(
     }
 
     private fun loadLogForDate(date: LocalDate) {
-        val log = logRepository.getLogForDate(date)
+        val log = getLogForDate(date)
         if (log != null) {
             _workEntries.value = log.entries
             _selectedTags.value = log.tags.toSet()
@@ -63,19 +66,19 @@ class DailyLogViewModel(
 
     fun addWorkEntry(content: String) {
         viewModelScope.launch {
-            try {
-                val entry = logRepository.addWorkEntry(_selectedDate.value, content)
-                _workEntries.value = _workEntries.value + entry
-                _saveMessage.value = "Entry added successfully!"
-            } catch (e: Exception) {
-                _saveMessage.value = "Error: ${e.message}"
-            }
+            addWorkEntryUseCase(_selectedDate.value, content).fold(
+                onSuccess = { entry ->
+                    _workEntries.value = _workEntries.value + entry
+                    _saveMessage.value = "Entry added successfully!"
+                },
+                onFailure = { _saveMessage.value = "Error: ${it.message}" }
+            )
         }
     }
 
     fun deleteWorkEntry(entryId: Int) {
         viewModelScope.launch {
-            logRepository.deleteWorkEntry(entryId)
+            deleteWorkEntryUseCase(entryId)
             _workEntries.value = _workEntries.value.filter { it.id != entryId }
             _saveMessage.value = "Entry deleted"
         }
@@ -89,14 +92,14 @@ class DailyLogViewModel(
             currentTags + tag
         }
         viewModelScope.launch {
-            logRepository.updateLogTags(_selectedDate.value, _selectedTags.value.toList())
+            updateLogTagsUseCase(_selectedDate.value, _selectedTags.value.toList())
         }
     }
 
     fun createTag(name: String, color: String?) {
         viewModelScope.launch {
-            tagRepository.createTag(name, color)
-            _availableTags.value = tagRepository.getAllTags()
+            createTagUseCase(name, color)
+            _availableTags.value = getAllTagsUseCase()
         }
     }
 

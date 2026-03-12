@@ -3,7 +3,7 @@ package com.booking.worktracker.presentation.viewmodels
 import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
-import com.booking.worktracker.data.repository.ObjectiveRepository
+import com.booking.worktracker.domain.usecases.objectives.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +13,11 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 class ObjectivesViewModel(
-    private val objectiveRepository: ObjectiveRepository
+    private val getObjectives: GetObjectivesUseCase = GetObjectivesUseCase(),
+    private val createObjectiveUseCase: CreateObjectiveUseCase = CreateObjectiveUseCase(),
+    private val updateObjectiveUseCase: UpdateObjectiveUseCase = UpdateObjectiveUseCase(),
+    private val deleteObjectiveUseCase: DeleteObjectiveUseCase = DeleteObjectiveUseCase(),
+    private val manageChecklist: ManageChecklistUseCase = ManageChecklistUseCase()
 ) : ViewModel() {
 
     private val _objectives = MutableStateFlow<List<Objective>>(emptyList())
@@ -52,8 +56,8 @@ class ObjectivesViewModel(
     fun loadObjectives() {
         viewModelScope.launch {
             _objectives.value = when (_selectedTab.value) {
-                0 -> objectiveRepository.getYearlyObjectives(_selectedYear.value)
-                1 -> objectiveRepository.getQuarterlyObjectives(_selectedYear.value, _selectedQuarter.value)
+                0 -> getObjectives.getYearly(_selectedYear.value)
+                1 -> getObjectives.getQuarterly(_selectedYear.value, _selectedQuarter.value)
                 else -> emptyList()
             }
         }
@@ -61,42 +65,42 @@ class ObjectivesViewModel(
 
     fun createObjective(title: String, description: String, type: ObjectiveType, year: Int, quarter: Int?) {
         viewModelScope.launch {
-            objectiveRepository.createObjective(title, description, type, year, quarter)
+            createObjectiveUseCase(title, description, type, year, quarter)
             loadObjectives()
         }
     }
 
     fun updateObjective(id: Int, title: String, description: String, status: ObjectiveStatus) {
         viewModelScope.launch {
-            objectiveRepository.updateObjective(id, title, description, status)
+            updateObjectiveUseCase(id, title, description, status)
             loadObjectives()
         }
     }
 
     fun deleteObjective(id: Int) {
         viewModelScope.launch {
-            objectiveRepository.deleteObjective(id)
+            deleteObjectiveUseCase(id)
             loadObjectives()
         }
     }
 
     fun addChecklistItem(objectiveId: Int, text: String) {
         viewModelScope.launch {
-            objectiveRepository.addChecklistItem(objectiveId, text)
+            manageChecklist.addItem(objectiveId, text)
             loadObjectives()
         }
     }
 
     fun toggleChecklistItem(itemId: Int) {
         viewModelScope.launch {
-            objectiveRepository.toggleChecklistItem(itemId)
+            manageChecklist.toggleItem(itemId)
             loadObjectives()
         }
     }
 
     fun deleteChecklistItem(itemId: Int) {
         viewModelScope.launch {
-            objectiveRepository.deleteChecklistItem(itemId)
+            manageChecklist.deleteItem(itemId)
             loadObjectives()
         }
     }

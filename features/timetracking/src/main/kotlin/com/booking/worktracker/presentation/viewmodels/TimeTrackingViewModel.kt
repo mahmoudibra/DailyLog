@@ -1,7 +1,7 @@
 package com.booking.worktracker.presentation.viewmodels
 
 import com.booking.worktracker.data.models.TimeEntry
-import com.booking.worktracker.data.repository.TimeEntryRepository
+import com.booking.worktracker.domain.usecases.timetracking.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -9,7 +9,11 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class TimeTrackingViewModel(
-    private val repository: TimeEntryRepository
+    private val getTimeTrackingData: GetTimeTrackingDataUseCase = GetTimeTrackingDataUseCase(),
+    private val startTimerUseCase: StartTimerUseCase = StartTimerUseCase(),
+    private val stopTimerUseCase: StopTimerUseCase = StopTimerUseCase(),
+    private val addManualEntryUseCase: AddManualEntryUseCase = AddManualEntryUseCase(),
+    private val deleteTimeEntryUseCase: DeleteTimeEntryUseCase = DeleteTimeEntryUseCase()
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))
@@ -40,14 +44,16 @@ class TimeTrackingViewModel(
     fun loadData() {
         viewModelScope.launch {
             val date = _selectedDate.value
-            _entries.value = repository.getEntriesForDate(date)
-            _runningEntry.value = repository.getRunningEntry()
-            _totalMinutes.value = repository.getTotalMinutesForDate(date)
-            _categoryBreakdown.value = repository.getMinutesByCategoryForDate(date)
-
-            val savedCategories = repository.getCategories()
-            val defaults = listOf("General", "Meeting", "Coding", "Review", "Planning")
-            _categories.value = (defaults + savedCategories).distinct().sorted()
+            getTimeTrackingData(date).fold(
+                onSuccess = { data ->
+                    _entries.value = data.entries
+                    _runningEntry.value = data.runningEntry
+                    _totalMinutes.value = data.totalMinutes
+                    _categoryBreakdown.value = data.categoryBreakdown
+                    _categories.value = data.categories
+                },
+                onFailure = { _message.value = "Error: ${it.message}" }
+            )
         }
     }
 
@@ -61,8 +67,10 @@ class TimeTrackingViewModel(
             try {
                 val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
                 val timeStr = "${now.hour.toString().padStart(2, '0')}:${now.minute.toString().padStart(2, '0')}"
-                repository.startTimer(description, category, _selectedDate.value, timeStr)
-                _message.value = "Timer started!"
+                startTimerUseCase(description, category, _selectedDate.value, timeStr).fold(
+                    onSuccess = { _message.value = "Timer started!" },
+                    onFailure = { _message.value = "Error: ${it.message}" }
+                )
                 loadData()
             } catch (e: Exception) {
                 _message.value = "Error: ${e.message}"
@@ -70,7 +78,7 @@ class TimeTrackingViewModel(
         }
     }
 
-    fun stopTimer() {
+    fun stopTimer(focusRating: Int? = null) {
         viewModelScope.launch {
             val running = _runningEntry.value ?: return@launch
             try {
@@ -83,8 +91,10 @@ class TimeTrackingViewModel(
                 val endMinutes = now.hour * 60 + now.minute
                 val duration = if (endMinutes >= startMinutes) endMinutes - startMinutes else (24 * 60 - startMinutes) + endMinutes
 
-                repository.stopTimer(running.id, timeStr, duration)
-                _message.value = "Timer stopped!"
+                stopTimerUseCase(running.id, timeStr, duration).fold(
+                    onSuccess = { _message.value = "Timer stopped!" },
+                    onFailure = { _message.value = "Error: ${it.message}" }
+                )
                 loadData()
             } catch (e: Exception) {
                 _message.value = "Error: ${e.message}"
@@ -92,7 +102,7 @@ class TimeTrackingViewModel(
         }
     }
 
-    fun addManualEntry(description: String, category: String, startTime: String, endTime: String) {
+    fun addManualEntry(description: String, category: String, startTime: String, endTime: String, focusRating: Int? = null) {
         viewModelScope.launch {
             try {
                 val startParts = startTime.split(":")
@@ -101,8 +111,10 @@ class TimeTrackingViewModel(
                 val endMinutes = endParts[0].toInt() * 60 + endParts[1].toInt()
                 val duration = if (endMinutes >= startMinutes) endMinutes - startMinutes else (24 * 60 - startMinutes) + endMinutes
 
-                repository.addManualEntry(description, category, _selectedDate.value, startTime, endTime, duration)
-                _message.value = "Entry added!"
+                addManualEntryUseCase(description, category, _selectedDate.value, startTime, endTime, duration).fold(
+                    onSuccess = { _message.value = "Entry added!" },
+                    onFailure = { _message.value = "Error: ${it.message}" }
+                )
                 loadData()
             } catch (e: Exception) {
                 _message.value = "Error: ${e.message}"
@@ -112,7 +124,7 @@ class TimeTrackingViewModel(
 
     fun deleteEntry(id: Int) {
         viewModelScope.launch {
-            repository.delete(id)
+            deleteTimeEntryUseCase(id)
             _message.value = "Entry deleted"
             loadData()
         }

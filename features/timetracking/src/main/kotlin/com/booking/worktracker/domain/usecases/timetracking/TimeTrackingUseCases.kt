@@ -4,7 +4,7 @@ import com.booking.worktracker.data.models.TimeEntry
 import com.booking.worktracker.data.repository.TimeEntryRepository
 import kotlinx.datetime.LocalDate
 
-class StartTimerUseCase(private val repository: TimeEntryRepository) {
+class StartTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
     operator fun invoke(description: String, category: String, date: LocalDate, startTime: String): Result<TimeEntry> {
         return try {
             require(description.isNotBlank()) { "Description cannot be blank" }
@@ -21,7 +21,7 @@ class StartTimerUseCase(private val repository: TimeEntryRepository) {
     }
 }
 
-class StopTimerUseCase(private val repository: TimeEntryRepository) {
+class StopTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
     operator fun invoke(id: Int, endTime: String, durationMinutes: Int): Result<TimeEntry> {
         return try {
             require(durationMinutes >= 0) { "Duration cannot be negative" }
@@ -33,7 +33,7 @@ class StopTimerUseCase(private val repository: TimeEntryRepository) {
     }
 }
 
-class AddManualEntryUseCase(private val repository: TimeEntryRepository) {
+class AddManualEntryUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
     operator fun invoke(
         description: String,
         category: String,
@@ -53,11 +53,36 @@ class AddManualEntryUseCase(private val repository: TimeEntryRepository) {
     }
 }
 
-class DeleteTimeEntryUseCase(private val repository: TimeEntryRepository) {
+class DeleteTimeEntryUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
     operator fun invoke(id: Int): Result<Unit> {
         return try {
             repository.delete(id)
             Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+}
+
+data class TimeTrackingData(
+    val entries: List<TimeEntry>,
+    val runningEntry: TimeEntry?,
+    val totalMinutes: Int,
+    val categoryBreakdown: Map<String, Int>,
+    val categories: List<String>
+)
+
+class GetTimeTrackingDataUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+    operator fun invoke(date: LocalDate): Result<TimeTrackingData> {
+        return try {
+            val entries = repository.getEntriesForDate(date)
+            val runningEntry = repository.getRunningEntry()
+            val totalMinutes = repository.getTotalMinutesForDate(date)
+            val categoryBreakdown = repository.getMinutesByCategoryForDate(date)
+            val savedCategories = repository.getCategories()
+            val defaults = listOf("General", "Meeting", "Coding", "Review", "Planning")
+            val categories = (defaults + savedCategories).distinct().sorted()
+            Result.success(TimeTrackingData(entries, runningEntry, totalMinutes, categoryBreakdown, categories))
         } catch (e: Exception) {
             Result.failure(e)
         }
