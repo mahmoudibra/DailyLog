@@ -56,6 +56,7 @@ dependencies {
     implementation(project(":features:export"))
     implementation(project(":features:reviews"))
     implementation(project(":features:focuszones"))
+    implementation(project(":features:timebudgets"))
 
     // Compose Desktop
     implementation(compose.desktop.currentOs)

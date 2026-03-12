@@ -11,13 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.booking.worktracker.data.repository.LogRepository
-import com.booking.worktracker.data.repository.ObjectiveRepository
 import com.booking.worktracker.data.repository.SettingsRepository
-import com.booking.worktracker.data.repository.TagRepository
-import com.booking.worktracker.data.repository.TimeEntryRepository
-import com.booking.worktracker.data.repository.AnalyticsRepository
-import com.booking.worktracker.data.repository.ExportRepository
+import com.booking.worktracker.presentation.viewmodels.ReviewsViewModel
+import com.booking.worktracker.presentation.viewmodels.FocusZonesViewModel
+import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
+import com.booking.worktracker.ui.screens.ReviewsScreen
+import com.booking.worktracker.ui.screens.FocusZonesScreen
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
 import com.booking.worktracker.ui.designsystem.tokens.ColorTokens
 import com.booking.worktracker.ui.designsystem.tokens.ShapeTokens
@@ -28,19 +27,13 @@ import com.booking.worktracker.ui.localization.ProvideLocalization
 import com.booking.worktracker.ui.screens.*
 
 enum class Screen {
-    DAILY_LOG, LOG_LIST, OBJECTIVES, TIME_TRACKING, ANALYTICS, EXPORT, SETTINGS
+    DAILY_LOG, LOG_LIST, OBJECTIVES, TIME_TRACKING, ANALYTICS, EXPORT, REVIEWS, FOCUS_ZONES, TIME_BUDGETS, SETTINGS
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
-    logRepository: LogRepository,
-    tagRepository: TagRepository,
-    objectiveRepository: ObjectiveRepository,
-    settingsRepository: SettingsRepository,
-    timeEntryRepository: TimeEntryRepository,
-    analyticsRepository: AnalyticsRepository,
-    exportRepository: ExportRepository
+    settingsRepository: SettingsRepository = SettingsRepository()
 ) {
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
@@ -124,6 +117,24 @@ fun App(
                             selected = currentScreen == Screen.EXPORT,
                             onClick = { currentScreen = Screen.EXPORT }
                         )
+                        SideNavItem(
+                            icon = Icons.Default.RateReview,
+                            label = stringResource(Res.string.nav_reviews),
+                            selected = currentScreen == Screen.REVIEWS,
+                            onClick = { currentScreen = Screen.REVIEWS }
+                        )
+                        SideNavItem(
+                            icon = Icons.Default.Psychology,
+                            label = stringResource(Res.string.nav_focus_zones),
+                            selected = currentScreen == Screen.FOCUS_ZONES,
+                            onClick = { currentScreen = Screen.FOCUS_ZONES }
+                        )
+                        SideNavItem(
+                            icon = Icons.Default.PieChart,
+                            label = "Time Budgets",
+                            selected = currentScreen == Screen.TIME_BUDGETS,
+                            onClick = { currentScreen = Screen.TIME_BUDGETS }
+                        )
 
                         Spacer(Modifier.weight(1f))
 
@@ -150,18 +161,27 @@ fun App(
                 ) {
                     when (currentScreen) {
                         Screen.DAILY_LOG -> DailyLogScreen(
-                            logRepository = logRepository,
-                            tagRepository = tagRepository,
                             onNavigateToObjectives = { currentScreen = Screen.OBJECTIVES },
                             onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING }
                         )
-                        Screen.LOG_LIST -> LogListScreen(logRepository)
-                        Screen.OBJECTIVES -> ObjectivesScreen(objectiveRepository)
-                        Screen.TIME_TRACKING -> TimeTrackingScreen(timeEntryRepository)
-                        Screen.ANALYTICS -> AnalyticsScreen(analyticsRepository)
-                        Screen.EXPORT -> ExportScreen(exportRepository)
+                        Screen.LOG_LIST -> LogListScreen()
+                        Screen.OBJECTIVES -> ObjectivesScreen()
+                        Screen.TIME_TRACKING -> TimeTrackingScreen()
+                        Screen.ANALYTICS -> AnalyticsScreen()
+                        Screen.EXPORT -> ExportScreen()
+                        Screen.REVIEWS -> {
+                            val reviewsViewModel = remember { ReviewsViewModel() }
+                            ReviewsScreen(viewModel = reviewsViewModel)
+                        }
+                        Screen.FOCUS_ZONES -> {
+                            val focusZonesViewModel = remember { FocusZonesViewModel() }
+                            FocusZonesScreen(viewModel = focusZonesViewModel)
+                        }
+                        Screen.TIME_BUDGETS -> {
+                            val timeBudgetsViewModel = remember { TimeBudgetsViewModel() }
+                            TimeBudgetsScreen(viewModel = timeBudgetsViewModel)
+                        }
                         Screen.SETTINGS -> SettingsScreen(
-                            settingsRepository = settingsRepository,
                             currentLocale = currentLocale,
                             onLanguageChanged = { locale ->
                                 settingsRepository.setLanguage(locale.code)
