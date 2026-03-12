@@ -50,6 +50,7 @@ Each feature module follows a layered architecture:
 - Package: `com.booking.worktracker`
 - Main class: `com.booking.worktracker.MainKt`
 - **Dependency wiring**: No DI framework. Each class declares its dependencies as constructor parameters with default values that self-create, e.g. `class LogRepository(private val localDataSource: LogLocalDataSource = LogLocalDataSource())`. Never pass dependencies from the outside — each class creates its own. Data sources take `db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()` as their constructor param.
+- **UI screens own their ViewModels**: Each `@Composable` screen creates its own ViewModel via `remember { XxxViewModel() }`. Never pass ViewModels or repositories as parameters to screens — screens are self-contained.
 - Database schema defined in `.sq` files at `core/src/main/sqldelight/com/booking/worktracker/data/`
 - SQLDelight generates `DailyWorkTrackerDatabase` with typed `*Queries` classes
 - `DatabaseProvider` object in `core/.../data/DatabaseProvider.kt` manages driver and database lifecycle

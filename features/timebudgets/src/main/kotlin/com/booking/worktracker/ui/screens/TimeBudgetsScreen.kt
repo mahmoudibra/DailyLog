@@ -23,9 +23,8 @@ import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 
 @Composable
-fun TimeBudgetsScreen(
-    viewModel: TimeBudgetsViewModel
-) {
+fun TimeBudgetsScreen() {
+    val viewModel = remember { TimeBudgetsViewModel() }
     val budgetProgress by viewModel.budgetProgress.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val activeObjectives by viewModel.activeObjectives.collectAsState()

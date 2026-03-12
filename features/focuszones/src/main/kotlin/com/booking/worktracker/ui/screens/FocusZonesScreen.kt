@@ -28,9 +28,8 @@ import com.booking.worktracker.ui.designsystem.components.*
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun FocusZonesScreen(
-    viewModel: FocusZonesViewModel
-) {
+fun FocusZonesScreen() {
+    val viewModel = remember { FocusZonesViewModel() }
     val summary by viewModel.focusSummary.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val weeksBack by viewModel.weeksBack.collectAsState()

@@ -21,9 +21,8 @@ import javax.swing.filechooser.FileNameExtensionFilter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExportScreen(
-    viewModel: ExportViewModel
-) {
+fun ExportScreen() {
+    val viewModel = remember { ExportViewModel() }
     val startDate by viewModel.startDate.collectAsState()
     val endDate by viewModel.endDate.collectAsState()
     val format by viewModel.format.collectAsState()

@@ -22,9 +22,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ObjectivesScreen(
-    viewModel: ObjectivesViewModel
-) {
+fun ObjectivesScreen() {
+    val viewModel = remember { ObjectivesViewModel() }
 
     val objectives by viewModel.objectives.collectAsState()
     val selectedTab by viewModel.selectedTab.collectAsState()

@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.booking.worktracker.data.repository.SettingsRepository
-import com.booking.worktracker.presentation.viewmodels.*
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
 import com.booking.worktracker.ui.localization.AppLocale
@@ -29,14 +28,6 @@ enum class Screen {
 @Composable
 fun App() {
     val settingsRepository = remember { SettingsRepository() }
-    val dailyLogViewModel = remember { DailyLogViewModel() }
-    val objectivesViewModel = remember { ObjectivesViewModel() }
-    val timeTrackingViewModel = remember { TimeTrackingViewModel() }
-    val analyticsViewModel = remember { AnalyticsViewModel() }
-    val exportViewModel = remember { ExportViewModel() }
-    val reviewsViewModel = remember { ReviewsViewModel() }
-    val focusZonesViewModel = remember { FocusZonesViewModel() }
-    val timeBudgetsViewModel = remember { TimeBudgetsViewModel() }
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
     var isDarkMode by remember { mutableStateOf(false) }
@@ -165,18 +156,17 @@ fun App() {
                 ) {
                     when (currentScreen) {
                         Screen.DAILY_LOG -> DailyLogScreen(
-                            viewModel = dailyLogViewModel,
                             onNavigateToObjectives = { currentScreen = Screen.OBJECTIVES },
                             onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING }
                         )
                         Screen.LOG_LIST -> LogListScreen()
-                        Screen.OBJECTIVES -> ObjectivesScreen(viewModel = objectivesViewModel)
-                        Screen.TIME_TRACKING -> TimeTrackingScreen(viewModel = timeTrackingViewModel)
-                        Screen.ANALYTICS -> AnalyticsScreen(viewModel = analyticsViewModel)
-                        Screen.EXPORT -> ExportScreen(viewModel = exportViewModel)
-                        Screen.REVIEWS -> ReviewsScreen(viewModel = reviewsViewModel)
-                        Screen.FOCUS_ZONES -> FocusZonesScreen(viewModel = focusZonesViewModel)
-                        Screen.TIME_BUDGETS -> TimeBudgetsScreen(viewModel = timeBudgetsViewModel)
+                        Screen.OBJECTIVES -> ObjectivesScreen()
+                        Screen.TIME_TRACKING -> TimeTrackingScreen()
+                        Screen.ANALYTICS -> AnalyticsScreen()
+                        Screen.EXPORT -> ExportScreen()
+                        Screen.REVIEWS -> ReviewsScreen()
+                        Screen.FOCUS_ZONES -> FocusZonesScreen()
+                        Screen.TIME_BUDGETS -> TimeBudgetsScreen()
                         Screen.SETTINGS -> SettingsScreen(
                             currentLocale = currentLocale,
                             isDarkMode = isDarkMode,

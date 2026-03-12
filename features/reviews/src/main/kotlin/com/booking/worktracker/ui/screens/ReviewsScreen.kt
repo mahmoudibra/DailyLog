@@ -23,7 +23,8 @@ import kotlinx.datetime.plus
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ReviewsScreen(viewModel: ReviewsViewModel) {
+fun ReviewsScreen() {
+    val viewModel = remember { ReviewsViewModel() }
     val selectedDate by viewModel.selectedDate.collectAsState()
     val isWeeklyView by viewModel.isWeeklyView.collectAsState()
     val wentWellText by viewModel.wentWellText.collectAsState()
