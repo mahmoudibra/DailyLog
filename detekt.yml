@@ -1,0 +1,55 @@
+build:
+  maxIssues: 0
+
+style:
+  WildcardImport:
+    active: false
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    active: false
+  UseCheckOrError:
+    active: false
+  UnusedParameter:
+    active: false
+  ReturnCount:
+    max: 5
+  UnusedPrivateProperty:
+    active: false
+
+performance:
+  ForEachOnRange:
+    active: false
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - 'Composable'
+  MatchingDeclarationName:
+    active: false
+
+complexity:
+  LongMethod:
+    threshold: 250
+  LongParameterList:
+    functionThreshold: 10
+    constructorThreshold: 10
+    ignoreAnnotated:
+      - 'Composable'
+  TooManyFunctions:
+    thresholdInFiles: 20
+    thresholdInClasses: 20
+  CyclomaticComplexMethod:
+    threshold: 30
+  NestedBlockDepth:
+    threshold: 6
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+
+potential-bugs:
+  ImplicitDefaultLocale:
+    active: false

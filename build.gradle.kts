@@ -4,6 +4,29 @@ plugins {
     kotlin("jvm") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("org.jetbrains.compose") version "1.10.2"
+    id("io.gitlab.arturbosch.detekt") version "1.23.7"
+}
+
+subprojects {
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    detekt {
+        buildUponDefaultConfig = true
+        config.setFrom(files("$rootDir/detekt.yml"))
+    }
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom(files("$rootDir/detekt.yml"))
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    reports {
+        html.required.set(true)
+        xml.required.set(false)
+        txt.required.set(false)
+    }
 }
 
 group = "com.booking.worktracker"
@@ -31,6 +54,8 @@ dependencies {
     implementation(project(":features:timetracking"))
     implementation(project(":features:analytics"))
     implementation(project(":features:export"))
+    implementation(project(":features:reviews"))
+    implementation(project(":features:focuszones"))
 
     // Compose Desktop
     implementation(compose.desktop.currentOs)
