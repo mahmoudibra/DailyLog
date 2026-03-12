@@ -8,7 +8,8 @@ data class TimeEntry(
     val endTime: String?,
     val durationMinutes: Int,
     val date: String,
-    val createdAt: String
+    val createdAt: String,
+    val focusRating: Int? = null
 ) {
     val isRunning: Boolean get() = endTime == null
 

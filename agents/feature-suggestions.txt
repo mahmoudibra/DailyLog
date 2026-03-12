@@ -11,3 +11,33 @@ PRIORITY RANKING:
 8. Entry Templates (LOW/LOW)
 
 RECOMMENDED: Search & Filter
+
+---
+
+NEW SUGGESTION:
+9. Weekly/Daily Review & Reflection (HIGH/HIGH)
+   - End-of-day prompts: "What went well?", "What could improve?", "Top priority for tomorrow?"
+   - End-of-week summary: auto-generated recap of entries, time spent, objectives progressed, streaks
+   - Leverages existing daily logs, time entries, and objective progress data
+   - Complements analytics by turning stats into user-written actionable insights
+   - Inspiration: Reflect, Day One, Obsidian daily review plugins
+
+NEW SUGGESTION:
+10. Focus Zones & Energy Patterns (HIGH/MEDIUM)
+   - Tag time blocks with energy/focus rating (1-5) when completing a time entry
+   - Track which time-of-day windows correlate with highest focus scores
+   - Auto-detect peak productivity patterns over weeks (e.g., "Deep work best 9-11am")
+   - Surface "Best time for..." recommendations based on category + energy data
+   - Show heatmap-style weekly view: days x hours, colored by average focus rating
+   - Leverages existing time_entries (category, start/end time, duration) and daily_reviews
+   - Inspiration: Sunsama, Reclaim.ai, Rise, Centered
+
+NEW SUGGESTION:
+11. Time Budgets & Allocation Goals (HIGH/MEDIUM)
+   - Set weekly/monthly hour targets per time-tracking category (e.g., "Deep Work: 20h/week")
+   - Dashboard showing actual vs. budgeted hours with progress bars (green/amber/red)
+   - Link budgets to objectives — allocate time to quarterly goals and track investment
+   - End-of-week budget report auto-generated alongside weekly summaries
+   - Pace indicator showing if you're trending ahead or behind mid-week
+   - Leverages existing time_entries (category, duration, date) and objectives
+   - Inspiration: Sunsama, Reclaim.ai, Toggl, Clockify

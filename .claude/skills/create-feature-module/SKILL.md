@@ -1,3 +1,8 @@
+---
+name: create-feature-module
+description: Scaffolds an entire feature module for the DailyWorkTracker app, creating all layers from database schema through UI. Use this skill when the user asks to create a new feature, add a new module, build a new screen, or scaffold a feature with its full data stack. Also trigger when the user mentions "new feature module", "add a feature", or wants to implement a feature from feature-suggestions.txt.
+---
+
 # Create Feature
 
 Scaffolds an entire feature module for the DailyWorkTracker app, creating all layers from database schema through UI.

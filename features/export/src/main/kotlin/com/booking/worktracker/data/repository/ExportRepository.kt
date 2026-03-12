@@ -6,7 +6,7 @@ import com.booking.worktracker.data.models.ExportObjective
 import com.booking.worktracker.data.models.ExportResult
 
 class ExportRepository(
-    private val localDataSource: ExportLocalDataSource
+    private val localDataSource: ExportLocalDataSource = ExportLocalDataSource()
 ) {
     fun getEntriesForRange(startDate: String, endDate: String): List<ExportEntry> =
         localDataSource.getEntriesForRange(startDate, endDate)

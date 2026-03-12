@@ -27,8 +27,8 @@ import kotlinx.datetime.*
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DailyLogScreen(
-    logRepository: LogRepository,
-    tagRepository: TagRepository,
+    logRepository: LogRepository = LogRepository(),
+    tagRepository: TagRepository = TagRepository(),
     onNavigateToObjectives: () -> Unit = {},
     onNavigateToTimer: () -> Unit = {}
 ) {

@@ -27,7 +27,7 @@ import kotlinx.datetime.toLocalDateTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ObjectivesScreen(
-    objectiveRepository: ObjectiveRepository
+    objectiveRepository: ObjectiveRepository = ObjectiveRepository()
 ) {
 
     var selectedTab by remember { mutableStateOf(0) }

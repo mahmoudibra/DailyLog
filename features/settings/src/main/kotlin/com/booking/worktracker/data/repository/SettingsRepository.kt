@@ -3,7 +3,7 @@ package com.booking.worktracker.data.repository
 import com.booking.worktracker.data.datasource.SettingsLocalDataSource
 
 class SettingsRepository(
-    private val localDataSource: SettingsLocalDataSource
+    private val localDataSource: SettingsLocalDataSource = SettingsLocalDataSource()
 ) {
 
     fun getMorningReminderTime(): String {

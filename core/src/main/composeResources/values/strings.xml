@@ -234,4 +234,62 @@
         <item quantity="one">%1$d tag</item>
         <item quantity="other">%1$d tags</item>
     </plurals>
+
+    <!-- Reviews Screen -->
+    <string name="nav_reviews">Reviews</string>
+    <string name="daily_review">Daily Review</string>
+    <string name="weekly_summary">Weekly Summary</string>
+    <string name="went_well_prompt">What went well today?</string>
+    <string name="could_improve_prompt">What could improve?</string>
+    <string name="tomorrow_priority_prompt">Top priority for tomorrow?</string>
+    <string name="weekly_reflection_prompt">Your weekly reflection</string>
+    <string name="save_review">Save Review</string>
+    <string name="save_weekly_summary">Save Summary</string>
+    <string name="review_saved">Review saved!</string>
+    <string name="weekly_summary_saved">Weekly summary saved!</string>
+    <string name="no_review_yet">No review yet for this day. Take a moment to reflect!</string>
+    <string name="entries_logged_stat">Entries Logged</string>
+    <string name="time_tracked_stat">Time Tracked</string>
+    <string name="objectives_progressed_stat">Objectives Active</string>
+    <string name="streak_days_stat">Streak Days</string>
+    <string name="top_tags_stat">Top Tags</string>
+    <string name="reviews_completed_stat">Reviews Done</string>
+    <string name="weekly_stats">This Week\'s Stats</string>
+    <string name="week_of">Week of %1$s</string>
+    <string name="previous_week">Previous week</string>
+    <string name="next_week">Next week</string>
+    <string name="review_reflection">Review &amp; Reflection</string>
+    <string name="went_well_placeholder">Things that went well today...</string>
+    <string name="could_improve_placeholder">Areas for improvement...</string>
+    <string name="tomorrow_priority_placeholder">Most important thing for tomorrow...</string>
+    <string name="weekly_reflection_placeholder">Reflect on your week — wins, lessons, and plans...</string>
+    <string name="fill_one_field">Please fill in at least one field</string>
+
+    <!-- Focus Zones & Energy -->
+    <string name="nav_focus_zones">Focus Zones</string>
+    <string name="focus_zones_title">Focus Zones &amp; Energy</string>
+    <string name="focus_weeks_label">%1$dw</string>
+    <string name="focus_empty_state">No focus ratings yet. Rate your energy level (1-5) when stopping timers or adding manual entries to see patterns here!</string>
+    <string name="focus_rated_entries">Rated Entries</string>
+    <string name="focus_avg_focus">Avg Focus</string>
+    <string name="focus_peak_windows">Peak Productivity Windows</string>
+    <string name="focus_avg_rating">Avg rating: %1$s/5</string>
+    <string name="focus_best_time_for">Best Time For…</string>
+    <string name="focus_weekly_heatmap">Weekly Focus Heatmap</string>
+    <string name="focus_legend_low">Low</string>
+    <string name="focus_legend_high">High</string>
+    <string name="focus_deep_work_best">Deep work best %1$s–%2$s</string>
+    <string name="focus_best_time_category">Best time for %1$s: %2$s–%3$s</string>
+    <string name="focus_rate_title">Rate Your Focus</string>
+    <string name="focus_rate_prompt">How focused were you during this session?</string>
+    <string name="focus_stars_desc">%1$d stars</string>
+    <string name="focus_rating_1">Very Distracted</string>
+    <string name="focus_rating_2">Somewhat Distracted</string>
+    <string name="focus_rating_3">Moderate Focus</string>
+    <string name="focus_rating_4">Focused</string>
+    <string name="focus_rating_5">Deep Focus</string>
+    <string name="focus_tap_to_rate">Tap a star to rate</string>
+    <string name="focus_save_rating">Save Rating</string>
+    <string name="focus_skip">Skip</string>
+    <string name="focus_rating_optional">Focus Rating (optional)</string>
 </resources>

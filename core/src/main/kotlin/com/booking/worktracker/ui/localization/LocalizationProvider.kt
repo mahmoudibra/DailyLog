@@ -2,8 +2,8 @@ package com.booking.worktracker.ui.localization
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 
@@ -14,7 +14,7 @@ fun ProvideLocalization(
 ) {
     val layoutDirection = if (locale.isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr
 
-    SideEffect {
+    remember(locale) {
         java.util.Locale.setDefault(java.util.Locale(locale.code))
     }
 

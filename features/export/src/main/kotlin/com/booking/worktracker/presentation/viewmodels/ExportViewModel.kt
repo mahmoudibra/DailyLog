@@ -2,7 +2,6 @@ package com.booking.worktracker.presentation.viewmodels
 
 import com.booking.worktracker.data.models.ExportFormat
 import com.booking.worktracker.data.models.ExportOptions
-import com.booking.worktracker.data.repository.ExportRepository
 import com.booking.worktracker.domain.usecases.export.GenerateExportUseCase
 import com.booking.worktracker.domain.usecases.export.SaveExportToFileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class ExportViewModel(
-    private val repository: ExportRepository
+    private val generateExport: GenerateExportUseCase = GenerateExportUseCase(),
+    private val saveExport: SaveExportToFileUseCase = SaveExportToFileUseCase()
 ) : ViewModel() {
 
     private val now = Clock.System.todayIn(TimeZone.currentSystemDefault())
@@ -43,9 +43,6 @@ class ExportViewModel(
 
     private val _isExporting = MutableStateFlow(false)
     val isExporting: StateFlow<Boolean> = _isExporting.asStateFlow()
-
-    private val generateExport = GenerateExportUseCase(repository)
-    private val saveExport = SaveExportToFileUseCase()
 
     fun setStartDate(date: String) { _startDate.value = date }
     fun setEndDate(date: String) { _endDate.value = date }

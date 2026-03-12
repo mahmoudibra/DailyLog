@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
-    settingsRepository: SettingsRepository,
+    settingsRepository: SettingsRepository = SettingsRepository(),
     currentLocale: AppLocale = AppLocale.ENGLISH,
     onLanguageChanged: (AppLocale) -> Unit = {}
 ) {

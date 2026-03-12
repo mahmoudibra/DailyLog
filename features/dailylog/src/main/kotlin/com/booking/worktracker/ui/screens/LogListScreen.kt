@@ -23,7 +23,7 @@ import com.booking.worktracker.ui.designsystem.tokens.SpacingTokens
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LogListScreen(
-    logRepository: LogRepository
+    logRepository: LogRepository = LogRepository()
 ) {
     var logs by remember { mutableStateOf<List<DailyLog>>(emptyList()) }
     var selectedLog by remember { mutableStateOf<DailyLog?>(null) }
