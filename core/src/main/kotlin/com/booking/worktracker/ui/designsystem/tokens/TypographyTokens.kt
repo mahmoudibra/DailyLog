@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-object TypographyTokens {
+internal object TypographyTokens {
     val typography = Typography(
         displayLarge = TextStyle(
             fontFamily = FontFamily.Default,

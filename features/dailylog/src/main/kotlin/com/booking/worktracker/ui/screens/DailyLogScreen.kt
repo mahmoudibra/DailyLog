@@ -19,7 +19,6 @@ import com.booking.worktracker.data.repository.LogRepository
 import com.booking.worktracker.data.repository.TagRepository
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
@@ -142,7 +141,7 @@ fun DailyLogScreen(
         ActionCard(
             title = stringResource(Res.string.daily_log),
             subtitle = stringResource(Res.string.record_work_entries),
-            backgroundColor = DSColors.CardBlue,
+            backgroundColor = DSTheme.cardBlue,
             icon = Icons.Default.Edit,
             badge = if (workEntries.isNotEmpty()) pluralStringResource(Res.plurals.logged_count, workEntries.size, workEntries.size) else null,
             onClick = { showAddEntryDialog = true }
@@ -151,7 +150,7 @@ fun DailyLogScreen(
         ActionCard(
             title = stringResource(Res.string.objectives),
             subtitle = stringResource(Res.string.check_your_goals),
-            backgroundColor = DSColors.CardGreen,
+            backgroundColor = DSTheme.cardGreen,
             icon = Icons.Default.Flag,
             onClick = onNavigateToObjectives
         )
@@ -159,7 +158,7 @@ fun DailyLogScreen(
         ActionCard(
             title = stringResource(Res.string.quick_timer),
             subtitle = stringResource(Res.string.start_tracking_time),
-            backgroundColor = DSColors.CardOrange,
+            backgroundColor = DSTheme.cardOrange,
             icon = Icons.Default.Timer,
             onClick = onNavigateToTimer
         )
@@ -424,7 +423,7 @@ fun NewTagDialog(
                     if (tagName.isNotBlank()) {
                         val colorHex = String.format(
                             "#%06X",
-                            (0xFFFFFF and DSColors.TagColors[selectedColorIndex].value.toInt())
+                            (0xFFFFFF and DSTheme.tagColors[selectedColorIndex].value.toInt())
                         )
                         onConfirm(tagName, colorHex)
                     }

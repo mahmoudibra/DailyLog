@@ -2,7 +2,7 @@ package com.booking.worktracker.ui.designsystem.tokens
 
 import androidx.compose.ui.graphics.Color
 
-object DSColors {
+internal object DSColors {
     // Primary palette - Vibrant Orange
     val Primary = Color(0xFFFF6B35)
     val OnPrimary = Color(0xFFFFFFFF)

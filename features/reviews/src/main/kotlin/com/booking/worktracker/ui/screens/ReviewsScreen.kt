@@ -15,7 +15,6 @@ import com.booking.worktracker.data.models.AutoSummary
 import com.booking.worktracker.presentation.viewmodels.ReviewsViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
-import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.core.generated.resources.*
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -176,14 +175,14 @@ private fun DailyReviewContent(
                 Icon(
                     Icons.Default.CheckCircle,
                     contentDescription = null,
-                    tint = DSColors.CompletedGreen,
+                    tint = DSTheme.completedGreen,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = stringResource(Res.string.review_saved),
                     style = DSTheme.font.bodySmall,
-                    color = DSColors.CompletedGreen
+                    color = DSTheme.completedGreen
                 )
             }
         }
@@ -194,7 +193,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.went_well_prompt),
             icon = Icons.Default.ThumbUp,
-            iconColor = DSColors.CardGreen,
+            iconColor = DSTheme.cardGreen,
             text = wentWellText,
             placeholder = stringResource(Res.string.went_well_placeholder),
             onTextChange = onWentWellChange
@@ -206,7 +205,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.could_improve_prompt),
             icon = Icons.Default.TrendingUp,
-            iconColor = DSColors.CardOrange,
+            iconColor = DSTheme.cardOrange,
             text = couldImproveText,
             placeholder = stringResource(Res.string.could_improve_placeholder),
             onTextChange = onCouldImproveChange
@@ -218,7 +217,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.tomorrow_priority_prompt),
             icon = Icons.Default.Star,
-            iconColor = DSColors.CardBlue,
+            iconColor = DSTheme.cardBlue,
             text = tomorrowPriorityText,
             placeholder = stringResource(Res.string.tomorrow_priority_placeholder),
             onTextChange = onTomorrowPriorityChange

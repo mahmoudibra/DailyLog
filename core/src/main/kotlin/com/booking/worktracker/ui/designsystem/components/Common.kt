@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.booking.worktracker.ui.designsystem.DSTheme
-import com.booking.worktracker.ui.designsystem.tokens.DSColors
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
@@ -320,8 +319,8 @@ private fun MonthCalendarDayItem(
     onClick: () -> Unit
 ) {
     val indicatorColor = when {
-        entryCount >= 3 -> DSColors.CompletedGreen
-        entryCount >= 1 -> DSColors.CompletedOrange
+        entryCount >= 3 -> DSTheme.completedGreen
+        entryCount >= 1 -> DSTheme.completedOrange
         else -> Color.Transparent
     }
 

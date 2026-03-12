@@ -63,7 +63,7 @@ fun DSColorPicker(
     Row(
         horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
     ) {
-        DSColors.TagColors.forEachIndexed { index, color ->
+        DSTheme.tagColors.forEachIndexed { index, color ->
             Box(
                 modifier = Modifier
                     .size(32.dp)
