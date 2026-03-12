@@ -2,9 +2,7 @@ package com.booking.worktracker.data.repository
 
 import com.booking.worktracker.data.datasource.SettingsLocalDataSource
 
-class SettingsRepository(
-    private val localDataSource: SettingsLocalDataSource
-) {
+class SettingsRepository(private val localDataSource: SettingsLocalDataSource = SettingsLocalDataSource()) {
 
     fun getMorningReminderTime(): String {
         return localDataSource.getSetting("morning_reminder_time") ?: "10:30"

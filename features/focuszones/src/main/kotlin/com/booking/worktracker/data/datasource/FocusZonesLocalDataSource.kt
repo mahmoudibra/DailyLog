@@ -1,12 +1,13 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.FocusZonesQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.HourlyFocusData
 import kotlinx.datetime.LocalDate
 
-class FocusZonesLocalDataSource(
-    private val queries: FocusZonesQueries
-) {
+class FocusZonesLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val queries = db.focusZonesQueries
 
     fun getHourlyFocusData(startDate: LocalDate, endDate: LocalDate): List<HourlyFocusData> {
         return queries.getHourlyFocusData(startDate.toString(), endDate.toString()).executeAsList().map { row ->

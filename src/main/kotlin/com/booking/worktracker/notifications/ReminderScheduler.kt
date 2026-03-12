@@ -9,8 +9,8 @@ import kotlinx.coroutines.*
 import kotlinx.datetime.*
 
 class ReminderScheduler(
-    private val logRepository: LogRepository,
-    private val settingsRepository: SettingsRepository
+    private val logRepository: LogRepository = LogRepository(),
+    private val settingsRepository: SettingsRepository = SettingsRepository()
 ) {
     private val scope = CoroutineScope(Dispatchers.Default + Job())
     private var morningJob: Job? = null

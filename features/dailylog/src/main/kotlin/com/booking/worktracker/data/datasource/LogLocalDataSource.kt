@@ -1,16 +1,16 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyLogsQueries
-import com.booking.worktracker.data.TagsQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.DailyLog
 import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
 import kotlinx.datetime.LocalDate
 
-class LogLocalDataSource(
-    private val dailyLogsQueries: DailyLogsQueries,
-    private val tagsQueries: TagsQueries
-) {
+class LogLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val dailyLogsQueries = db.dailyLogsQueries
+    private val tagsQueries = db.tagsQueries
 
     fun getLogForDate(date: LocalDate): DailyLog? {
         val row = dailyLogsQueries.getLogForDate(date.toString()).executeAsOneOrNull() ?: return null

@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class TimeBudgetsViewModel(
-    private val getDashboard: GetTimeBudgetDashboardUseCase,
-    private val createBudget: CreateTimeBudgetUseCase,
-    private val updateBudget: UpdateTimeBudgetUseCase,
-    private val deleteBudget: DeleteTimeBudgetUseCase
+    private val getDashboard: GetTimeBudgetDashboardUseCase = GetTimeBudgetDashboardUseCase(),
+    private val createBudget: CreateTimeBudgetUseCase = CreateTimeBudgetUseCase(),
+    private val updateBudget: UpdateTimeBudgetUseCase = UpdateTimeBudgetUseCase(),
+    private val deleteBudget: DeleteTimeBudgetUseCase = DeleteTimeBudgetUseCase(),
 ) : ViewModel() {
 
     private val _budgetProgress = MutableStateFlow<List<BudgetProgress>>(emptyList())

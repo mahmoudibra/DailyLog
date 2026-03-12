@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AnalyticsViewModel(
-    private val getAnalyticsSummary: GetAnalyticsSummaryUseCase
+    private val getAnalyticsSummary: GetAnalyticsSummaryUseCase = GetAnalyticsSummaryUseCase(),
 ) : ViewModel() {
 
     private val _summary = MutableStateFlow<AnalyticsSummary?>(null)

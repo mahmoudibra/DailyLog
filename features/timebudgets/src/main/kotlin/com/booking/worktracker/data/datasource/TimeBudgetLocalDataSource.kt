@@ -1,17 +1,16 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyLogsQueries
-import com.booking.worktracker.data.ObjectivesQueries
-import com.booking.worktracker.data.TimeBudgetsQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.data.models.TimeBudget
 import kotlinx.datetime.LocalDate
 
-class TimeBudgetLocalDataSource(
-    private val queries: TimeBudgetsQueries,
-    private val objectivesQueries: ObjectivesQueries,
-    private val dailyLogsQueries: DailyLogsQueries
-) {
+class TimeBudgetLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val queries = db.timeBudgetsQueries
+    private val objectivesQueries = db.objectivesQueries
+    private val dailyLogsQueries = db.dailyLogsQueries
 
     fun getAll(): List<TimeBudget> {
         return queries.getAll().executeAsList().map { it.toTimeBudget() }

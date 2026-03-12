@@ -11,10 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.booking.worktracker.data.repository.LogRepository
-import com.booking.worktracker.data.repository.ObjectiveRepository
 import com.booking.worktracker.data.repository.SettingsRepository
-import com.booking.worktracker.data.repository.TagRepository
 import com.booking.worktracker.presentation.viewmodels.*
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
@@ -30,20 +27,16 @@ enum class Screen {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App(
-    settingsRepository: SettingsRepository,
-    logRepository: LogRepository,
-    tagRepository: TagRepository,
-    objectiveRepository: ObjectiveRepository,
-    dailyLogViewModel: DailyLogViewModel,
-    objectivesViewModel: ObjectivesViewModel,
-    timeTrackingViewModel: TimeTrackingViewModel,
-    analyticsViewModel: AnalyticsViewModel,
-    exportViewModel: ExportViewModel,
-    reviewsViewModel: ReviewsViewModel,
-    focusZonesViewModel: FocusZonesViewModel,
-    timeBudgetsViewModel: TimeBudgetsViewModel
-) {
+fun App() {
+    val settingsRepository = remember { SettingsRepository() }
+    val dailyLogViewModel = remember { DailyLogViewModel() }
+    val objectivesViewModel = remember { ObjectivesViewModel() }
+    val timeTrackingViewModel = remember { TimeTrackingViewModel() }
+    val analyticsViewModel = remember { AnalyticsViewModel() }
+    val exportViewModel = remember { ExportViewModel() }
+    val reviewsViewModel = remember { ReviewsViewModel() }
+    val focusZonesViewModel = remember { FocusZonesViewModel() }
+    val timeBudgetsViewModel = remember { TimeBudgetsViewModel() }
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
     var isDarkMode by remember { mutableStateOf(false) }
@@ -173,11 +166,10 @@ fun App(
                     when (currentScreen) {
                         Screen.DAILY_LOG -> DailyLogScreen(
                             viewModel = dailyLogViewModel,
-                            logRepository = logRepository,
                             onNavigateToObjectives = { currentScreen = Screen.OBJECTIVES },
                             onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING }
                         )
-                        Screen.LOG_LIST -> LogListScreen(logRepository = logRepository)
+                        Screen.LOG_LIST -> LogListScreen()
                         Screen.OBJECTIVES -> ObjectivesScreen(viewModel = objectivesViewModel)
                         Screen.TIME_TRACKING -> TimeTrackingScreen(viewModel = timeTrackingViewModel)
                         Screen.ANALYTICS -> AnalyticsScreen(viewModel = analyticsViewModel)
@@ -186,7 +178,6 @@ fun App(
                         Screen.FOCUS_ZONES -> FocusZonesScreen(viewModel = focusZonesViewModel)
                         Screen.TIME_BUDGETS -> TimeBudgetsScreen(viewModel = timeBudgetsViewModel)
                         Screen.SETTINGS -> SettingsScreen(
-                            settingsRepository = settingsRepository,
                             currentLocale = currentLocale,
                             isDarkMode = isDarkMode,
                             onLanguageChanged = { locale ->

@@ -1,16 +1,16 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyLogsQueries
-import com.booking.worktracker.data.ObjectivesQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.ChecklistItem
 import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
 
-class ObjectiveLocalDataSource(
-    private val objectivesQueries: ObjectivesQueries,
-    private val dailyLogsQueries: DailyLogsQueries
-) {
+class ObjectiveLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val objectivesQueries = db.objectivesQueries
+    private val dailyLogsQueries = db.dailyLogsQueries
 
     fun getYearlyObjectives(year: Int): List<Objective> {
         return objectivesQueries.getYearlyObjectives(year.toLong()).executeAsList().map { row ->

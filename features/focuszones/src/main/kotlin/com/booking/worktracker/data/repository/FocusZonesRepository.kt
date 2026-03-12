@@ -4,9 +4,7 @@ import com.booking.worktracker.data.datasource.FocusZonesLocalDataSource
 import com.booking.worktracker.data.models.HourlyFocusData
 import kotlinx.datetime.LocalDate
 
-class FocusZonesRepository(
-    private val localDataSource: FocusZonesLocalDataSource
-) {
+class FocusZonesRepository(private val localDataSource: FocusZonesLocalDataSource = FocusZonesLocalDataSource()) {
     fun getHourlyFocusData(startDate: LocalDate, endDate: LocalDate): List<HourlyFocusData> =
         localDataSource.getHourlyFocusData(startDate, endDate)
 

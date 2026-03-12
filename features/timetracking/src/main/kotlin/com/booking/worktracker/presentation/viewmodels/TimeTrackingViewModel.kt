@@ -9,11 +9,11 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class TimeTrackingViewModel(
-    private val getTimeTrackingData: GetTimeTrackingDataUseCase,
-    private val startTimerUseCase: StartTimerUseCase,
-    private val stopTimerUseCase: StopTimerUseCase,
-    private val addManualEntryUseCase: AddManualEntryUseCase,
-    private val deleteTimeEntryUseCase: DeleteTimeEntryUseCase
+    private val getTimeTrackingData: GetTimeTrackingDataUseCase = GetTimeTrackingDataUseCase(),
+    private val startTimerUseCase: StartTimerUseCase = StartTimerUseCase(),
+    private val stopTimerUseCase: StopTimerUseCase = StopTimerUseCase(),
+    private val addManualEntryUseCase: AddManualEntryUseCase = AddManualEntryUseCase(),
+    private val deleteTimeEntryUseCase: DeleteTimeEntryUseCase = DeleteTimeEntryUseCase(),
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))

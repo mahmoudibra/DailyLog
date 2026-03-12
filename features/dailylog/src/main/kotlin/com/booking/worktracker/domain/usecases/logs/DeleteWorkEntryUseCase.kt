@@ -2,7 +2,7 @@ package com.booking.worktracker.domain.usecases.logs
 
 import com.booking.worktracker.data.repository.LogRepository
 
-class DeleteWorkEntryUseCase(private val logRepository: LogRepository) {
+class DeleteWorkEntryUseCase(private val logRepository: LogRepository = LogRepository()) {
     operator fun invoke(entryId: Int): Result<Unit> {
         return try {
             logRepository.deleteWorkEntry(entryId)

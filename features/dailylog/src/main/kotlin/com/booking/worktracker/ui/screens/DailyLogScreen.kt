@@ -25,11 +25,11 @@ import kotlinx.datetime.*
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DailyLogScreen(
-    viewModel: DailyLogViewModel,
-    logRepository: LogRepository,
+    viewModel: DailyLogViewModel = DailyLogViewModel(),
     onNavigateToObjectives: () -> Unit = {},
     onNavigateToTimer: () -> Unit = {}
 ) {
+    val logRepository = remember { LogRepository() }
     val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
     var selectedDate by remember { mutableStateOf(today) }
     val workEntries by viewModel.workEntries.collectAsState()

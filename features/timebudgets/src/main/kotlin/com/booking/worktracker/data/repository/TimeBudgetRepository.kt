@@ -5,9 +5,7 @@ import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.data.models.TimeBudget
 import kotlinx.datetime.LocalDate
 
-class TimeBudgetRepository(
-    private val localDataSource: TimeBudgetLocalDataSource
-) {
+class TimeBudgetRepository(private val localDataSource: TimeBudgetLocalDataSource = TimeBudgetLocalDataSource()) {
     fun getAll(): List<TimeBudget> = localDataSource.getAll()
     fun getById(id: Int): TimeBudget? = localDataSource.getById(id)
     fun create(category: String, targetMinutes: Int, periodType: PeriodType, objectiveId: Int?): TimeBudget =

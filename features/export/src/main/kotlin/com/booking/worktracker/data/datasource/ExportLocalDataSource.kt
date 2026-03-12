@@ -1,12 +1,13 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.ExportQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.ExportEntry
 import com.booking.worktracker.data.models.ExportObjective
 
-class ExportLocalDataSource(
-    private val queries: ExportQueries
-) {
+class ExportLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val queries = db.exportQueries
 
     fun getEntriesForRange(startDate: String, endDate: String): List<ExportEntry> {
         return queries.getEntriesForRange(startDate, endDate).executeAsList().map { row ->

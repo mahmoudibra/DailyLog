@@ -1,14 +1,14 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyLogsQueries
-import com.booking.worktracker.data.TimeEntriesQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.TimeEntry
 import kotlinx.datetime.LocalDate
 
-class TimeEntryLocalDataSource(
-    private val queries: TimeEntriesQueries,
-    private val dailyLogsQueries: DailyLogsQueries
-) {
+class TimeEntryLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val queries = db.timeEntriesQueries
+    private val dailyLogsQueries = db.dailyLogsQueries
 
     fun getEntriesForDate(date: LocalDate): List<TimeEntry> {
         return queries.getEntriesForDate(date.toString()).executeAsList().map { it.toTimeEntry() }

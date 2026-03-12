@@ -1,12 +1,13 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.ReviewsQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.DailyReview
 import com.booking.worktracker.data.models.WeeklySummary
 
-class ReviewLocalDataSource(
-    private val queries: ReviewsQueries
-) {
+class ReviewLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val queries = db.reviewsQueries
 
     fun getReviewForDate(date: String): DailyReview? {
         return queries.getReviewForDate(date).executeAsOneOrNull()?.toDailyReview()

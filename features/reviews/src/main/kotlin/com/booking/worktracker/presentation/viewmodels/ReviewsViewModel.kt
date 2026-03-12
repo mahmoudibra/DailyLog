@@ -11,11 +11,11 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class ReviewsViewModel(
-    private val getReviewForDate: GetReviewForDateUseCase,
-    private val saveDailyReview: SaveDailyReviewUseCase,
-    private val loadWeeklySummaryUseCase: LoadWeeklySummaryUseCase,
-    private val saveWeeklySummaryUseCase: SaveWeeklySummaryUseCase,
-    private val generateAutoSummary: GenerateAutoSummaryUseCase
+    private val getReviewForDate: GetReviewForDateUseCase = GetReviewForDateUseCase(),
+    private val saveDailyReview: SaveDailyReviewUseCase = SaveDailyReviewUseCase(),
+    private val loadWeeklySummaryUseCase: LoadWeeklySummaryUseCase = LoadWeeklySummaryUseCase(),
+    private val saveWeeklySummaryUseCase: SaveWeeklySummaryUseCase = SaveWeeklySummaryUseCase(),
+    private val generateAutoSummary: GenerateAutoSummaryUseCase = GenerateAutoSummaryUseCase(),
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))

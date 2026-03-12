@@ -4,9 +4,7 @@ import com.booking.worktracker.data.datasource.TimeEntryLocalDataSource
 import com.booking.worktracker.data.models.TimeEntry
 import kotlinx.datetime.LocalDate
 
-class TimeEntryRepository(
-    private val localDataSource: TimeEntryLocalDataSource
-) {
+class TimeEntryRepository(private val localDataSource: TimeEntryLocalDataSource = TimeEntryLocalDataSource()) {
     fun getEntriesForDate(date: LocalDate): List<TimeEntry> = localDataSource.getEntriesForDate(date)
     fun getRunningEntry(): TimeEntry? = localDataSource.getRunningEntry()
     fun startTimer(description: String, category: String, date: LocalDate, startTime: String): TimeEntry =

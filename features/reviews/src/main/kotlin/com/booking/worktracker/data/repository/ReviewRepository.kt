@@ -4,9 +4,7 @@ import com.booking.worktracker.data.datasource.ReviewLocalDataSource
 import com.booking.worktracker.data.models.DailyReview
 import com.booking.worktracker.data.models.WeeklySummary
 
-class ReviewRepository(
-    private val localDataSource: ReviewLocalDataSource
-) {
+class ReviewRepository(private val localDataSource: ReviewLocalDataSource = ReviewLocalDataSource()) {
 
     fun getReviewForDate(date: String): DailyReview? {
         return localDataSource.getReviewForDate(date)

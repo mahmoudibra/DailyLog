@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class ExportViewModel(
-    private val generateExport: GenerateExportUseCase,
-    private val saveExport: SaveExportToFileUseCase = SaveExportToFileUseCase()
+    private val generateExport: GenerateExportUseCase = GenerateExportUseCase(),
+    private val saveExport: SaveExportToFileUseCase = SaveExportToFileUseCase(),
 ) : ViewModel() {
 
     private val now = Clock.System.todayIn(TimeZone.currentSystemDefault())

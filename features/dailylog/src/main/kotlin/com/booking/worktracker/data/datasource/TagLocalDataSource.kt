@@ -1,13 +1,13 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyLogsQueries
-import com.booking.worktracker.data.TagsQueries
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.Tag
 
-class TagLocalDataSource(
-    private val tagsQueries: TagsQueries,
-    private val dailyLogsQueries: DailyLogsQueries
-) {
+class TagLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val tagsQueries = db.tagsQueries
+    private val dailyLogsQueries = db.dailyLogsQueries
 
     fun getAllTags(): List<Tag> {
         return tagsQueries.getAllTags().executeAsList().map { row ->

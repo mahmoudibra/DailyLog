@@ -22,12 +22,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
-    settingsRepository: SettingsRepository,
     currentLocale: AppLocale = AppLocale.ENGLISH,
     isDarkMode: Boolean = false,
     onLanguageChanged: (AppLocale) -> Unit = {},
     onDarkModeChanged: (Boolean) -> Unit = {}
 ) {
+    val settingsRepository = remember { SettingsRepository() }
     var morningTime by remember { mutableStateOf("10:30") }
     var afternoonTime by remember { mutableStateOf("16:30") }
     var saveMessage by remember { mutableStateOf<String?>(null) }

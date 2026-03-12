@@ -6,9 +6,7 @@ import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
 import kotlinx.datetime.LocalDate
 
-class LogRepository(
-    private val localDataSource: LogLocalDataSource
-) {
+class LogRepository(private val localDataSource: LogLocalDataSource = LogLocalDataSource()) {
 
     fun getLogForDate(date: LocalDate): DailyLog? {
         return localDataSource.getLogForDate(date)

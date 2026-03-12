@@ -1,12 +1,13 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.AnalyticsQueries
+import com.booking.worktracker.data.DailyWorkTrackerDatabase
+import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.models.*
 import kotlinx.datetime.*
 
-class AnalyticsLocalDataSource(
-    private val queries: AnalyticsQueries
-) {
+class AnalyticsLocalDataSource( db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+
+    private val queries = db.analyticsQueries
 
     fun getTotalEntries(): Int {
         return queries.getTotalEntries().executeAsOne().toInt()
