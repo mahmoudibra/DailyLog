@@ -169,24 +169,16 @@ Schema is defined in `.sq` files at `core/src/main/sqldelight/com/booking/worktr
 
 ## Download & Install
 
-Pre-built macOS installers are published to **GitHub Releases** on every push to `main`.
-
-### From GitHub Releases
+Pre-built macOS `.dmg` installers are published to **GitHub Releases** on every push to `main`.
 
 1. Go to the [Releases page](../../releases) of this repository.
-2. Find the latest release and download the installer:
-   - **`DailyWorkTracker-*.dmg`** — Drag-and-drop disk image
-   - **`DailyWorkTracker-*.pkg`** — Standard macOS package installer
-3. Install:
-   - **DMG**: Open the `.dmg`, drag **DailyWorkTracker** into your Applications folder.
-   - **PKG**: Double-click the `.pkg` and follow the installer prompts.
+2. Download the latest **`DailyWorkTracker-*.dmg`**.
+3. Open the `.dmg` and drag **DailyWorkTracker** into your Applications folder.
 
-### Using GitHub CLI
+Or via GitHub CLI:
 
 ```bash
-# Download the latest release assets
 gh release download --repo <OWNER>/DailyReminder --pattern "*.dmg"
-gh release download --repo <OWNER>/DailyReminder --pattern "*.pkg"
 ```
 
 > **Note:** Replace `<OWNER>` with the GitHub username or organization.

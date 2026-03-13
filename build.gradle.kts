@@ -87,7 +87,7 @@ compose.desktop {
         jvmArgs += listOf("-Djavax.accessibility.assistive_technologies= ")
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Pkg)
+            targetFormats(TargetFormat.Dmg)
             packageName = "DailyWorkTracker"
             packageVersion = "1.0.0"
 

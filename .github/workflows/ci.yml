@@ -57,7 +57,7 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
       - name: Build native distributions
-        run: ./gradlew packageDmg packagePkg
+        run: ./gradlew packageDmg
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -67,8 +67,7 @@ jobs:
             --title "DailyWorkTracker v${VERSION}" \
             --notes "Automated build from commit ${{ github.sha }}" \
             --latest \
-            build/compose/binaries/main/dmg/*.dmg \
-            build/compose/binaries/main/pkg/*.pkg
+            build/compose/binaries/main/dmg/*.dmg
 
   dependency-submission:
     name: Dependency Submission
