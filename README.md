@@ -1,171 +1,155 @@
 # DailyWorkTracker
 
-A Kotlin/JVM desktop application built with Jetpack Compose Desktop for tracking daily work entries, objectives, time, and reminders. Features a Material 3 design system with English and Arabic (RTL) localization support.
+A Kotlin/JVM desktop application built with **Jetpack Compose Desktop** for tracking daily work entries, objectives, time, habits, and reviews. Features a Material 3 design system with English and Arabic (RTL) localization.
 
 ## Features
 
-### Daily Log
-- Record daily work entries with a rich text input
-- Interactive monthly calendar picker with entry count indicators per day
-- Tag system with custom colors for categorizing logs
-- Streak tracking to encourage consistent logging
-- Quick action cards for fast navigation
-
-### Log History
-- Browse past daily logs in a card-based list (last 50 entries)
-- Expandable detail view showing all entries and tags for a given day
-- Entry count summaries per log
-
-### Objectives
-- Set **yearly** and **quarterly** goals
-- Checklist sub-items for each objective with progress tracking
-- Status management: In Progress, Completed, Cancelled
-- Visual progress indicators (completion percentage)
-- Navigate across years and quarters
-
-### Time Tracking
-- Start/stop timer for active work sessions
-- Add manual time entries with start and end times
-- Categorize entries (General, Meeting, Coding, Review, Planning, or custom)
-- Daily summary with total time and per-category breakdown
-
-### Analytics
-- Current streak, best streak, and total days logged
-- Entry overview: total entries, average per day, most active day
-- Objective completion statistics with progress bars
-- Tag usage frequency with relative bar charts
-- Weekly and daily activity breakdowns (last 14 days)
-
-### Export
-- Export data in **Plain Text**, **CSV**, or **Markdown** format
-- Configurable date range
-- Choose what to include: work entries, tags, objectives
-- Live preview before exporting
-- Native file save dialog
-
-### Settings
-- Language selection: English / Arabic (RTL)
-- Configurable morning and afternoon reminder times
-- Delete all data (with confirmation)
-
-### Notifications
-- Scheduled morning reminder to start logging work
-- Afternoon reminder if no entries have been logged that day
-- Native macOS notifications via AppleScript
+| Feature | Description |
+|---------|-------------|
+| **Daily Log** | Record work entries with calendar picker, color-coded tags, and streak tracking |
+| **Log History** | Browse past logs in expandable card-based list (last 50 entries) |
+| **Objectives** | Yearly and quarterly goals with checklists and progress tracking |
+| **Time Tracking** | Start/stop timer and manual entries with category breakdown |
+| **Analytics** | Streaks, entry stats, objective completion, tag usage, weekly activity |
+| **Reviews** | Daily reflections (went well / improve / priorities) and weekly summaries |
+| **Focus Zones** | Analyze focus ratings by hour, day, and category |
+| **Time Budgets** | Set time allocation targets per category linked to objectives |
+| **Habits** | Track daily habits with completion history and objective linking |
+| **Export** | Export data as Plain Text, CSV, or Markdown with live preview |
+| **Settings** | Language (EN/AR), reminder times, data management |
+| **Notifications** | Scheduled morning and afternoon reminders via native macOS notifications |
 
 ## Tech Stack
 
-| Component       | Technology                                  |
-|-----------------|---------------------------------------------|
-| Language        | Kotlin 2.1.0                                |
-| UI Framework    | Jetpack Compose Desktop 1.10.2 (Material 3) |
-| Database        | SQLDelight 2.0.2 (SQLite, type-safe queries)  |
-| Async           | kotlinx-coroutines 1.9.0                    |
-| Date/Time       | kotlinx-datetime 0.6.1                      |
-| Localization    | Compose Multiplatform Resources              |
-| Build System    | Gradle (Kotlin DSL)                         |
+| Component | Technology | Version |
+|-----------|-----------|---------|
+| Language | Kotlin | 2.1.0 |
+| UI | Jetpack Compose Desktop (Material 3) | 1.10.2 |
+| Database | SQLDelight (SQLite) | 2.0.2 |
+| DI | kotlin-inject (compile-time via KSP) | 0.7.2 |
+| Async | kotlinx-coroutines | 1.9.0 |
+| Date/Time | kotlinx-datetime | 0.6.1 |
+| ViewModel | AndroidX Lifecycle ViewModel | 2.8.4 |
+| Build | Gradle (Kotlin DSL) | - |
+
+## Module Dependency Diagram
+
+```
+                          ┌──────────────────────────┐
+                          │        :app (root)        │
+                          │    Main.kt / App.kt       │
+                          └─────────┬────────────────-┘
+                                    │
+                  ┌─────────────────┼──────────────────┐
+                  │                 │                   │
+          ┌───────▼──────┐  ┌──────▼───────┐  ┌───────▼────────┐
+          │  :features:  │  │  :features:  │  │  :features:    │
+          │  dailylog    │  │  objectives  │  │  timetracking  │
+          └───────┬──────┘  └──────┬───────┘  └───────┬────────┘
+                  │                │                   │
+          ┌───────▼──────┐  ┌─────▼────────┐  ┌──────▼─────────┐
+          │  :features:  │  │  :features:  │  │  :features:    │
+          │  analytics   │  │  settings    │  │  export        │
+          └───────┬──────┘  └─────┬────────┘  └──────┬─────────┘
+                  │               │                   │
+          ┌───────▼──────┐  ┌────▼─────────┐  ┌─────▼──────────┐
+          │  :features:  │  │  :features:  │  │  :features:    │
+          │  habits      │  │  focuszones  │  │  timebudgets   │
+          └───────┬──────┘  └────┬─────────┘  └─────┬──────────┘
+                  │              │                   │
+                  │       ┌──────▼──────┐            │
+                  │       │  :features: │            │
+                  │       │  reviews    │            │
+                  │       └──────┬──────┘            │
+                  │              │                   │
+    ──────────────┴──────────────┴───────────────────┴──────────
+     All feature modules depend on ▼
+    ──────────────────────────────────────────────────────────-─
+                  │                          │
+        ┌────────▼─────────┐     ┌──────────▼──────────┐
+        │  :core:database  │     │  :core:designsystem  │
+        │  SQLDelight,     │     │  Theme, tokens,       │
+        │  DatabaseProvider│     │  components, i18n     │
+        └────────┬─────────┘     └─────────────────────-┘
+                 │
+          ┌──────▼──────┐
+          │  :core:di   │
+          │  kotlin-    │
+          │  inject     │
+          └─────────────┘
+```
+
+### Cross-feature dependencies
+
+Some feature modules also depend on other feature modules:
+
+```
+:features:reviews     ──▶ :features:dailylog, :features:timetracking, :features:objectives
+:features:focuszones  ──▶ :features:timetracking
+:features:timebudgets ──▶ :features:timetracking, :features:objectives
+```
 
 ## Project Structure
 
-Multi-module Gradle project organized by feature:
-
 ```
 DailyWorkTracker/
-├── core/                        # Shared module
-│   ├── data/
-│   │   └── DatabaseProvider.kt  # SQLDelight database lifecycle (daily_work_tracker.db)
-│   ├── sqldelight/              # .sq files defining schema + queries (SQLDelight codegen)
-│   ├── ui/
-│   │   ├── designsystem/
-│   │   │   ├── tokens/          # ColorTokens, TypographyTokens, SpacingTokens
-│   │   │   ├── components/      # DSButton, DSCard, DSTagChip, DSTextField, etc.
-│   │   │   └── WorkTrackerTheme.kt
-│   │   └── localization/        # AppLocale (EN/AR), LocalizationProvider
-│   └── presentation/
-│       └── viewmodels/ViewModel.kt  # Base ViewModel with coroutine scope
+├── core/
+│   ├── di/                  # kotlin-inject runtime, @Singleton annotation, ViewModel
+│   ├── database/            # SQLDelight schema (.sq), DatabaseProvider, DatabaseComponent
+│   └── designsystem/        # WorkTrackerTheme, tokens, components, localization
 │
 ├── features/
-│   ├── dailylog/                # Daily log & log history
-│   │   ├── data/models/         # DailyLog, WorkEntry, Tag
-│   │   ├── data/datasource/     # LogLocalDataSource, TagLocalDataSource
-│   │   ├── data/repository/     # LogRepository, TagRepository
-│   │   └── ui/screens/          # DailyLogScreen, LogListScreen
-│   │
-│   ├── objectives/              # Yearly & quarterly goals
-│   │   ├── data/models/         # Objective, ChecklistItem, ObjectiveType/Status
-│   │   ├── data/repository/     # ObjectiveRepository
-│   │   └── ui/screens/          # ObjectivesScreen
-│   │
-│   ├── timetracking/            # Timer & manual time entries
-│   │   ├── data/models/         # TimeEntry
-│   │   ├── data/repository/     # TimeEntryRepository
-│   │   ├── presentation/        # TimeTrackingViewModel
-│   │   └── ui/screens/          # TimeTrackingScreen
-│   │
-│   ├── analytics/               # Dashboard & statistics
-│   │   ├── data/models/         # DailyStats, WeeklyStats, TagStats, StreakInfo, etc.
-│   │   ├── data/repository/     # AnalyticsRepository
-│   │   ├── presentation/        # AnalyticsViewModel
-│   │   └── ui/screens/          # AnalyticsScreen
-│   │
-│   ├── export/                  # Data export (TXT, CSV, MD)
-│   │   ├── data/models/         # ExportFormat, ExportOptions, ExportResult
-│   │   ├── data/repository/     # ExportRepository
-│   │   ├── presentation/        # ExportViewModel
-│   │   └── ui/screens/          # ExportScreen
-│   │
-│   └── settings/                # App configuration
-│       ├── data/models/         # Setting (key-value)
-│       ├── data/repository/     # SettingsRepository
-│       └── ui/screens/          # SettingsScreen
+│   ├── dailylog/            # Daily log entries, tags, log history
+│   ├── objectives/          # Yearly & quarterly goals with checklists
+│   ├── timetracking/        # Timer & manual time entries
+│   ├── analytics/           # Dashboard & statistics
+│   ├── reviews/             # Daily reviews & weekly summaries
+│   ├── focuszones/          # Focus zone analysis by hour/category
+│   ├── timebudgets/         # Time budget targets per category
+│   ├── habits/              # Daily habit tracking
+│   ├── export/              # Data export (TXT, CSV, MD)
+│   └── settings/            # App configuration
 │
-├── features/ (also includes)
-│   ├── reviews/                 # Daily reviews & weekly summaries
-│   ├── focuszones/              # Focus zone analysis by time/category
-│   └── timebudgets/             # Time budget allocation goals
-│
-└── src/                         # App entry point
+└── src/                     # App entry point
     └── main/kotlin/.../
-        ├── Main.kt              # Bootstrap: DB init, dependency wiring, window setup
-        ├── ui/App.kt            # Root layout with side rail navigation
-        └── notifications/
-            ├── ReminderScheduler.kt   # Coroutine-based scheduled reminders
-            └── MacOSNotification.kt   # Native macOS notifications via osascript
+        ├── Main.kt          # Bootstrap: DB init, window setup, reminders
+        ├── ui/App.kt        # Root layout with side rail navigation (11 screens)
+        └── notifications/   # ReminderScheduler, MacOSNotification (osascript)
 ```
 
-### Architecture
+### Feature Module Architecture
 
-Each feature module follows a layered architecture:
+Each feature follows a layered architecture:
 
 ```
-data/models/         →  Data classes & enums
-data/datasource/     →  SQLDelight-backed data sources (using generated *Queries classes)
-data/repository/     →  Repository abstraction over data sources
-domain/usecases/     →  Business logic (where applicable)
-presentation/        →  ViewModels with StateFlow/mutableState
-ui/screens/          →  Compose UI screens
+di/              → kotlin-inject @Component (exposes only ViewModels)
+data/models/     → Data classes & enums
+data/datasource/ → SQLDelight-backed data sources
+data/repository/ → Repository abstraction
+domain/usecases/ → Business logic (where applicable)
+presentation/    → ViewModels (AndroidX Lifecycle) with StateFlow
+ui/screens/      → Compose UI screens
 ```
-
-- **No DI framework** — dependencies are manually wired in `Main.kt`
-- **State management** — Compose `mutableStateOf` + Kotlin `StateFlow` in ViewModels
-- **Coroutines** — async operations scoped to ViewModel lifecycle via `viewModelScope`
 
 ## Database
 
-SQLite file-based database (`daily_work_tracker.db`) with the following schema:
+SQLite file-based database (`daily_work_tracker.db`). Schema defined in `.sq` files at `core/database/src/main/sqldelight/`. SQLDelight generates type-safe Kotlin query classes at compile time.
 
-| Table            | Description                                      |
-|------------------|--------------------------------------------------|
-| `daily_logs`     | One row per date, tracks created/updated times   |
-| `work_entries`   | Individual work items linked to a daily log      |
-| `tags`           | Reusable tags with custom colors                 |
-| `log_tags`       | Many-to-many junction between logs and tags      |
-| `objectives`     | Yearly/quarterly goals with type and status      |
-| `checklist_items`| Sub-tasks within objectives, ordered by position |
-| `time_entries`   | Timer entries with category, start/end times     |
-| `settings`       | Key-value store for app configuration            |
-
-Schema is defined in `.sq` files at `core/src/main/sqldelight/com/booking/worktracker/data/`. SQLDelight generates type-safe Kotlin query classes at compile time.
+| Table | Description |
+|-------|-------------|
+| `daily_logs` | One row per date with timestamps |
+| `work_entries` | Work items linked to a daily log |
+| `tags` | Reusable tags with custom colors |
+| `log_tags` | Many-to-many junction: logs to tags |
+| `objectives` | Yearly/quarterly goals with type and status |
+| `checklist_items` | Sub-tasks within objectives |
+| `time_entries` | Timer entries with category, start/end, focus rating |
+| `daily_reviews` | Daily reflections (went well, improve, priorities) |
+| `weekly_summaries` | Auto-generated weekly summary data |
+| `time_budgets` | Time allocation targets per category/period |
+| `habits` | Trackable habits with icon, color, objective link |
+| `habit_completions` | Daily habit completion records |
+| `settings` | Key-value store for app configuration |
 
 ## Download & Install
 
@@ -178,50 +162,36 @@ Pre-built macOS `.dmg` installers are published to **GitHub Releases** on every 
 Or via GitHub CLI:
 
 ```bash
-gh release download --repo <OWNER>/DailyReminder --pattern "*.dmg"
+gh release download --repo mahmoudibra/DailyLog --pattern "*.dmg"
 ```
-
-> **Note:** Replace `<OWNER>` with the GitHub username or organization.
 
 ## Build & Run (from source)
 
-### Prerequisites
-
-- JDK 17+
-- macOS (for native distribution and notifications)
-
-### Commands
+**Prerequisites:** JDK 17+, macOS (for native distribution and notifications)
 
 ```bash
-# Run the application
-./gradlew run
-
-# Build macOS .dmg installer
-./gradlew packageDmg
-
-# Build macOS .pkg installer
-./gradlew packagePkg
+./gradlew run            # Run the application
+./gradlew packageDmg     # Build macOS .dmg installer
+./gradlew detekt         # Run static analysis
+./gradlew test           # Run tests
 ```
 
-### Application Window
+## CI/CD
 
-- Default size: 900 x 700 dp
-- Left side rail navigation (220 dp) with 7 screens
-- Main class: `com.booking.worktracker.MainKt`
+GitHub Actions pipeline (`.github/workflows/ci.yml`):
 
-## Design System
+| Job | Runner | Trigger |
+|-----|--------|---------|
+| **Lint** (detekt) | ubuntu-latest | Push + PR |
+| **Test** | ubuntu-latest | Push + PR |
+| **Build** | ubuntu-latest | Push + PR |
+| **Package & Release** | macos-latest | Push to `main` only |
+| **Dependency Submission** | ubuntu-latest | Push to `main` only |
 
-The `core` module provides a shared Material 3 design system:
-
-- **Theme**: `WorkTrackerTheme` — light theme with custom color palette
-- **Color tokens**: Primary, secondary, tertiary colors; card-specific colors (blue, green, orange); tag color palette
-- **Typography tokens**: Full Material 3 type scale
-- **Spacing tokens**: Consistent padding/margin values (`screenPadding`, `sectionSpacing`, `small`, `medium`, `large`)
-- **Reusable components**: Buttons, text fields, cards, tag chips, section headers, empty states, loading indicators, color picker
+The **Package & Release** job builds a `.dmg` and creates a GitHub Release with the installer attached.
 
 ## Localization
 
-- Supports **English** and **Arabic** (with RTL layout)
-- Uses Compose Multiplatform Resources (`stringResource()`, `pluralStringResource()`)
-- Language preference persisted in settings and applied on startup
-- Runtime locale switching updates the entire UI
+- **English** and **Arabic** (with full RTL layout support)
+- Compose Multiplatform Resources (`stringResource()`, `pluralStringResource()`)
+- Runtime locale switching — persisted in settings and applied on startup
