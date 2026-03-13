@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("org.jetbrains.compose") version "1.10.2"
+    id("com.google.devtools.ksp")
 }
 
 group = "com.booking.worktracker"
@@ -38,6 +39,9 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0")
+
+    // DI - kotlin-inject
+    ksp("me.tatarka.inject:kotlin-inject-compiler-ksp:0.7.2")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

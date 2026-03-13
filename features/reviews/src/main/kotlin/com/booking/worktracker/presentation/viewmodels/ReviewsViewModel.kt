@@ -6,18 +6,20 @@ import com.booking.worktracker.data.models.AutoSummary
 import com.booking.worktracker.data.models.DailyReview
 import com.booking.worktracker.data.models.WeeklySummary
 import com.booking.worktracker.domain.usecases.reviews.*
+import me.tatarka.inject.annotations.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
+@Inject
 class ReviewsViewModel(
-    private val getReviewForDate: GetReviewForDateUseCase = GetReviewForDateUseCase(),
-    private val saveDailyReview: SaveDailyReviewUseCase = SaveDailyReviewUseCase(),
-    private val loadWeeklySummaryUseCase: LoadWeeklySummaryUseCase = LoadWeeklySummaryUseCase(),
-    private val saveWeeklySummaryUseCase: SaveWeeklySummaryUseCase = SaveWeeklySummaryUseCase(),
-    private val generateAutoSummary: GenerateAutoSummaryUseCase = GenerateAutoSummaryUseCase(),
+    private val getReviewForDate: GetReviewForDateUseCase,
+    private val saveDailyReview: SaveDailyReviewUseCase,
+    private val loadWeeklySummaryUseCase: LoadWeeklySummaryUseCase,
+    private val saveWeeklySummaryUseCase: SaveWeeklySummaryUseCase,
+    private val generateAutoSummary: GenerateAutoSummaryUseCase,
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))

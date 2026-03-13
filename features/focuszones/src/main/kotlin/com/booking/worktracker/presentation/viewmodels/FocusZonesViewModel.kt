@@ -9,9 +9,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class FocusZonesViewModel(
-    private val getFocusSummary: GetFocusSummaryUseCase = GetFocusSummaryUseCase(),
+    private val getFocusSummary: GetFocusSummaryUseCase,
 ) : ViewModel() {
 
     private val _focusSummary = MutableStateFlow<FocusSummary?>(null)

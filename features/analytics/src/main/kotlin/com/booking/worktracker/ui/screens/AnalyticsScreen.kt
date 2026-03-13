@@ -15,6 +15,7 @@ import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import com.booking.worktracker.data.models.*
+import com.booking.worktracker.di.AnalyticsComponent
 import com.booking.worktracker.presentation.viewmodels.AnalyticsViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
@@ -22,7 +23,7 @@ import com.booking.worktracker.ui.designsystem.components.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsScreen() {
-    val viewModel = viewModel { AnalyticsViewModel() }
+    val viewModel = viewModel { AnalyticsComponent.instance.analyticsViewModel }
     val summary by viewModel.summary.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 

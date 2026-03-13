@@ -1,11 +1,14 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.TimeEntry
+import com.booking.worktracker.di.Singleton
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
 
-class TimeEntryLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+@Inject
+@Singleton
+class TimeEntryLocalDataSource(db: DailyWorkTrackerDatabase) {
 
     private val queries = db.timeEntriesQueries
     private val dailyLogsQueries = db.dailyLogsQueries

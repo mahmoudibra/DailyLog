@@ -2,8 +2,12 @@ package com.booking.worktracker.data.repository
 
 import com.booking.worktracker.data.datasource.AnalyticsLocalDataSource
 import com.booking.worktracker.data.models.*
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-class AnalyticsRepository(private val localDataSource: AnalyticsLocalDataSource = AnalyticsLocalDataSource()) {
+@Inject
+@Singleton
+class AnalyticsRepository(private val localDataSource: AnalyticsLocalDataSource) {
     fun getTotalEntries(): Int = localDataSource.getTotalEntries()
     fun getAverageEntriesPerDay(): Double = localDataSource.getAverageEntriesPerDay()
     fun getMostActiveDay(): String? = localDataSource.getMostActiveDay()

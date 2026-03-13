@@ -8,9 +8,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class AnalyticsViewModel(
-    private val getAnalyticsSummary: GetAnalyticsSummaryUseCase = GetAnalyticsSummaryUseCase(),
+    private val getAnalyticsSummary: GetAnalyticsSummaryUseCase,
 ) : ViewModel() {
 
     private val _summary = MutableStateFlow<AnalyticsSummary?>(null)

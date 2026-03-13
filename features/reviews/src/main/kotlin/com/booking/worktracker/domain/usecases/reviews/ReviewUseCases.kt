@@ -1,7 +1,5 @@
 package com.booking.worktracker.domain.usecases.reviews
 
-import com.booking.worktracker.data.DatabaseProvider
-import com.booking.worktracker.data.datasource.LogLocalDataSource
 import com.booking.worktracker.data.models.AutoSummary
 import com.booking.worktracker.data.models.DailyReview
 import com.booking.worktracker.data.models.WeeklySummary
@@ -10,12 +8,15 @@ import com.booking.worktracker.data.repository.ObjectiveRepository
 import com.booking.worktracker.data.repository.ReviewRepository
 import com.booking.worktracker.data.repository.TimeEntryRepository
 import kotlinx.datetime.*
+import me.tatarka.inject.annotations.Inject
 
-class GetReviewForDateUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+@Inject
+class GetReviewForDateUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(date: String): DailyReview? = reviewRepository.getReviewForDate(date)
 }
 
-class SaveDailyReviewUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+@Inject
+class SaveDailyReviewUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(date: String, wentWell: String?, couldImprove: String?, tomorrowPriority: String?): Result<DailyReview> {
         return try {
             if (wentWell == null && couldImprove == null && tomorrowPriority == null) {
@@ -29,11 +30,13 @@ class SaveDailyReviewUseCase(private val reviewRepository: ReviewRepository = Re
     }
 }
 
-class LoadWeeklySummaryUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+@Inject
+class LoadWeeklySummaryUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(weekStartDate: String): WeeklySummary? = reviewRepository.getWeeklySummary(weekStartDate)
 }
 
-class SaveWeeklySummaryUseCase(private val reviewRepository: ReviewRepository = ReviewRepository()) {
+@Inject
+class SaveWeeklySummaryUseCase(private val reviewRepository: ReviewRepository) {
     operator fun invoke(
         weekStartDate: String,
         weekEndDate: String,
@@ -49,11 +52,12 @@ class SaveWeeklySummaryUseCase(private val reviewRepository: ReviewRepository = 
     }
 }
 
+@Inject
 class GenerateAutoSummaryUseCase(
-    private val logRepository: LogRepository = LogRepository(LogLocalDataSource(DatabaseProvider.getDatabase())),
-    private val timeEntryRepository: TimeEntryRepository = TimeEntryRepository(),
-    private val objectiveRepository: ObjectiveRepository = ObjectiveRepository(),
-    private val reviewRepository: ReviewRepository = ReviewRepository()
+    private val logRepository: LogRepository,
+    private val timeEntryRepository: TimeEntryRepository,
+    private val objectiveRepository: ObjectiveRepository,
+    private val reviewRepository: ReviewRepository
 ) {
     operator fun invoke(weekStart: LocalDate, weekEnd: LocalDate): Result<AutoSummary> {
         return try {

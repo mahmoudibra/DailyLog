@@ -5,8 +5,10 @@ import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.data.models.TimeBudget
 import com.booking.worktracker.data.repository.TimeBudgetRepository
 import kotlinx.datetime.*
+import me.tatarka.inject.annotations.Inject
 
-class CreateTimeBudgetUseCase(private val repository: TimeBudgetRepository = TimeBudgetRepository()) {
+@Inject
+class CreateTimeBudgetUseCase(private val repository: TimeBudgetRepository) {
     operator fun invoke(category: String, targetMinutes: Int, periodType: PeriodType, objectiveId: Int?): Result<TimeBudget> {
         return try {
             require(category.isNotBlank()) { "Category cannot be blank" }
@@ -19,7 +21,8 @@ class CreateTimeBudgetUseCase(private val repository: TimeBudgetRepository = Tim
     }
 }
 
-class UpdateTimeBudgetUseCase(private val repository: TimeBudgetRepository = TimeBudgetRepository()) {
+@Inject
+class UpdateTimeBudgetUseCase(private val repository: TimeBudgetRepository) {
     operator fun invoke(id: Int, category: String, targetMinutes: Int, periodType: PeriodType, objectiveId: Int?): Result<TimeBudget> {
         return try {
             require(category.isNotBlank()) { "Category cannot be blank" }
@@ -32,7 +35,8 @@ class UpdateTimeBudgetUseCase(private val repository: TimeBudgetRepository = Tim
     }
 }
 
-class DeleteTimeBudgetUseCase(private val repository: TimeBudgetRepository = TimeBudgetRepository()) {
+@Inject
+class DeleteTimeBudgetUseCase(private val repository: TimeBudgetRepository) {
     operator fun invoke(id: Int): Result<Unit> {
         return try {
             repository.delete(id)
@@ -50,7 +54,8 @@ data class TimeBudgetDashboardData(
     val periodElapsedFraction: Float
 )
 
-class GetTimeBudgetDashboardUseCase(private val repository: TimeBudgetRepository = TimeBudgetRepository()) {
+@Inject
+class GetTimeBudgetDashboardUseCase(private val repository: TimeBudgetRepository) {
     operator fun invoke(): Result<TimeBudgetDashboardData> {
         return try {
             val today = Clock.System.todayIn(TimeZone.currentSystemDefault())

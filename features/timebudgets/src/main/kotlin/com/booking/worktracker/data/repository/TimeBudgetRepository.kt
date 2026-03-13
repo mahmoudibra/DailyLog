@@ -3,9 +3,13 @@ package com.booking.worktracker.data.repository
 import com.booking.worktracker.data.datasource.TimeBudgetLocalDataSource
 import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.data.models.TimeBudget
+import com.booking.worktracker.di.Singleton
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
 
-class TimeBudgetRepository(private val localDataSource: TimeBudgetLocalDataSource = TimeBudgetLocalDataSource()) {
+@Inject
+@Singleton
+class TimeBudgetRepository(private val localDataSource: TimeBudgetLocalDataSource) {
     fun getAll(): List<TimeBudget> = localDataSource.getAll()
     fun getById(id: Int): TimeBudget? = localDataSource.getById(id)
     fun create(category: String, targetMinutes: Int, periodType: PeriodType, objectiveId: Int?): TimeBudget =

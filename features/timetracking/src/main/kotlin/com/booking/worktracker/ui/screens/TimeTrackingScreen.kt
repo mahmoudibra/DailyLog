@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.data.models.TimeEntry
+import com.booking.worktracker.di.TimeTrackingComponent
 import com.booking.worktracker.presentation.viewmodels.TimeTrackingViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
@@ -24,7 +25,7 @@ import kotlinx.datetime.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeTrackingScreen() {
-    val viewModel = viewModel { TimeTrackingViewModel() }
+    val viewModel = viewModel { TimeTrackingComponent.instance.timeTrackingViewModel }
     val entries by viewModel.entries.collectAsState()
     val runningEntry by viewModel.runningEntry.collectAsState()
     val totalMinutes by viewModel.totalMinutes.collectAsState()

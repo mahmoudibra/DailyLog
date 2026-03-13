@@ -1,11 +1,14 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.ExportEntry
 import com.booking.worktracker.data.models.ExportObjective
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-class ExportLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+@Inject
+@Singleton
+class ExportLocalDataSource(db: DailyWorkTrackerDatabase) {
 
     private val queries = db.exportQueries
 

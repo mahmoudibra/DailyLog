@@ -4,8 +4,10 @@ import com.booking.worktracker.data.models.ExportFormat
 import com.booking.worktracker.data.models.ExportOptions
 import com.booking.worktracker.data.models.ExportResult
 import com.booking.worktracker.data.repository.ExportRepository
+import me.tatarka.inject.annotations.Inject
 
-class GenerateExportUseCase(private val repository: ExportRepository = ExportRepository()) {
+@Inject
+class GenerateExportUseCase(private val repository: ExportRepository) {
     operator fun invoke(options: ExportOptions): Result<String> {
         return try {
             val data = repository.getExportData(options.startDate, options.endDate, options.includeObjectives)
@@ -142,6 +144,7 @@ class GenerateExportUseCase(private val repository: ExportRepository = ExportRep
     }
 }
 
+@Inject
 class SaveExportToFileUseCase {
     operator fun invoke(content: String, filePath: String): Result<Unit> {
         return try {

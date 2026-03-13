@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.datasource.SettingsLocalDataSource
 import com.booking.worktracker.data.repository.SettingsRepository
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
@@ -27,7 +29,7 @@ enum class Screen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
-    val settingsRepository = remember { SettingsRepository() }
+    val settingsRepository = remember { SettingsRepository(SettingsLocalDataSource(DatabaseProvider.getDatabase())) }
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
     var isDarkMode by remember { mutableStateOf(false) }

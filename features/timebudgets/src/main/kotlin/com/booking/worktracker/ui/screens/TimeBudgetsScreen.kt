@@ -19,13 +19,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.BudgetProgress
 import com.booking.worktracker.data.models.BudgetStatus
 import com.booking.worktracker.data.models.PeriodType
+import com.booking.worktracker.di.TimeBudgetsComponent
 import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 
 @Composable
 fun TimeBudgetsScreen() {
-    val viewModel = viewModel { TimeBudgetsViewModel() }
+    val viewModel = viewModel { TimeBudgetsComponent.instance.timeBudgetsViewModel }
     val budgetProgress by viewModel.budgetProgress.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val activeObjectives by viewModel.activeObjectives.collectAsState()

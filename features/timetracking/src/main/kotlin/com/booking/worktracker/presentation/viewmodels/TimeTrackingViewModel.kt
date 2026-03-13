@@ -9,13 +9,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class TimeTrackingViewModel(
-    private val getTimeTrackingData: GetTimeTrackingDataUseCase = GetTimeTrackingDataUseCase(),
-    private val startTimerUseCase: StartTimerUseCase = StartTimerUseCase(),
-    private val stopTimerUseCase: StopTimerUseCase = StopTimerUseCase(),
-    private val addManualEntryUseCase: AddManualEntryUseCase = AddManualEntryUseCase(),
-    private val deleteTimeEntryUseCase: DeleteTimeEntryUseCase = DeleteTimeEntryUseCase(),
+    private val getTimeTrackingData: GetTimeTrackingDataUseCase,
+    private val startTimerUseCase: StartTimerUseCase,
+    private val stopTimerUseCase: StopTimerUseCase,
+    private val addManualEntryUseCase: AddManualEntryUseCase,
+    private val deleteTimeEntryUseCase: DeleteTimeEntryUseCase,
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))

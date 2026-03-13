@@ -13,13 +13,15 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class ObjectivesViewModel(
-    private val getObjectives: GetObjectivesUseCase = GetObjectivesUseCase(),
-    private val createObjectiveUseCase: CreateObjectiveUseCase = CreateObjectiveUseCase(),
-    private val updateObjectiveUseCase: UpdateObjectiveUseCase = UpdateObjectiveUseCase(),
-    private val deleteObjectiveUseCase: DeleteObjectiveUseCase = DeleteObjectiveUseCase(),
-    private val manageChecklist: ManageChecklistUseCase = ManageChecklistUseCase(),
+    private val getObjectives: GetObjectivesUseCase,
+    private val createObjectiveUseCase: CreateObjectiveUseCase,
+    private val updateObjectiveUseCase: UpdateObjectiveUseCase,
+    private val deleteObjectiveUseCase: DeleteObjectiveUseCase,
+    private val manageChecklist: ManageChecklistUseCase,
 ) : ViewModel() {
 
     private val _objectives = MutableStateFlow<List<Objective>>(emptyList())

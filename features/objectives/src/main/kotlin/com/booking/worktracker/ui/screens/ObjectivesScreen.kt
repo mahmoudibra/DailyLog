@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
+import com.booking.worktracker.di.ObjectivesComponent
 import com.booking.worktracker.presentation.viewmodels.ObjectivesViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ObjectivesScreen() {
-    val viewModel = viewModel { ObjectivesViewModel() }
+    val viewModel = viewModel { ObjectivesComponent.instance.objectivesViewModel }
 
     val objectives by viewModel.objectives.collectAsState()
     val selectedTab by viewModel.selectedTab.collectAsState()

@@ -11,10 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class ExportViewModel(
-    private val generateExport: GenerateExportUseCase = GenerateExportUseCase(),
-    private val saveExport: SaveExportToFileUseCase = SaveExportToFileUseCase(),
+    private val generateExport: GenerateExportUseCase,
+    private val saveExport: SaveExportToFileUseCase,
 ) : ViewModel() {
 
     private val now = Clock.System.todayIn(TimeZone.currentSystemDefault())

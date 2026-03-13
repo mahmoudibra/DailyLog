@@ -2,9 +2,13 @@ package com.booking.worktracker.data.repository
 
 import com.booking.worktracker.data.datasource.FocusZonesLocalDataSource
 import com.booking.worktracker.data.models.HourlyFocusData
+import com.booking.worktracker.di.Singleton
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
 
-class FocusZonesRepository(private val localDataSource: FocusZonesLocalDataSource = FocusZonesLocalDataSource()) {
+@Inject
+@Singleton
+class FocusZonesRepository(private val localDataSource: FocusZonesLocalDataSource) {
     fun getHourlyFocusData(startDate: LocalDate, endDate: LocalDate): List<HourlyFocusData> =
         localDataSource.getHourlyFocusData(startDate, endDate)
 

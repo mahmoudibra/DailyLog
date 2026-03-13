@@ -5,8 +5,12 @@ import com.booking.worktracker.data.models.ChecklistItem
 import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-class ObjectiveRepository(private val localDataSource: ObjectiveLocalDataSource = ObjectiveLocalDataSource()) {
+@Inject
+@Singleton
+class ObjectiveRepository(private val localDataSource: ObjectiveLocalDataSource) {
 
     fun getYearlyObjectives(year: Int): List<Objective> {
         return localDataSource.getYearlyObjectives(year)

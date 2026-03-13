@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.CategoryRecommendation
 import com.booking.worktracker.data.models.FocusPattern
 import com.booking.worktracker.data.models.HourlyFocusData
+import com.booking.worktracker.di.FocusZonesComponent
 import com.booking.worktracker.presentation.viewmodels.FocusZonesViewModel
 import com.booking.worktracker.core.generated.resources.*
 import com.booking.worktracker.ui.designsystem.DSTheme
@@ -30,7 +31,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FocusZonesScreen() {
-    val viewModel = viewModel { FocusZonesViewModel() }
+    val viewModel = viewModel { FocusZonesComponent.instance.focusZonesViewModel }
     val summary by viewModel.focusSummary.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val weeksBack by viewModel.weeksBack.collectAsState()

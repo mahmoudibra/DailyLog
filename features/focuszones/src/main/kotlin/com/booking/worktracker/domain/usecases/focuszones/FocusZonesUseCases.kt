@@ -4,8 +4,10 @@ import com.booking.worktracker.data.models.*
 import com.booking.worktracker.data.repository.FocusZonesRepository
 import com.booking.worktracker.presentation.viewmodels.FocusZonesViewModel
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
 
-class GetFocusSummaryUseCase(private val repository: FocusZonesRepository = FocusZonesRepository()) {
+@Inject
+class GetFocusSummaryUseCase(private val repository: FocusZonesRepository) {
     operator fun invoke(startDate: LocalDate, endDate: LocalDate): Result<FocusSummary> {
         return try {
             val heatmapData = repository.getHourlyFocusData(startDate, endDate)

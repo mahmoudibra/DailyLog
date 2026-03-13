@@ -4,8 +4,12 @@ import com.booking.worktracker.data.datasource.ExportLocalDataSource
 import com.booking.worktracker.data.models.ExportEntry
 import com.booking.worktracker.data.models.ExportObjective
 import com.booking.worktracker.data.models.ExportResult
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-class ExportRepository(private val localDataSource: ExportLocalDataSource = ExportLocalDataSource()) {
+@Inject
+@Singleton
+class ExportRepository(private val localDataSource: ExportLocalDataSource) {
     fun getEntriesForRange(startDate: String, endDate: String): List<ExportEntry> =
         localDataSource.getEntriesForRange(startDate, endDate)
 

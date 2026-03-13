@@ -1,9 +1,12 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.DailyWorkTrackerDatabase
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-class SettingsLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+@Inject
+@Singleton
+class SettingsLocalDataSource(db: DailyWorkTrackerDatabase) {
 
     private val queries = db.settingsQueries
 

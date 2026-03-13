@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.data.models.ExportFormat
+import com.booking.worktracker.di.ExportComponent
 import com.booking.worktracker.presentation.viewmodels.ExportViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
@@ -23,7 +24,7 @@ import javax.swing.filechooser.FileNameExtensionFilter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExportScreen() {
-    val viewModel = viewModel { ExportViewModel() }
+    val viewModel = viewModel { ExportComponent.instance.exportViewModel }
     val startDate by viewModel.startDate.collectAsState()
     val endDate by viewModel.endDate.collectAsState()
     val format by viewModel.format.collectAsState()

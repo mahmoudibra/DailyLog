@@ -2,9 +2,13 @@ package com.booking.worktracker.data.repository
 
 import com.booking.worktracker.data.datasource.TimeEntryLocalDataSource
 import com.booking.worktracker.data.models.TimeEntry
+import com.booking.worktracker.di.Singleton
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
 
-class TimeEntryRepository(private val localDataSource: TimeEntryLocalDataSource = TimeEntryLocalDataSource()) {
+@Inject
+@Singleton
+class TimeEntryRepository(private val localDataSource: TimeEntryLocalDataSource) {
     fun getEntriesForDate(date: LocalDate): List<TimeEntry> = localDataSource.getEntriesForDate(date)
     fun getRunningEntry(): TimeEntry? = localDataSource.getRunningEntry()
     fun startTimer(description: String, category: String, date: LocalDate, startTime: String): TimeEntry =

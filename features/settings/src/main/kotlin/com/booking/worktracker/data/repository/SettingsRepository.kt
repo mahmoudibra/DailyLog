@@ -1,8 +1,12 @@
 package com.booking.worktracker.data.repository
 
 import com.booking.worktracker.data.datasource.SettingsLocalDataSource
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-class SettingsRepository(private val localDataSource: SettingsLocalDataSource = SettingsLocalDataSource()) {
+@Inject
+@Singleton
+class SettingsRepository(private val localDataSource: SettingsLocalDataSource) {
 
     fun getMorningReminderTime(): String {
         return localDataSource.getSetting("morning_reminder_time") ?: "10:30"

@@ -5,16 +5,18 @@ import androidx.lifecycle.viewModelScope
 import com.booking.worktracker.data.models.BudgetProgress
 import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.domain.usecases.timebudgets.*
+import me.tatarka.inject.annotations.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+@Inject
 class TimeBudgetsViewModel(
-    private val getDashboard: GetTimeBudgetDashboardUseCase = GetTimeBudgetDashboardUseCase(),
-    private val createBudget: CreateTimeBudgetUseCase = CreateTimeBudgetUseCase(),
-    private val updateBudget: UpdateTimeBudgetUseCase = UpdateTimeBudgetUseCase(),
-    private val deleteBudget: DeleteTimeBudgetUseCase = DeleteTimeBudgetUseCase(),
+    private val getDashboard: GetTimeBudgetDashboardUseCase,
+    private val createBudget: CreateTimeBudgetUseCase,
+    private val updateBudget: UpdateTimeBudgetUseCase,
+    private val deleteBudget: DeleteTimeBudgetUseCase,
 ) : ViewModel() {
 
     private val _budgetProgress = MutableStateFlow<List<BudgetProgress>>(emptyList())

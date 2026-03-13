@@ -1,11 +1,14 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.DailyWorkTrackerDatabase
 import com.booking.worktracker.data.models.DailyReview
 import com.booking.worktracker.data.models.WeeklySummary
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-class ReviewLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+@Inject
+@Singleton
+class ReviewLocalDataSource(db: DailyWorkTrackerDatabase) {
 
     private val queries = db.reviewsQueries
 

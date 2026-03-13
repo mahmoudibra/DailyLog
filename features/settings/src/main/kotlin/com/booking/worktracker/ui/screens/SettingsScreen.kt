@@ -11,14 +11,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
-import com.booking.worktracker.data.DatabaseProvider
-import com.booking.worktracker.data.repository.SettingsRepository
+import com.booking.worktracker.di.SettingsComponent
+import com.booking.worktracker.presentation.viewmodels.SettingsViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 import com.booking.worktracker.ui.localization.AppLocale
-import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
@@ -27,23 +27,15 @@ fun SettingsScreen(
     onLanguageChanged: (AppLocale) -> Unit = {},
     onDarkModeChanged: (Boolean) -> Unit = {}
 ) {
-    val settingsRepository = remember { SettingsRepository() }
-    var morningTime by remember { mutableStateOf("10:30") }
-    var afternoonTime by remember { mutableStateOf("16:30") }
-    var saveMessage by remember { mutableStateOf<String?>(null) }
+    val viewModel = viewModel { SettingsComponent.instance.settingsViewModel }
+    val morningTime by viewModel.morningTime.collectAsState()
+    val afternoonTime by viewModel.afternoonTime.collectAsState()
+    val saveMessage by viewModel.saveMessage.collectAsState()
     var showDeleteConfirm by remember { mutableStateOf(false) }
 
-    val scope = rememberCoroutineScope()
-
-    // Capture strings needed inside coroutines
+    // Capture strings needed inside callbacks
     val savedMsg = stringResource(Res.string.settings_saved)
     val deletedMsg = stringResource(Res.string.all_data_deleted)
-
-    // Load current settings
-    LaunchedEffect(Unit) {
-        morningTime = settingsRepository.getMorningReminderTime()
-        afternoonTime = settingsRepository.getAfternoonReminderTime()
-    }
 
     Column(
         modifier = Modifier
@@ -148,7 +140,7 @@ fun SettingsScreen(
                 )
                 DSOutlinedTextField(
                     value = morningTime,
-                    onValueChange = { morningTime = it },
+                    onValueChange = { viewModel.setMorningTime(it) },
                     label = stringResource(Res.string.time_hhmm),
                     placeholder = "10:30",
                     singleLine = true,
@@ -173,7 +165,7 @@ fun SettingsScreen(
                 )
                 DSOutlinedTextField(
                     value = afternoonTime,
-                    onValueChange = { afternoonTime = it },
+                    onValueChange = { viewModel.setAfternoonTime(it) },
                     label = stringResource(Res.string.time_hhmm),
                     placeholder = "16:30",
                     singleLine = true,
@@ -197,19 +189,7 @@ fun SettingsScreen(
 
             DSButton(
                 text = stringResource(Res.string.save_settings),
-                onClick = {
-                    scope.launch {
-                        try {
-                            settingsRepository.setMorningReminderTime(morningTime)
-                            settingsRepository.setAfternoonReminderTime(afternoonTime)
-                            saveMessage = savedMsg
-                            kotlinx.coroutines.delay(5000)
-                            saveMessage = null
-                        } catch (e: Exception) {
-                            saveMessage = "Error: ${e.message ?: ""}"
-                        }
-                    }
-                }
+                onClick = { viewModel.saveSettings(savedMsg) }
             )
         }
 
@@ -257,15 +237,8 @@ fun SettingsScreen(
                 DSButton(
                     text = stringResource(Res.string.delete_everything),
                     onClick = {
-                        scope.launch {
-                            try {
-                                DatabaseProvider.deleteAllData()
-                                saveMessage = deletedMsg
-                            } catch (e: Exception) {
-                                saveMessage = "Error: ${e.message ?: ""}"
-                            }
-                            showDeleteConfirm = false
-                        }
+                        viewModel.deleteAllData(deletedMsg)
+                        showDeleteConfirm = false
                     }
                 )
             },

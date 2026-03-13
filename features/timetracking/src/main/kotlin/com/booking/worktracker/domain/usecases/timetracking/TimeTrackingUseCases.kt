@@ -3,8 +3,10 @@ package com.booking.worktracker.domain.usecases.timetracking
 import com.booking.worktracker.data.models.TimeEntry
 import com.booking.worktracker.data.repository.TimeEntryRepository
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
 
-class StartTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+@Inject
+class StartTimerUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(description: String, category: String, date: LocalDate, startTime: String): Result<TimeEntry> {
         return try {
             require(description.isNotBlank()) { "Description cannot be blank" }
@@ -21,7 +23,8 @@ class StartTimerUseCase(private val repository: TimeEntryRepository = TimeEntryR
     }
 }
 
-class StopTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+@Inject
+class StopTimerUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(id: Int, endTime: String, durationMinutes: Int): Result<TimeEntry> {
         return try {
             require(durationMinutes >= 0) { "Duration cannot be negative" }
@@ -33,7 +36,8 @@ class StopTimerUseCase(private val repository: TimeEntryRepository = TimeEntryRe
     }
 }
 
-class AddManualEntryUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+@Inject
+class AddManualEntryUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(
         description: String,
         category: String,
@@ -53,7 +57,8 @@ class AddManualEntryUseCase(private val repository: TimeEntryRepository = TimeEn
     }
 }
 
-class DeleteTimeEntryUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+@Inject
+class DeleteTimeEntryUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(id: Int): Result<Unit> {
         return try {
             repository.delete(id)
@@ -72,7 +77,8 @@ data class TimeTrackingData(
     val categories: List<String>
 )
 
-class GetTimeTrackingDataUseCase(private val repository: TimeEntryRepository = TimeEntryRepository()) {
+@Inject
+class GetTimeTrackingDataUseCase(private val repository: TimeEntryRepository) {
     operator fun invoke(date: LocalDate): Result<TimeTrackingData> {
         return try {
             val entries = repository.getEntriesForDate(date)
