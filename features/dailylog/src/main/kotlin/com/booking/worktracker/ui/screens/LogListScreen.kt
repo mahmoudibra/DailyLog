@@ -12,24 +12,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import com.booking.worktracker.data.models.DailyLog
-import com.booking.worktracker.data.repository.LogRepository
+import com.booking.worktracker.di.DailyLogComponent
+import com.booking.worktracker.presentation.viewmodels.LogListViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LogListScreen() {
-    val logRepository = remember { LogRepository() }
-    var logs by remember { mutableStateOf<List<DailyLog>>(emptyList()) }
+    val viewModel = viewModel { DailyLogComponent.instance.logListViewModel }
+    val logs by viewModel.logs.collectAsState()
     var selectedLog by remember { mutableStateOf<DailyLog?>(null) }
-
-    LaunchedEffect(Unit) {
-        logs = logRepository.getAllLogs(limit = 50).filter { it.entries.isNotEmpty() }
-    }
 
     if (selectedLog != null) {
         LogDetailView(

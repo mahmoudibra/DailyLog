@@ -1,8 +1,10 @@
 package com.booking.worktracker.domain.usecases.logs
 
 import com.booking.worktracker.data.repository.LogRepository
+import me.tatarka.inject.annotations.Inject
 
-class DeleteWorkEntryUseCase(private val logRepository: LogRepository = LogRepository()) {
+@Inject
+class DeleteWorkEntryUseCase(private val logRepository: LogRepository) {
     operator fun invoke(entryId: Int): Result<Unit> {
         return try {
             logRepository.deleteWorkEntry(entryId)

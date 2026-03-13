@@ -5,8 +5,12 @@ import com.booking.worktracker.data.models.DailyLog
 import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
+import com.booking.worktracker.di.Singleton
 
-class LogRepository(private val localDataSource: LogLocalDataSource = LogLocalDataSource()) {
+@Inject
+@Singleton
+class LogRepository(private val localDataSource: LogLocalDataSource) {
 
     fun getLogForDate(date: LocalDate): DailyLog? {
         return localDataSource.getLogForDate(date)

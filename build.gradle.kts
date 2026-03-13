@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.compose") version "1.10.2"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
     id("app.cash.sqldelight") version "2.0.2" apply false
+    id("com.google.devtools.ksp") version "2.1.0-1.0.29" apply false
 }
 
 subprojects {

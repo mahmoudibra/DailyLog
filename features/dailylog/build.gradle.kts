@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("org.jetbrains.compose") version "1.10.2"
+    id("com.google.devtools.ksp")
 }
 
 group = "com.booking.worktracker"
@@ -22,6 +23,9 @@ configurations.all {
 
 dependencies {
     implementation(project(":core"))
+
+    // kotlin-inject (runtime comes transitively from core via api)
+    ksp("me.tatarka.inject:kotlin-inject-compiler-ksp:0.7.2")
 
     // Compose Desktop
     implementation(compose.desktop.currentOs)

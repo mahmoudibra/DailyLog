@@ -10,13 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
-import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
-import com.booking.worktracker.data.repository.LogRepository
-import com.booking.worktracker.presentation.viewmodels.DailyLogViewModel
+import com.booking.worktracker.di.DailyLogComponent
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 import kotlinx.coroutines.launch
@@ -28,18 +27,18 @@ fun DailyLogScreen(
     onNavigateToObjectives: () -> Unit = {},
     onNavigateToTimer: () -> Unit = {}
 ) {
-    val viewModel = remember { DailyLogViewModel() }
-    val logRepository = remember { LogRepository() }
+    val component = remember { DailyLogComponent.instance }
+    val viewModel = viewModel { component.dailyLogViewModel }
     val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
     var selectedDate by remember { mutableStateOf(today) }
     val workEntries by viewModel.workEntries.collectAsState()
     val selectedTags by viewModel.selectedTags.collectAsState()
     val availableTags by viewModel.availableTags.collectAsState()
     val saveMessage by viewModel.saveMessage.collectAsState()
+    val entryCountByDate by viewModel.entryCountByDate.collectAsState()
+    val streakCount by viewModel.streakCount.collectAsState()
     var showNewTagDialog by remember { mutableStateOf(false) }
     var showAddEntryDialog by remember { mutableStateOf(false) }
-    var entryCountByDate by remember { mutableStateOf<Map<LocalDate, Int>>(emptyMap()) }
-    var streakCount by remember { mutableStateOf(0) }
 
     val scope = rememberCoroutineScope()
 
@@ -58,40 +57,6 @@ fun DailyLogScreen(
     // Load data
     LaunchedEffect(selectedDate) {
         viewModel.setDate(selectedDate)
-
-        // Build entry counts for the selected month
-        val year = selectedDate.year
-        val month = selectedDate.month
-        val daysInMonth = when (month) {
-            Month.JANUARY, Month.MARCH, Month.MAY, Month.JULY,
-            Month.AUGUST, Month.OCTOBER, Month.DECEMBER -> 31
-            Month.APRIL, Month.JUNE, Month.SEPTEMBER, Month.NOVEMBER -> 30
-            Month.FEBRUARY -> if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) 29 else 28
-        }
-        val counts = mutableMapOf<LocalDate, Int>()
-        for (day in 1..daysInMonth) {
-            val date = LocalDate(year, month, day)
-            val dayLog = logRepository.getLogForDate(date)
-            val entryCount = dayLog?.entries?.size ?: 0
-            if (entryCount > 0) {
-                counts[date] = entryCount
-            }
-        }
-        entryCountByDate = counts
-
-        // Calculate streak
-        var streak = 0
-        var checkDate = today
-        while (true) {
-            val log = logRepository.getLogForDate(checkDate)
-            if (log != null && log.entries.isNotEmpty()) {
-                streak++
-                checkDate = checkDate.minus(1, DateTimeUnit.DAY)
-            } else {
-                break
-            }
-        }
-        streakCount = streak
     }
 
     Column(

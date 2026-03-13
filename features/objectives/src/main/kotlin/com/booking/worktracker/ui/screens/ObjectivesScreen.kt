@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
 import com.booking.worktracker.data.models.ObjectiveType
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ObjectivesScreen() {
-    val viewModel = remember { ObjectivesViewModel() }
+    val viewModel = viewModel { ObjectivesViewModel() }
 
     val objectives by viewModel.objectives.collectAsState()
     val selectedTab by viewModel.selectedTab.collectAsState()

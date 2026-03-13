@@ -1,7 +1,9 @@
 package com.booking.worktracker.notifications
 
+import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.repository.LogRepository
 import com.booking.worktracker.data.repository.SettingsRepository
+import com.booking.worktracker.data.datasource.LogLocalDataSource
 import com.booking.worktracker.ui.localization.AppLocale
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.getString
@@ -9,7 +11,7 @@ import kotlinx.coroutines.*
 import kotlinx.datetime.*
 
 class ReminderScheduler(
-    private val logRepository: LogRepository = LogRepository(),
+    private val logRepository: LogRepository = LogRepository(LogLocalDataSource(DatabaseProvider.getDatabase())),
     private val settingsRepository: SettingsRepository = SettingsRepository()
 ) {
     private val scope = CoroutineScope(Dispatchers.Default + Job())

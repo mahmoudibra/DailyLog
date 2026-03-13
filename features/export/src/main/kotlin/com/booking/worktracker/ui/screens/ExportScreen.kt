@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import com.booking.worktracker.data.models.ExportFormat
@@ -22,7 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExportScreen() {
-    val viewModel = remember { ExportViewModel() }
+    val viewModel = viewModel { ExportViewModel() }
     val startDate by viewModel.startDate.collectAsState()
     val endDate by viewModel.endDate.collectAsState()
     val format by viewModel.format.collectAsState()

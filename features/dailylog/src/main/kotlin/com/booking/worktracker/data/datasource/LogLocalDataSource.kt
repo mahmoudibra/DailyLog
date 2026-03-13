@@ -6,8 +6,12 @@ import com.booking.worktracker.data.models.DailyLog
 import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
+import com.booking.worktracker.di.Singleton
 
-class LogLocalDataSource(db: DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()) {
+@Inject
+@Singleton
+class LogLocalDataSource(db: DailyWorkTrackerDatabase) {
 
     private val dailyLogsQueries = db.dailyLogsQueries
     private val tagsQueries = db.tagsQueries

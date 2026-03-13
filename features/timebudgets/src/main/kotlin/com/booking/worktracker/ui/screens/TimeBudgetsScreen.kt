@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.BudgetProgress
 import com.booking.worktracker.data.models.BudgetStatus
 import com.booking.worktracker.data.models.PeriodType
@@ -24,7 +25,7 @@ import com.booking.worktracker.ui.designsystem.components.*
 
 @Composable
 fun TimeBudgetsScreen() {
-    val viewModel = remember { TimeBudgetsViewModel() }
+    val viewModel = viewModel { TimeBudgetsViewModel() }
     val budgetProgress by viewModel.budgetProgress.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val activeObjectives by viewModel.activeObjectives.collectAsState()

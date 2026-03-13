@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.CategoryRecommendation
 import com.booking.worktracker.data.models.FocusPattern
 import com.booking.worktracker.data.models.HourlyFocusData
@@ -29,7 +30,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FocusZonesScreen() {
-    val viewModel = remember { FocusZonesViewModel() }
+    val viewModel = viewModel { FocusZonesViewModel() }
     val summary by viewModel.focusSummary.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val weeksBack by viewModel.weeksBack.collectAsState()

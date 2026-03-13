@@ -1,5 +1,7 @@
 package com.booking.worktracker.domain.usecases.reviews
 
+import com.booking.worktracker.data.DatabaseProvider
+import com.booking.worktracker.data.datasource.LogLocalDataSource
 import com.booking.worktracker.data.models.AutoSummary
 import com.booking.worktracker.data.models.DailyReview
 import com.booking.worktracker.data.models.WeeklySummary
@@ -48,7 +50,7 @@ class SaveWeeklySummaryUseCase(private val reviewRepository: ReviewRepository = 
 }
 
 class GenerateAutoSummaryUseCase(
-    private val logRepository: LogRepository = LogRepository(),
+    private val logRepository: LogRepository = LogRepository(LogLocalDataSource(DatabaseProvider.getDatabase())),
     private val timeEntryRepository: TimeEntryRepository = TimeEntryRepository(),
     private val objectiveRepository: ObjectiveRepository = ObjectiveRepository(),
     private val reviewRepository: ReviewRepository = ReviewRepository()

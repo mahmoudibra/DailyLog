@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("org.jetbrains.compose") version "1.10.2"
     id("app.cash.sqldelight")
+    id("com.google.devtools.ksp")
 }
 
 group = "com.booking.worktracker"
@@ -22,11 +23,18 @@ configurations.all {
 }
 
 dependencies {
+    // kotlin-inject
+    api("me.tatarka.inject:kotlin-inject-runtime:0.7.2")
+    ksp("me.tatarka.inject:kotlin-inject-compiler-ksp:0.7.2")
+
     // Compose Desktop
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
     implementation(compose.components.resources)
+
+    // Lifecycle ViewModel
+    api("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
 
     // SQLDelight
     api("app.cash.sqldelight:sqlite-driver:2.0.2")

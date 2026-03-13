@@ -2,8 +2,12 @@ package com.booking.worktracker.data
 
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import com.booking.worktracker.di.Singleton
+import me.tatarka.inject.annotations.Inject
 
-object DatabaseProvider {
+@Inject
+@Singleton
+class DatabaseProvider {
     private var database: DailyWorkTrackerDatabase? = null
     private var driver: JdbcSqliteDriver? = null
 
@@ -85,5 +89,14 @@ object DatabaseProvider {
             try { drv.execute(null, "DELETE FROM $table", 0) } catch (_: Exception) {}
         }
         drv.execute(null, "PRAGMA foreign_keys = ON", 0)
+    }
+
+    companion object {
+        private val defaultInstance by lazy { DatabaseProvider() }
+
+        fun init() = defaultInstance.init()
+        fun getDatabase() = defaultInstance.getDatabase()
+        fun close() = defaultInstance.close()
+        fun deleteAllData() = defaultInstance.deleteAllData()
     }
 }

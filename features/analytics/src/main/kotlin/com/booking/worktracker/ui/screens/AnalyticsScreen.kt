@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.core.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.pluralStringResource
@@ -21,7 +22,7 @@ import com.booking.worktracker.ui.designsystem.components.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsScreen() {
-    val viewModel = remember { AnalyticsViewModel() }
+    val viewModel = viewModel { AnalyticsViewModel() }
     val summary by viewModel.summary.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 

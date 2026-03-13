@@ -1,25 +1,28 @@
 package com.booking.worktracker.presentation.viewmodels
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.booking.worktracker.data.models.DailyLog
 import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
+import com.booking.worktracker.data.repository.LogRepository
 import com.booking.worktracker.domain.usecases.logs.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.todayIn
+import kotlinx.datetime.*
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class DailyLogViewModel(
-    private val getLogForDate: GetLogForDateUseCase = GetLogForDateUseCase(),
-    private val addWorkEntryUseCase: AddWorkEntryUseCase = AddWorkEntryUseCase(),
-    private val deleteWorkEntryUseCase: DeleteWorkEntryUseCase = DeleteWorkEntryUseCase(),
-    private val updateLogTagsUseCase: UpdateLogTagsUseCase = UpdateLogTagsUseCase(),
-    private val getAllTagsUseCase: GetAllTagsUseCase = GetAllTagsUseCase(),
-    private val createTagUseCase: CreateTagUseCase = CreateTagUseCase(),
+    private val getLogForDate: GetLogForDateUseCase,
+    private val addWorkEntryUseCase: AddWorkEntryUseCase,
+    private val deleteWorkEntryUseCase: DeleteWorkEntryUseCase,
+    private val updateLogTagsUseCase: UpdateLogTagsUseCase,
+    private val getAllTagsUseCase: GetAllTagsUseCase,
+    private val createTagUseCase: CreateTagUseCase,
+    private val logRepository: LogRepository,
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(Clock.System.todayIn(TimeZone.currentSystemDefault()))
@@ -37,6 +40,12 @@ class DailyLogViewModel(
     private val _saveMessage = MutableStateFlow<String?>(null)
     val saveMessage: StateFlow<String?> = _saveMessage.asStateFlow()
 
+    private val _entryCountByDate = MutableStateFlow<Map<LocalDate, Int>>(emptyMap())
+    val entryCountByDate: StateFlow<Map<LocalDate, Int>> = _entryCountByDate.asStateFlow()
+
+    private val _streakCount = MutableStateFlow(0)
+    val streakCount: StateFlow<Int> = _streakCount.asStateFlow()
+
     init {
         loadData()
     }
@@ -51,6 +60,47 @@ class DailyLogViewModel(
     fun setDate(date: LocalDate) {
         _selectedDate.value = date
         loadLogForDate(date)
+        loadMonthData(date)
+    }
+
+    fun loadMonthData(date: LocalDate) {
+        viewModelScope.launch {
+            val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+
+            // Build entry counts for the selected month
+            val year = date.year
+            val month = date.month
+            val daysInMonth = when (month) {
+                Month.JANUARY, Month.MARCH, Month.MAY, Month.JULY,
+                Month.AUGUST, Month.OCTOBER, Month.DECEMBER -> 31
+                Month.APRIL, Month.JUNE, Month.SEPTEMBER, Month.NOVEMBER -> 30
+                Month.FEBRUARY -> if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) 29 else 28
+            }
+            val counts = mutableMapOf<LocalDate, Int>()
+            for (day in 1..daysInMonth) {
+                val d = LocalDate(year, month, day)
+                val dayLog = logRepository.getLogForDate(d)
+                val entryCount = dayLog?.entries?.size ?: 0
+                if (entryCount > 0) {
+                    counts[d] = entryCount
+                }
+            }
+            _entryCountByDate.value = counts
+
+            // Calculate streak
+            var streak = 0
+            var checkDate = today
+            while (true) {
+                val log = logRepository.getLogForDate(checkDate)
+                if (log != null && log.entries.isNotEmpty()) {
+                    streak++
+                    checkDate = checkDate.minus(1, DateTimeUnit.DAY)
+                } else {
+                    break
+                }
+            }
+            _streakCount.value = streak
+        }
     }
 
     private fun loadLogForDate(date: LocalDate) {

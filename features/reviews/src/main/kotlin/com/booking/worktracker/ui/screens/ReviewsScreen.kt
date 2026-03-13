@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.AutoSummary
 import com.booking.worktracker.presentation.viewmodels.ReviewsViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
@@ -24,7 +25,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ReviewsScreen() {
-    val viewModel = remember { ReviewsViewModel() }
+    val viewModel = viewModel { ReviewsViewModel() }
     val selectedDate by viewModel.selectedDate.collectAsState()
     val isWeeklyView by viewModel.isWeeklyView.collectAsState()
     val wentWellText by viewModel.wentWellText.collectAsState()
