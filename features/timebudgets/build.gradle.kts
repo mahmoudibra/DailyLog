@@ -22,7 +22,8 @@ configurations.all {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core:database"))
+    implementation(project(":core:designsystem"))
     implementation(project(":features:timetracking"))
     implementation(project(":features:objectives"))
     implementation(compose.desktop.currentOs)

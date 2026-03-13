@@ -22,7 +22,8 @@ configurations.all {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core:database"))
+    implementation(project(":core:designsystem"))
 
     // kotlin-inject (runtime comes transitively from core via api)
     ksp("me.tatarka.inject:kotlin-inject-compiler-ksp:0.7.2")

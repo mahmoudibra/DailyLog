@@ -49,7 +49,8 @@ configurations.all {
 
 dependencies {
     // Feature modules
-    implementation(project(":core"))
+    implementation(project(":core:database"))
+    implementation(project(":core:designsystem"))
     implementation(project(":features:dailylog"))
     implementation(project(":features:objectives"))
     implementation(project(":features:settings"))

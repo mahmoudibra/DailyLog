@@ -1,6 +1,8 @@
 rootProject.name = "DailyWorkTracker"
 
-include(":core")
+include(":core:di")
+include(":core:database")
+include(":core:designsystem")
 include(":features:objectives")
 include(":features:dailylog")
 include(":features:settings")

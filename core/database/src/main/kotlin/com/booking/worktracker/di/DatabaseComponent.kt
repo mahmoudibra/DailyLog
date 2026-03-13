@@ -7,13 +7,13 @@ import me.tatarka.inject.annotations.Provides
 
 @Component
 @Singleton
-abstract class AppComponent {
+abstract class DatabaseComponent {
 
     @Provides
     @Singleton
     fun provideDatabase(): DailyWorkTrackerDatabase = DatabaseProvider.getDatabase()
 
     companion object {
-        val instance: AppComponent by lazy { AppComponent::class.create() }
+        val instance: DatabaseComponent by lazy { DatabaseComponent::class.create() }
     }
 }
