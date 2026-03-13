@@ -41,3 +41,13 @@ NEW SUGGESTION:
    - Pace indicator showing if you're trending ahead or behind mid-week
    - Leverages existing time_entries (category, duration, date) and objectives
    - Inspiration: Sunsama, Reclaim.ai, Toggl, Clockify
+
+NEW SUGGESTION:
+12. Smart Productivity Streaks & Habits (HIGH/MEDIUM)
+   - Track customizable daily habits alongside work entries (e.g., "morning planning", "inbox zero", "code review")
+   - Visual streak board with current/longest streaks per habit and calendar heatmaps
+   - Auto-detect habits from existing data — surface repeating patterns from time entries and logs
+   - Weekly habit score combining streak consistency, time budget adherence, and review completion
+   - Habit-objective linking: attach habits to quarterly goals to drive behavior toward outcomes
+   - Leverages existing daily_logs (streaks), time_entries (pattern detection), objectives (goal linking)
+   - Inspiration: Streaks, Habitica, Fabulous, Atomic Habits methodology
