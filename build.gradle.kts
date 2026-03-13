@@ -92,7 +92,10 @@ compose.desktop {
             packageVersion = "1.0.0"
 
             macOS {
-                iconFile.set(project.file("src/main/resources/icon.icns"))
+                val icon = project.file("src/main/resources/icon.icns")
+                if (icon.exists()) {
+                    iconFile.set(icon)
+                }
             }
         }
     }
