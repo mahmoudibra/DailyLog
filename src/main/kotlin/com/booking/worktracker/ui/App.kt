@@ -23,7 +23,7 @@ import com.booking.worktracker.ui.localization.ProvideLocalization
 import com.booking.worktracker.ui.screens.*
 
 enum class Screen {
-    DAILY_LOG, LOG_LIST, OBJECTIVES, TIME_TRACKING, ANALYTICS, EXPORT, REVIEWS, FOCUS_ZONES, TIME_BUDGETS, SETTINGS
+    DAILY_LOG, LOG_LIST, OBJECTIVES, TIME_TRACKING, ANALYTICS, EXPORT, REVIEWS, FOCUS_ZONES, TIME_BUDGETS, HABITS, SETTINGS
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,6 +132,12 @@ fun App() {
                             selected = currentScreen == Screen.TIME_BUDGETS,
                             onClick = { currentScreen = Screen.TIME_BUDGETS }
                         )
+                        SideNavItem(
+                            icon = Icons.Default.LocalFireDepartment,
+                            label = "Habits",
+                            selected = currentScreen == Screen.HABITS,
+                            onClick = { currentScreen = Screen.HABITS }
+                        )
 
                         Spacer(Modifier.weight(1f))
 
@@ -169,6 +175,7 @@ fun App() {
                         Screen.REVIEWS -> ReviewsScreen()
                         Screen.FOCUS_ZONES -> FocusZonesScreen()
                         Screen.TIME_BUDGETS -> TimeBudgetsScreen()
+                        Screen.HABITS -> HabitsScreen()
                         Screen.SETTINGS -> SettingsScreen(
                             currentLocale = currentLocale,
                             isDarkMode = isDarkMode,

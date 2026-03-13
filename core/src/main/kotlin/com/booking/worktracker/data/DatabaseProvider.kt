@@ -81,6 +81,7 @@ class DatabaseProvider {
         val drv = driver ?: return
         drv.execute(null, "PRAGMA foreign_keys = OFF", 0)
         val tables = listOf(
+            "habit_completions", "habits",
             "checklist_items", "work_entries", "log_tags",
             "time_entries", "objectives", "daily_logs", "tags", "settings",
             "daily_reviews", "weekly_summaries", "time_budgets"
