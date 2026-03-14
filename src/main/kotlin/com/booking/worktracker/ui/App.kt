@@ -38,20 +38,20 @@ fun App() {
         isDarkMode = settingsRepository.isDarkMode()
     }
 
-    val navItems = listOf(
-        NavItem(Screen.DAILY_LOG, Icons.Default.Home, stringResource(Res.string.nav_home)),
-        NavItem(Screen.LOG_LIST, Icons.Default.History, stringResource(Res.string.nav_history)),
-        NavItem(Screen.OBJECTIVES, Icons.Default.Flag, stringResource(Res.string.nav_objectives)),
-        NavItem(Screen.TIME_TRACKING, Icons.Default.Timer, stringResource(Res.string.nav_time_tracking)),
-        NavItem(Screen.ANALYTICS, Icons.Default.BarChart, stringResource(Res.string.nav_analytics)),
-        NavItem(Screen.EXPORT, Icons.Default.FileDownload, stringResource(Res.string.nav_export)),
-        NavItem(Screen.REVIEWS, Icons.Default.RateReview, stringResource(Res.string.nav_reviews)),
-        NavItem(Screen.FOCUS_ZONES, Icons.Default.Psychology, stringResource(Res.string.nav_focus_zones)),
-        NavItem(Screen.TIME_BUDGETS, Icons.Default.PieChart, "Time Budgets"),
-        NavItem(Screen.HABITS, Icons.Default.LocalFireDepartment, "Habits"),
-    )
-
     ProvideLocalization(locale = currentLocale) {
+        val navItems = listOf(
+            NavItem(Screen.DAILY_LOG, Icons.Default.Home, stringResource(Res.string.nav_home)),
+            NavItem(Screen.LOG_LIST, Icons.Default.History, stringResource(Res.string.nav_history)),
+            NavItem(Screen.OBJECTIVES, Icons.Default.Flag, stringResource(Res.string.nav_objectives)),
+            NavItem(Screen.TIME_TRACKING, Icons.Default.Timer, stringResource(Res.string.nav_time_tracking)),
+            NavItem(Screen.ANALYTICS, Icons.Default.BarChart, stringResource(Res.string.nav_analytics)),
+            NavItem(Screen.EXPORT, Icons.Default.FileDownload, stringResource(Res.string.nav_export)),
+            NavItem(Screen.REVIEWS, Icons.Default.RateReview, stringResource(Res.string.nav_reviews)),
+            NavItem(Screen.FOCUS_ZONES, Icons.Default.Psychology, stringResource(Res.string.nav_focus_zones)),
+            NavItem(Screen.TIME_BUDGETS, Icons.Default.PieChart, stringResource(Res.string.nav_time_budgets)),
+            NavItem(Screen.HABITS, Icons.Default.LocalFireDepartment, stringResource(Res.string.nav_habits)),
+        )
+
         WorkTrackerTheme(darkTheme = isDarkMode) {
             if (showSplash) {
                 SplashScreen(onSplashFinished = { showSplash = false })

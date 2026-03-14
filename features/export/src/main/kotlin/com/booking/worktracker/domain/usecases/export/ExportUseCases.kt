@@ -24,7 +24,7 @@ class GenerateExportUseCase(private val repository: ExportRepository) {
 
     private fun formatPlainText(data: ExportResult, options: ExportOptions): String {
         val sb = StringBuilder()
-        sb.appendLine("Daily Work Tracker Export")
+        sb.appendLine("Daily Tracker Export")
         sb.appendLine("Period: ${data.dateRange}")
         sb.appendLine("Total entries: ${data.totalEntries} | Days logged: ${data.totalDays}")
         sb.appendLine("=".repeat(50))
@@ -92,7 +92,7 @@ class GenerateExportUseCase(private val repository: ExportRepository) {
 
     private fun formatMarkdown(data: ExportResult, options: ExportOptions): String {
         val sb = StringBuilder()
-        sb.appendLine("# Daily Work Tracker Export")
+        sb.appendLine("# Daily Tracker Export")
         sb.appendLine()
         sb.appendLine("**Period:** ${data.dateRange}")
         sb.appendLine("**Total entries:** ${data.totalEntries} | **Days logged:** ${data.totalDays}")

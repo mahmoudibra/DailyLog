@@ -89,7 +89,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg)
-            packageName = "DailyWorkTracker"
+            packageName = "DailyTracker"
             packageVersion = "1.0.0"
 
             macOS {

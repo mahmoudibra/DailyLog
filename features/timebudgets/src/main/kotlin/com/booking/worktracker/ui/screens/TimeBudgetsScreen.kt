@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.booking.worktracker.core.generated.resources.*
 import com.booking.worktracker.data.models.BudgetProgress
 import com.booking.worktracker.data.models.BudgetStatus
 import com.booking.worktracker.data.models.PeriodType
@@ -23,6 +24,7 @@ import com.booking.worktracker.di.TimeBudgetsComponent
 import com.booking.worktracker.presentation.viewmodels.TimeBudgetsViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TimeBudgetsScreen() {
@@ -55,9 +57,9 @@ fun TimeBudgetsScreen() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            DSScreenTitle("Time Budgets")
+            DSScreenTitle(stringResource(Res.string.budgets_title))
             DSButton(
-                text = "Add Budget",
+                text = stringResource(Res.string.budgets_add),
                 icon = Icons.Default.Add,
                 onClick = { showAddDialog = true }
             )
@@ -66,7 +68,7 @@ fun TimeBudgetsScreen() {
         // Message banner
         message?.let { msg ->
             DSInfoBanner(
-                title = "Status",
+                title = stringResource(Res.string.status),
                 message = msg,
                 icon = { Icon(Icons.Default.Info, contentDescription = null) }
             )
@@ -80,7 +82,7 @@ fun TimeBudgetsScreen() {
         // Budget list
         if (budgetProgress.isEmpty()) {
             DSEmptyState(
-                message = "No time budgets set. Add a budget to start tracking your time allocation goals.",
+                message = stringResource(Res.string.budgets_empty),
                 modifier = Modifier.weight(1f)
             )
         } else {
@@ -151,6 +153,11 @@ private fun PaceIndicatorCard(
         "on pace" -> Icons.Default.TrendingFlat
         else -> Icons.Default.TrendingDown
     }
+    val paceLabel = when (paceDirection) {
+        "ahead" -> stringResource(Res.string.budgets_youre_ahead)
+        "on pace" -> stringResource(Res.string.budgets_youre_on_pace)
+        else -> stringResource(Res.string.budgets_youre_behind)
+    }
 
     DSCard(modifier = Modifier.fillMaxWidth()) {
         Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
@@ -159,14 +166,14 @@ private fun PaceIndicatorCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                DSSectionHeader(title = "Weekly Pace")
+                DSSectionHeader(title = stringResource(Res.string.budgets_weekly_pace))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(paceIcon, contentDescription = null, tint = paceColor, modifier = Modifier.size(20.dp))
                     Text(
-                        text = "You're $paceDirection",
+                        text = paceLabel,
                         style = DSTheme.font.titleSmall,
                         color = paceColor
                     )
@@ -178,15 +185,15 @@ private fun PaceIndicatorCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Logged", style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
+                    Text(stringResource(Res.string.budgets_logged), style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
                     Text(viewModel.formatMinutes(totalActual), style = DSTheme.font.titleMedium)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Expected by now", style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
+                    Text(stringResource(Res.string.budgets_expected_by_now), style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
                     Text(viewModel.formatMinutes(expectedByNow), style = DSTheme.font.titleMedium)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text("Total target", style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
+                    Text(stringResource(Res.string.budgets_total_target), style = DSTheme.font.bodySmall, color = DSTheme.colors.onSurfaceVariant)
                     Text(viewModel.formatMinutes(totalTarget), style = DSTheme.font.titleMedium)
                 }
             }
@@ -194,7 +201,7 @@ private fun PaceIndicatorCard(
             // Period progress bar
             val periodPercent = (periodElapsed * 100).toInt()
             Text(
-                text = "Period: $periodPercent% elapsed",
+                text = stringResource(Res.string.budgets_period_elapsed, periodPercent),
                 style = DSTheme.font.bodySmall,
                 color = DSTheme.colors.onSurfaceVariant
             )
@@ -228,9 +235,9 @@ private fun BudgetProgressCard(
 
     val expectedMinutes = (progress.budget.targetMinutes * periodElapsed).toInt()
     val paceText = when {
-        progress.actualMinutes >= expectedMinutes -> "Ahead of pace"
-        progress.actualMinutes >= expectedMinutes * 0.8f -> "On pace"
-        else -> "Behind pace"
+        progress.actualMinutes >= expectedMinutes -> stringResource(Res.string.budgets_ahead)
+        progress.actualMinutes >= expectedMinutes * 0.8f -> stringResource(Res.string.budgets_on_pace)
+        else -> stringResource(Res.string.budgets_behind)
     }
 
     DSCard(modifier = Modifier.fillMaxWidth()) {
@@ -263,12 +270,12 @@ private fun BudgetProgressCard(
                 Row(horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall)) {
                     DSIconButton(
                         icon = Icons.Default.Edit,
-                        contentDescription = "Edit",
+                        contentDescription = stringResource(Res.string.action_edit),
                         onClick = onEdit
                     )
                     DSIconButton(
                         icon = Icons.Default.Delete,
-                        contentDescription = "Delete",
+                        contentDescription = stringResource(Res.string.action_delete),
                         onClick = onDelete
                     )
                 }
@@ -345,7 +352,7 @@ private fun BudgetDialog(
     var periodExpanded by remember { mutableStateOf(false) }
     var objectiveExpanded by remember { mutableStateOf(false) }
 
-    val title = if (existingBudget != null) "Edit Budget" else "Add Budget"
+    val title = if (existingBudget != null) stringResource(Res.string.budgets_edit) else stringResource(Res.string.budgets_add)
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -360,7 +367,7 @@ private fun BudgetDialog(
                     OutlinedTextField(
                         value = selectedCategory,
                         onValueChange = { selectedCategory = it },
-                        label = { Text("Category") },
+                        label = { Text(stringResource(Res.string.category)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded) },
                         modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
@@ -385,14 +392,14 @@ private fun BudgetDialog(
                     DSOutlinedTextField(
                         value = targetHours,
                         onValueChange = { targetHours = it.filter { c -> c.isDigit() } },
-                        label = "Hours",
+                        label = stringResource(Res.string.budgets_hours_label),
                         singleLine = true,
                         modifier = Modifier.weight(1f)
                     )
                     DSOutlinedTextField(
                         value = targetMinutesRemainder,
                         onValueChange = { targetMinutesRemainder = it.filter { c -> c.isDigit() } },
-                        label = "Minutes",
+                        label = stringResource(Res.string.budgets_minutes_label),
                         singleLine = true,
                         modifier = Modifier.weight(1f)
                     )
@@ -407,7 +414,7 @@ private fun BudgetDialog(
                         value = selectedPeriod.name.lowercase().replaceFirstChar { it.uppercase() },
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Period") },
+                        label = { Text(stringResource(Res.string.budgets_period_label)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = periodExpanded) },
                         modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
@@ -434,11 +441,11 @@ private fun BudgetDialog(
                 ) {
                     OutlinedTextField(
                         value = selectedObjectiveId?.let { id ->
-                            activeObjectives.find { it.first == id }?.second ?: "Unknown"
-                        } ?: "None",
+                            activeObjectives.find { it.first == id }?.second ?: stringResource(Res.string.budgets_unknown)
+                        } ?: stringResource(Res.string.budgets_none),
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Link to Objective (optional)") },
+                        label = { Text(stringResource(Res.string.budgets_link_objective)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = objectiveExpanded) },
                         modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
@@ -447,15 +454,15 @@ private fun BudgetDialog(
                         onDismissRequest = { objectiveExpanded = false }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("None") },
+                            text = { Text(stringResource(Res.string.budgets_none)) },
                             onClick = {
                                 selectedObjectiveId = null
                                 objectiveExpanded = false
                             }
                         )
-                        activeObjectives.forEach { (id, title) ->
+                        activeObjectives.forEach { (id, objTitle) ->
                             DropdownMenuItem(
-                                text = { Text(title) },
+                                text = { Text(objTitle) },
                                 onClick = {
                                     selectedObjectiveId = id
                                     objectiveExpanded = false
@@ -468,7 +475,7 @@ private fun BudgetDialog(
         },
         confirmButton = {
             DSButton(
-                text = "Save",
+                text = stringResource(Res.string.action_save),
                 onClick = {
                     val hours = targetHours.toIntOrNull() ?: 0
                     val mins = targetMinutesRemainder.toIntOrNull() ?: 0
@@ -481,7 +488,7 @@ private fun BudgetDialog(
             )
         },
         dismissButton = {
-            DSTextButton(text = "Cancel", onClick = onDismiss)
+            DSTextButton(text = stringResource(Res.string.action_cancel), onClick = onDismiss)
         }
     )
 }

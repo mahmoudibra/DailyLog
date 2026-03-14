@@ -1,4 +1,4 @@
-rootProject.name = "DailyWorkTracker"
+rootProject.name = "DailyTracker"
 
 include(":core:di")
 include(":core:database")

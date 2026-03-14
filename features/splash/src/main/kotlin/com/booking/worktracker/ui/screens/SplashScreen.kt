@@ -11,10 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.booking.worktracker.core.generated.resources.*
 import com.booking.worktracker.ui.designsystem.DSTheme
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SplashScreen(onSplashFinished: () -> Unit) {
@@ -41,7 +42,7 @@ fun SplashScreen(onSplashFinished: () -> Unit) {
             modifier = Modifier.alpha(alpha)
         ) {
             Text(
-                text = "DailyWorkTracker",
+                text = stringResource(Res.string.splash_app_name),
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 color = DSTheme.colors.onPrimary
@@ -50,7 +51,7 @@ fun SplashScreen(onSplashFinished: () -> Unit) {
             Spacer(modifier = Modifier.height(DSTheme.spacing.small))
 
             Text(
-                text = "Track your day. Own your progress.",
+                text = stringResource(Res.string.splash_slogan),
                 style = MaterialTheme.typography.bodyLarge,
                 color = DSTheme.colors.onPrimary.copy(alpha = 0.8f)
             )

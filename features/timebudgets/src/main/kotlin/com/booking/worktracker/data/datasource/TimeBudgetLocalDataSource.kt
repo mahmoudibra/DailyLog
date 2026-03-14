@@ -1,6 +1,6 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyWorkTrackerDatabase
+import com.booking.worktracker.data.DailyTrackerDatabase
 import com.booking.worktracker.data.models.PeriodType
 import com.booking.worktracker.data.models.TimeBudget
 import com.booking.worktracker.di.Singleton
@@ -9,7 +9,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 @Singleton
-class TimeBudgetLocalDataSource(db: DailyWorkTrackerDatabase) {
+class TimeBudgetLocalDataSource(db: DailyTrackerDatabase) {
 
     private val queries = db.timeBudgetsQueries
     private val objectivesQueries = db.objectivesQueries

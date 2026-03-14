@@ -296,6 +296,8 @@
 
     <!-- Focus Zones & Energy -->
     <string name="nav_focus_zones">مناطق التركيز</string>
+    <string name="nav_time_budgets">ميزانيات الوقت</string>
+    <string name="nav_habits">العادات</string>
     <string name="focus_zones_title">مناطق التركيز والطاقة</string>
     <string name="focus_weeks_label">%1$dأ</string>
     <string name="focus_empty_state">لا توجد تقييمات تركيز بعد. قيّم مستوى طاقتك (1-5) عند إيقاف المؤقت أو إضافة إدخالات يدوية لرؤية الأنماط هنا!</string>
@@ -321,4 +323,60 @@
     <string name="focus_save_rating">حفظ التقييم</string>
     <string name="focus_skip">تخطي</string>
     <string name="focus_rating_optional">تقييم التركيز (اختياري)</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_app_name">DailyTracker</string>
+    <string name="splash_slogan">تتبع يومك. امتلك تقدمك.</string>
+
+    <!-- Habits Screen -->
+    <string name="habits_title">العادات</string>
+    <string name="habits_add">إضافة عادة</string>
+    <string name="habits_edit">تعديل العادة</string>
+    <string name="habits_today">اليوم</string>
+    <string name="habits_empty">لا توجد عادات بعد. أضف عادة لبدء بناء سلاسل الإنجاز.</string>
+    <string name="habits_streak_board">لوحة التوالي</string>
+    <string name="habits_this_week">هذا الأسبوع</string>
+    <string name="habits_completion">الإكمال</string>
+    <string name="habits_perfect_days">أيام مثالية</string>
+    <string name="habits_completions">الإنجازات</string>
+    <string name="habits_current">الحالي</string>
+    <string name="habits_longest">الأطول</string>
+    <string name="habits_best">الأفضل: %1$d</string>
+    <string name="habits_name_label">الاسم</string>
+    <string name="habits_icon_label">الأيقونة (إيموجي)</string>
+    <string name="habits_color_label">اللون</string>
+    <string name="habits_archive">أرشفة</string>
+    <string name="habits_selected">محدد</string>
+    <plurals name="habits_day_streak">
+        <item quantity="zero">%1$d يوم</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%1$d أيام</item>
+        <item quantity="many">%1$d يومًا</item>
+        <item quantity="other">%1$d يوم</item>
+    </plurals>
+    <string name="habits_streak_fire">\uD83D\uDD25 %1$s</string>
+
+    <!-- Time Budgets Screen -->
+    <string name="budgets_title">ميزانيات الوقت</string>
+    <string name="budgets_add">إضافة ميزانية</string>
+    <string name="budgets_edit">تعديل الميزانية</string>
+    <string name="budgets_empty">لا توجد ميزانيات وقت. أضف ميزانية لبدء تتبع أهداف تخصيص الوقت.</string>
+    <string name="budgets_weekly_pace">الوتيرة الأسبوعية</string>
+    <string name="budgets_logged">المسجّل</string>
+    <string name="budgets_expected_by_now">المتوقع حتى الآن</string>
+    <string name="budgets_total_target">الهدف الكلي</string>
+    <string name="budgets_period_elapsed">الفترة: %1$d%% منقضية</string>
+    <string name="budgets_ahead">متقدم عن الوتيرة</string>
+    <string name="budgets_on_pace">على الوتيرة</string>
+    <string name="budgets_behind">متأخر عن الوتيرة</string>
+    <string name="budgets_youre_ahead">أنت متقدم</string>
+    <string name="budgets_youre_on_pace">أنت على الوتيرة</string>
+    <string name="budgets_youre_behind">أنت متأخر</string>
+    <string name="budgets_hours_label">الساعات</string>
+    <string name="budgets_minutes_label">الدقائق</string>
+    <string name="budgets_period_label">الفترة</string>
+    <string name="budgets_link_objective">ربط بهدف (اختياري)</string>
+    <string name="budgets_none">بدون</string>
+    <string name="budgets_unknown">غير معروف</string>
 </resources>

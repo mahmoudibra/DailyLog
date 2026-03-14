@@ -8,11 +8,11 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 @Singleton
 class DatabaseProvider {
-    private var database: DailyWorkTrackerDatabase? = null
+    private var database: DailyTrackerDatabase? = null
     private var driver: JdbcSqliteDriver? = null
 
     fun init() {
-        val jdbcDriver = JdbcSqliteDriver("jdbc:sqlite:daily_work_tracker.db")
+        val jdbcDriver = JdbcSqliteDriver("jdbc:sqlite:daily_tracker.db")
 
         // Check user_version via mapper-based executeQuery
         val userVersion = jdbcDriver.executeQuery(
@@ -42,20 +42,20 @@ class DatabaseProvider {
                 // so SQLDelight doesn't try to recreate tables
                 jdbcDriver.execute(
                     null,
-                    "PRAGMA user_version = ${DailyWorkTrackerDatabase.Schema.version}",
+                    "PRAGMA user_version = ${DailyTrackerDatabase.Schema.version}",
                     0
                 )
             } else {
                 // Fresh database — create schema
-                DailyWorkTrackerDatabase.Schema.create(jdbcDriver)
+                DailyTrackerDatabase.Schema.create(jdbcDriver)
             }
         } else {
             // Run any pending migrations
-            if (userVersion < DailyWorkTrackerDatabase.Schema.version) {
-                DailyWorkTrackerDatabase.Schema.migrate(
+            if (userVersion < DailyTrackerDatabase.Schema.version) {
+                DailyTrackerDatabase.Schema.migrate(
                     driver = jdbcDriver,
                     oldVersion = userVersion,
-                    newVersion = DailyWorkTrackerDatabase.Schema.version
+                    newVersion = DailyTrackerDatabase.Schema.version
                 )
             }
         }
@@ -64,10 +64,10 @@ class DatabaseProvider {
         jdbcDriver.execute(null, "PRAGMA foreign_keys = ON", 0)
 
         driver = jdbcDriver
-        database = DailyWorkTrackerDatabase(jdbcDriver)
+        database = DailyTrackerDatabase(jdbcDriver)
     }
 
-    fun getDatabase(): DailyWorkTrackerDatabase {
+    fun getDatabase(): DailyTrackerDatabase {
         return database ?: throw IllegalStateException("Database not initialized. Call init() first.")
     }
 

@@ -29,7 +29,7 @@ dependencies {
 
 sqldelight {
     databases {
-        create("DailyWorkTrackerDatabase") {
+        create("DailyTrackerDatabase") {
             packageName.set("com.booking.worktracker.data")
             dialect("app.cash.sqldelight:sqlite-3-38-dialect:2.0.2")
         }

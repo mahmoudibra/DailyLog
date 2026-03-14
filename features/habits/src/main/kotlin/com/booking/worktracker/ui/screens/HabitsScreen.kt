@@ -20,12 +20,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.booking.worktracker.core.generated.resources.*
 import com.booking.worktracker.data.models.Habit
 import com.booking.worktracker.data.models.HabitStreak
 import com.booking.worktracker.di.HabitsComponent
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
 import kotlinx.datetime.*
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.stringResource
 
 private val presetColors = listOf(
     "#4CAF50", "#2196F3", "#FF9800", "#E91E63",
@@ -56,9 +59,9 @@ fun HabitsScreen() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                DSScreenTitle("Habits")
+                DSScreenTitle(stringResource(Res.string.habits_title))
                 DSButton(
-                    text = "Add Habit",
+                    text = stringResource(Res.string.habits_add),
                     icon = Icons.Default.Add,
                     onClick = { showAddDialog = true }
                 )
@@ -74,13 +77,13 @@ fun HabitsScreen() {
 
         // Today's Habits Section
         item {
-            DSSectionHeader(title = "Today")
+            DSSectionHeader(title = stringResource(Res.string.habits_today))
         }
 
         if (habitStreaks.isEmpty() && !isLoading) {
             item {
                 DSEmptyState(
-                    message = "No habits yet. Add a habit to start building streaks."
+                    message = stringResource(Res.string.habits_empty)
                 )
             }
         } else {
@@ -98,7 +101,7 @@ fun HabitsScreen() {
         // Streak Board Section
         if (habitStreaks.isNotEmpty()) {
             item {
-                DSSectionHeader(title = "Streak Board")
+                DSSectionHeader(title = stringResource(Res.string.habits_streak_board))
             }
 
             items(habitStreaks, key = { "streak-${it.habit.id}" }) { streak ->
@@ -133,7 +136,7 @@ fun HabitsScreen() {
 private fun WeeklyScoreCard(score: com.booking.worktracker.data.models.HabitWeeklyScore) {
     DSCard(modifier = Modifier.fillMaxWidth()) {
         Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)) {
-            DSSectionHeader(title = "This Week")
+            DSSectionHeader(title = stringResource(Res.string.habits_this_week))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -141,7 +144,7 @@ private fun WeeklyScoreCard(score: com.booking.worktracker.data.models.HabitWeek
             ) {
                 Column {
                     Text(
-                        text = "Completion",
+                        text = stringResource(Res.string.habits_completion),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
@@ -152,7 +155,7 @@ private fun WeeklyScoreCard(score: com.booking.worktracker.data.models.HabitWeek
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = "Perfect Days",
+                        text = stringResource(Res.string.habits_perfect_days),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
@@ -163,7 +166,7 @@ private fun WeeklyScoreCard(score: com.booking.worktracker.data.models.HabitWeek
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Completions",
+                        text = stringResource(Res.string.habits_completions),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
@@ -225,14 +228,15 @@ private fun TodayHabitCard(
                         horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
                     ) {
                         if (streak.currentStreak > 0) {
+                            val dayText = pluralStringResource(Res.plurals.habits_day_streak, streak.currentStreak, streak.currentStreak)
                             Text(
-                                text = "\uD83D\uDD25 ${streak.currentStreak} day${if (streak.currentStreak != 1) "s" else ""}",
+                                text = stringResource(Res.string.habits_streak_fire, dayText),
                                 style = DSTheme.font.bodySmall,
                                 color = DSTheme.colors.primary
                             )
                         }
                         Text(
-                            text = "Best: ${streak.longestStreak}",
+                            text = stringResource(Res.string.habits_best, streak.longestStreak),
                             style = DSTheme.font.bodySmall,
                             color = DSTheme.colors.onSurfaceVariant
                         )
@@ -247,12 +251,12 @@ private fun TodayHabitCard(
             ) {
                 DSIconButton(
                     icon = Icons.Default.Edit,
-                    contentDescription = "Edit",
+                    contentDescription = stringResource(Res.string.action_edit),
                     onClick = onEdit
                 )
                 DSIconButton(
                     icon = Icons.Default.Archive,
-                    contentDescription = "Archive",
+                    contentDescription = stringResource(Res.string.habits_archive),
                     onClick = onArchive
                 )
 
@@ -269,7 +273,7 @@ private fun TodayHabitCard(
                     if (isCompleted) {
                         Icon(
                             Icons.Default.Check,
-                            contentDescription = "Completed",
+                            contentDescription = stringResource(Res.string.completed),
                             tint = DSTheme.colors.onPrimary,
                             modifier = Modifier.size(20.dp)
                         )
@@ -309,29 +313,29 @@ private fun StreakBoardCard(streak: HabitStreak) {
             ) {
                 Column {
                     Text(
-                        text = "Current",
+                        text = stringResource(Res.string.habits_current),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
                     Text(
-                        text = "${streak.currentStreak} day${if (streak.currentStreak != 1) "s" else ""}",
+                        text = pluralStringResource(Res.plurals.habits_day_streak, streak.currentStreak, streak.currentStreak),
                         style = DSTheme.font.titleSmall
                     )
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = "Longest",
+                        text = stringResource(Res.string.habits_longest),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
                     Text(
-                        text = "${streak.longestStreak} day${if (streak.longestStreak != 1) "s" else ""}",
+                        text = pluralStringResource(Res.plurals.habits_day_streak, streak.longestStreak, streak.longestStreak),
                         style = DSTheme.font.titleSmall
                     )
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Total",
+                        text = stringResource(Res.string.total),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
@@ -343,7 +347,6 @@ private fun StreakBoardCard(streak: HabitStreak) {
             }
 
             // Mini heatmap: 4 rows x 7 columns
-            // Show current streak as green squares from the right, rest gray
             MiniHeatmap(
                 currentStreak = streak.currentStreak,
                 color = habitColor
@@ -361,8 +364,15 @@ private fun MiniHeatmap(
     val completedColor = color
     val emptyColor = DSTheme.colors.surfaceVariant
 
-    // Days labels
-    val dayLabels = listOf("M", "T", "W", "T", "F", "S", "S")
+    val dayLabels = listOf(
+        stringResource(Res.string.day_mon).first().toString(),
+        stringResource(Res.string.day_tue).first().toString(),
+        stringResource(Res.string.day_wed).first().toString(),
+        stringResource(Res.string.day_thu).first().toString(),
+        stringResource(Res.string.day_fri).first().toString(),
+        stringResource(Res.string.day_sat).first().toString(),
+        stringResource(Res.string.day_sun).first().toString(),
+    )
 
     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
         // Day of week labels
@@ -382,7 +392,7 @@ private fun MiniHeatmap(
         for (row in 0 until 4) {
             Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
                 for (col in 0 until 7) {
-                    val dayIndex = row * 7 + col // 0 = oldest, 27 = today
+                    val dayIndex = row * 7 + col
                     val daysAgo = totalDays - 1 - dayIndex
                     val isCompleted = daysAgo < currentStreak
 
@@ -408,7 +418,7 @@ private fun HabitDialog(
     var icon by remember { mutableStateOf(existingHabit?.icon ?: "") }
     var selectedColor by remember { mutableStateOf(existingHabit?.color) }
 
-    val title = if (existingHabit != null) "Edit Habit" else "Add Habit"
+    val title = if (existingHabit != null) stringResource(Res.string.habits_edit) else stringResource(Res.string.habits_add)
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -418,7 +428,7 @@ private fun HabitDialog(
                 DSOutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = "Name",
+                    label = stringResource(Res.string.habits_name_label),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -426,14 +436,14 @@ private fun HabitDialog(
                 DSOutlinedTextField(
                     value = icon,
                     onValueChange = { icon = it },
-                    label = "Icon (emoji)",
+                    label = stringResource(Res.string.habits_icon_label),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 // Color picker
                 Text(
-                    text = "Color",
+                    text = stringResource(Res.string.habits_color_label),
                     style = DSTheme.font.bodyMedium,
                     color = DSTheme.colors.onSurfaceVariant
                 )
@@ -442,13 +452,13 @@ private fun HabitDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     presetColors.forEach { colorHex ->
-                        val color = parseHexColor(colorHex)
+                        val colorVal = parseHexColor(colorHex)
                         val isSelected = selectedColor == colorHex
                         Box(
                             modifier = Modifier
                                 .size(32.dp)
                                 .clip(CircleShape)
-                                .background(color)
+                                .background(colorVal)
                                 .then(
                                     if (isSelected) Modifier.border(
                                         2.dp,
@@ -464,7 +474,7 @@ private fun HabitDialog(
                             if (isSelected) {
                                 Icon(
                                     Icons.Default.Check,
-                                    contentDescription = "Selected",
+                                    contentDescription = stringResource(Res.string.habits_selected),
                                     tint = Color.White,
                                     modifier = Modifier.size(16.dp)
                                 )
@@ -476,7 +486,7 @@ private fun HabitDialog(
         },
         confirmButton = {
             DSButton(
-                text = "Save",
+                text = stringResource(Res.string.action_save),
                 onClick = {
                     if (name.isNotBlank()) {
                         onSave(
@@ -490,7 +500,7 @@ private fun HabitDialog(
             )
         },
         dismissButton = {
-            DSTextButton(text = "Cancel", onClick = onDismiss)
+            DSTextButton(text = stringResource(Res.string.action_cancel), onClick = onDismiss)
         }
     )
 }

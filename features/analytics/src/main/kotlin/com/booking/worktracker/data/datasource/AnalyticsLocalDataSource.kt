@@ -1,6 +1,6 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyWorkTrackerDatabase
+import com.booking.worktracker.data.DailyTrackerDatabase
 import com.booking.worktracker.data.models.*
 import com.booking.worktracker.di.Singleton
 import kotlinx.datetime.*
@@ -8,7 +8,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 @Singleton
-class AnalyticsLocalDataSource(db: DailyWorkTrackerDatabase) {
+class AnalyticsLocalDataSource(db: DailyTrackerDatabase) {
 
     private val queries = db.analyticsQueries
 

@@ -1,6 +1,6 @@
 package com.booking.worktracker.data.datasource
 
-import com.booking.worktracker.data.DailyWorkTrackerDatabase
+import com.booking.worktracker.data.DailyTrackerDatabase
 import com.booking.worktracker.data.models.ChecklistItem
 import com.booking.worktracker.data.models.Objective
 import com.booking.worktracker.data.models.ObjectiveStatus
@@ -10,7 +10,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 @Singleton
-class ObjectiveLocalDataSource(db: DailyWorkTrackerDatabase) {
+class ObjectiveLocalDataSource(db: DailyTrackerDatabase) {
 
     private val objectivesQueries = db.objectivesQueries
     private val dailyLogsQueries = db.dailyLogsQueries

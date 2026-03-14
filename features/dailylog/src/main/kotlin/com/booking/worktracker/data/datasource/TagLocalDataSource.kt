@@ -1,14 +1,14 @@
 package com.booking.worktracker.data.datasource
 
 import com.booking.worktracker.data.DatabaseProvider
-import com.booking.worktracker.data.DailyWorkTrackerDatabase
+import com.booking.worktracker.data.DailyTrackerDatabase
 import com.booking.worktracker.data.models.Tag
 import me.tatarka.inject.annotations.Inject
 import com.booking.worktracker.di.Singleton
 
 @Inject
 @Singleton
-class TagLocalDataSource(db: DailyWorkTrackerDatabase) {
+class TagLocalDataSource(db: DailyTrackerDatabase) {
 
     private val tagsQueries = db.tagsQueries
     private val dailyLogsQueries = db.dailyLogsQueries

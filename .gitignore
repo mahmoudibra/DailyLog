@@ -47,7 +47,7 @@ gradle.properties.local
 *.pkg
 
 ### SQLite runtime database ###
-daily_work_tracker.db
+daily_tracker.db
 *.db-journal
 *.db-wal
 *.db-shm

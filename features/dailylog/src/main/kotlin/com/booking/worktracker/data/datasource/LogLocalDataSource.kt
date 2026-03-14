@@ -1,7 +1,7 @@
 package com.booking.worktracker.data.datasource
 
 import com.booking.worktracker.data.DatabaseProvider
-import com.booking.worktracker.data.DailyWorkTrackerDatabase
+import com.booking.worktracker.data.DailyTrackerDatabase
 import com.booking.worktracker.data.models.DailyLog
 import com.booking.worktracker.data.models.Tag
 import com.booking.worktracker.data.models.WorkEntry
@@ -11,7 +11,7 @@ import com.booking.worktracker.di.Singleton
 
 @Inject
 @Singleton
-class LogLocalDataSource(db: DailyWorkTrackerDatabase) {
+class LogLocalDataSource(db: DailyTrackerDatabase) {
 
     private val dailyLogsQueries = db.dailyLogsQueries
     private val tagsQueries = db.tagsQueries
