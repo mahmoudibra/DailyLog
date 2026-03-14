@@ -11,6 +11,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/database" />
+            <option value="$PROJECT_DIR$/core/designsystem" />
+            <option value="$PROJECT_DIR$/core/di" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/analytics" />
             <option value="$PROJECT_DIR$/features/dailylog" />
@@ -20,6 +23,7 @@
             <option value="$PROJECT_DIR$/features/objectives" />
             <option value="$PROJECT_DIR$/features/reviews" />
             <option value="$PROJECT_DIR$/features/settings" />
+            <option value="$PROJECT_DIR$/features/splash" />
             <option value="$PROJECT_DIR$/features/timebudgets" />
             <option value="$PROJECT_DIR$/features/timetracking" />
           </set>

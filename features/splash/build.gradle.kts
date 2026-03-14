@@ -1,0 +1,26 @@
+plugins {
+    kotlin("jvm") version "2.1.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
+    id("org.jetbrains.compose") version "1.10.2"
+}
+
+group = "com.booking.worktracker"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    google()
+    mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+}
+
+dependencies {
+    implementation(project(":core:designsystem"))
+    implementation(compose.desktop.currentOs)
+    implementation(compose.material3)
+    implementation(compose.components.resources)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+}

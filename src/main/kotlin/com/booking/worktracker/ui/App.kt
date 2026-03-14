@@ -28,6 +28,7 @@ enum class Screen {
 @Composable
 fun App() {
     val settingsRepository = remember { SettingsRepository(SettingsLocalDataSource(DatabaseProvider.getDatabase())) }
+    var showSplash by remember { mutableStateOf(true) }
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
     var isDarkMode by remember { mutableStateOf(false) }
@@ -52,49 +53,53 @@ fun App() {
 
     ProvideLocalization(locale = currentLocale) {
         WorkTrackerTheme(darkTheme = isDarkMode) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(DSTheme.colors.background)
-            ) {
-                SideNavBar(
-                    currentScreen = currentScreen,
-                    onScreenSelected = { currentScreen = it },
-                    navItems = navItems,
-                    dividerAfterIndex = 1,
-                )
-
-                Box(
+            if (showSplash) {
+                SplashScreen(onSplashFinished = { showSplash = false })
+            } else {
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
+                        .fillMaxSize()
+                        .background(DSTheme.colors.background)
                 ) {
-                    when (currentScreen) {
-                        Screen.DAILY_LOG -> DailyLogScreen(
-                            onNavigateToObjectives = { currentScreen = Screen.OBJECTIVES },
-                            onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING }
-                        )
-                        Screen.LOG_LIST -> LogListScreen()
-                        Screen.OBJECTIVES -> ObjectivesScreen()
-                        Screen.TIME_TRACKING -> TimeTrackingScreen()
-                        Screen.ANALYTICS -> AnalyticsScreen()
-                        Screen.EXPORT -> ExportScreen()
-                        Screen.REVIEWS -> ReviewsScreen()
-                        Screen.FOCUS_ZONES -> FocusZonesScreen()
-                        Screen.TIME_BUDGETS -> TimeBudgetsScreen()
-                        Screen.HABITS -> HabitsScreen()
-                        Screen.SETTINGS -> SettingsScreen(
-                            currentLocale = currentLocale,
-                            isDarkMode = isDarkMode,
-                            onLanguageChanged = { locale ->
-                                settingsRepository.setLanguage(locale.code)
-                                currentLocale = locale
-                            },
-                            onDarkModeChanged = { enabled ->
-                                settingsRepository.setDarkMode(enabled)
-                                isDarkMode = enabled
-                            }
-                        )
+                    SideNavBar(
+                        currentScreen = currentScreen,
+                        onScreenSelected = { currentScreen = it },
+                        navItems = navItems,
+                        dividerAfterIndex = 1,
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                    ) {
+                        when (currentScreen) {
+                            Screen.DAILY_LOG -> DailyLogScreen(
+                                onNavigateToObjectives = { currentScreen = Screen.OBJECTIVES },
+                                onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING }
+                            )
+                            Screen.LOG_LIST -> LogListScreen()
+                            Screen.OBJECTIVES -> ObjectivesScreen()
+                            Screen.TIME_TRACKING -> TimeTrackingScreen()
+                            Screen.ANALYTICS -> AnalyticsScreen()
+                            Screen.EXPORT -> ExportScreen()
+                            Screen.REVIEWS -> ReviewsScreen()
+                            Screen.FOCUS_ZONES -> FocusZonesScreen()
+                            Screen.TIME_BUDGETS -> TimeBudgetsScreen()
+                            Screen.HABITS -> HabitsScreen()
+                            Screen.SETTINGS -> SettingsScreen(
+                                currentLocale = currentLocale,
+                                isDarkMode = isDarkMode,
+                                onLanguageChanged = { locale ->
+                                    settingsRepository.setLanguage(locale.code)
+                                    currentLocale = locale
+                                },
+                                onDarkModeChanged = { enabled ->
+                                    settingsRepository.setDarkMode(enabled)
+                                    isDarkMode = enabled
+                                }
+                            )
+                        }
                     }
                 }
             }
