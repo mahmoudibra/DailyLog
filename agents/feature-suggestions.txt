@@ -14,7 +14,6 @@ RECOMMENDED: Search & Filter
 
 ---
 
-NEW SUGGESTION:
 9. Weekly/Daily Review & Reflection (HIGH/HIGH)
    - End-of-day prompts: "What went well?", "What could improve?", "Top priority for tomorrow?"
    - End-of-week summary: auto-generated recap of entries, time spent, objectives progressed, streaks
@@ -22,7 +21,6 @@ NEW SUGGESTION:
    - Complements analytics by turning stats into user-written actionable insights
    - Inspiration: Reflect, Day One, Obsidian daily review plugins
 
-NEW SUGGESTION:
 10. Focus Zones & Energy Patterns (HIGH/MEDIUM)
    - Tag time blocks with energy/focus rating (1-5) when completing a time entry
    - Track which time-of-day windows correlate with highest focus scores
@@ -32,7 +30,6 @@ NEW SUGGESTION:
    - Leverages existing time_entries (category, start/end time, duration) and daily_reviews
    - Inspiration: Sunsama, Reclaim.ai, Rise, Centered
 
-NEW SUGGESTION:
 11. Time Budgets & Allocation Goals (HIGH/MEDIUM)
    - Set weekly/monthly hour targets per time-tracking category (e.g., "Deep Work: 20h/week")
    - Dashboard showing actual vs. budgeted hours with progress bars (green/amber/red)
@@ -42,7 +39,6 @@ NEW SUGGESTION:
    - Leverages existing time_entries (category, duration, date) and objectives
    - Inspiration: Sunsama, Reclaim.ai, Toggl, Clockify
 
-NEW SUGGESTION:
 12. Smart Productivity Streaks & Habits (HIGH/MEDIUM)
    - Track customizable daily habits alongside work entries (e.g., "morning planning", "inbox zero", "code review")
    - Visual streak board with current/longest streaks per habit and calendar heatmaps
@@ -51,3 +47,48 @@ NEW SUGGESTION:
    - Habit-objective linking: attach habits to quarterly goals to drive behavior toward outcomes
    - Leverages existing daily_logs (streaks), time_entries (pattern detection), objectives (goal linking)
    - Inspiration: Streaks, Habitica, Fabulous, Atomic Habits methodology
+
+13. Project Journaling & Context Notes (HIGH/MEDIUM)
+   - Group daily logs, time entries, and objectives under named work streams (e.g., "Auth Refactor", "Q1 Launch")
+   - Attach running context notes per project — decisions, blockers, links, next steps
+   - Timeline view per project showing all related activity across features
+   - Quick-switch active project widget — new time entries and logs auto-tag with it
+   - Project archival with auto-generated summary (total time, objectives completed, key insights)
+   - Leverages existing daily_logs, time_entries, objectives, daily_reviews, tags
+   - Inspiration: Linear projects, Notion project pages, Sunsama, Obsidian MOCs
+
+14. Daily Planning & Intention Setting (HIGH/MEDIUM)
+   - Morning planning screen to declare top priorities, estimate time, and assign to time blocks
+   - Auto-suggests items from unfinished objectives, due habits, yesterday's review priorities, and underspent time budgets
+   - Day timeline showing planned blocks alongside actual tracked time as it fills in
+   - End-of-day plan-vs-actual comparison with completion score, feeding into daily review
+   - Weekly carry-over view surfacing items that keep getting planned but not completed
+   - Leverages existing objectives, checklist_items, daily_reviews, habits, time_budgets, time_entries
+   - Inspiration: Sunsama daily planning, Akiflow time-blocking, Motion, Todoist Today view
+
+15. Accountability Snapshots & Shareable Reports (MEDIUM/LOW)
+   - Generate polished single-page summaries (day/week/month/quarter) as HTML, Markdown, or plain text
+   - Auto-pulls from all features: log entries, time breakdown, objective progress, habit streaks, focus highlights, budget adherence, review excerpts
+   - One-click standup format copy-to-clipboard: "Yesterday/Today/Blockers" for Slack, email, or Jira
+   - Configurable templates: "Manager Update", "Standup", "Personal Retrospective"
+   - Scheduled auto-generation (e.g., weekly report every Friday saved to a folder)
+   - Leverages existing daily_logs, work_entries, time_entries, objectives, habits, time_budgets, daily_reviews, weekly_summaries
+   - Inspiration: Toggl Reports, Clockify shared reports, Reclaim.ai weekly digest, GitHub contribution summaries
+
+16. Interruption & Context Switch Tracking (HIGH/MEDIUM)
+   - Log interruptions with a hotkey during a time entry — capture type (meeting, message, ad-hoc, self-distraction, break) and duration
+   - Auto-detect context switches when timers change categories rapidly, track "switch tax" ramp-up time
+   - Daily/weekly interruption dashboard: total count, interruption-free streaks, most disruptive time slots, top sources
+   - "Fragmentation score" per day — ratio of uninterrupted vs. fragmented blocks, visualized as a timeline bar
+   - Correlate interruptions with focus ratings: surface insights like "Days with 3+ interruptions average 2.1 focus vs. 4.0 uninterrupted"
+   - Leverages existing time_entries, focus zones data, daily_reviews
+   - Inspiration: Centered, RescueTime, Session app, Cal Newport deep work methodology
+
+17. Personal Productivity Trends & Milestones (MEDIUM/MEDIUM)
+   - Month-over-month and quarter-over-quarter trend lines for key metrics: deep work hours, focus rating, habit consistency, objective completion, interruptions
+   - Automatic milestone detection: "500th work entry", "Longest focus streak ever", "Best Deep Work week since tracking began"
+   - Personal bests board showing all-time records across categories — lightweight gamification
+   - "This week vs. your average" contextual nudges on the home screen
+   - Quarterly personal retrospective generator: auto-compiled narrative of trends, improvements, and regressions
+   - Leverages existing time_entries, habit_completions, objectives, daily_reviews, interruptions, time_budgets, focus zones
+   - Inspiration: Strava year-in-review, GitHub Wrapped, Apple Health trends, Spotify Wrapped, Garmin training status
