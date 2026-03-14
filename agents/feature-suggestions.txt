@@ -92,3 +92,12 @@ RECOMMENDED: Search & Filter
    - Quarterly personal retrospective generator: auto-compiled narrative of trends, improvements, and regressions
    - Leverages existing time_entries, habit_completions, objectives, daily_reviews, interruptions, time_budgets, focus zones
    - Inspiration: Strava year-in-review, GitHub Wrapped, Apple Health trends, Spotify Wrapped, Garmin training status
+
+18. XP & Achievements System (HIGH/HIGH)
+   - Earn XP for every productive action: logging entries, completing time sessions, finishing checklists, maintaining streaks, writing reviews, hitting budgets
+   - Level progression with titled ranks (Apprentice -> Journeyman -> Craftsman -> Master -> Grandmaster) and progress bar on home screen
+   - Achievement badges in categories: Consistency, Mastery, Explorer, Challenge — unlocked by specific accomplishments
+   - Weekly XP leaderboard against your own past weeks — self-competition with XP-over-time chart
+   - Optional daily/weekly XP targets that tie into daily planning as a meta-goal
+   - Leverages existing work_entries, time_entries, checklist_items, habit_completions, daily_reviews, time_budgets
+   - Inspiration: Habitica, Duolingo XP/levels, Forest, Todoist Karma, GitHub contribution graph
