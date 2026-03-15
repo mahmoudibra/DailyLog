@@ -25,7 +25,8 @@ import kotlinx.datetime.*
 @Composable
 fun DailyLogScreen(
     onNavigateToObjectives: () -> Unit = {},
-    onNavigateToTimer: () -> Unit = {}
+    onNavigateToTimer: () -> Unit = {},
+    onNavigateToAchievements: () -> Unit = {}
 ) {
     val component = remember { DailyLogComponent.instance }
     val viewModel = viewModel { component.dailyLogViewModel }
@@ -126,6 +127,14 @@ fun DailyLogScreen(
             backgroundColor = DSTheme.cardOrange,
             icon = Icons.Default.Timer,
             onClick = onNavigateToTimer
+        )
+
+        ActionCard(
+            title = "XP & Achievements",
+            subtitle = "Track your progress and unlock badges",
+            backgroundColor = DSTheme.cardPurple,
+            icon = Icons.Default.EmojiEvents,
+            onClick = onNavigateToAchievements
         )
 
         // Work entries section

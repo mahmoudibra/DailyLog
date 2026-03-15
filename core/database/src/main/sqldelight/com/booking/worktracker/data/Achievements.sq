@@ -1,0 +1,100 @@
+CREATE TABLE IF NOT EXISTS xp_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    action_type TEXT NOT NULL,
+    xp_amount INTEGER NOT NULL,
+    description TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS user_level (
+    id INTEGER PRIMARY KEY DEFAULT 1,
+    total_xp INTEGER NOT NULL DEFAULT 0,
+    current_level INTEGER NOT NULL DEFAULT 1,
+    rank_title TEXT NOT NULL DEFAULT 'Apprentice',
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS achievements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    category TEXT NOT NULL,
+    icon TEXT NOT NULL,
+    xp_reward INTEGER NOT NULL DEFAULT 50,
+    requirement_type TEXT NOT NULL,
+    requirement_value INTEGER NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS user_achievements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    achievement_id INTEGER NOT NULL,
+    unlocked_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (achievement_id) REFERENCES achievements(id) ON DELETE CASCADE
+);
+
+-- XP Event queries
+
+getAllXpEvents:
+SELECT id, action_type, xp_amount, description, created_at
+FROM xp_events ORDER BY created_at DESC;
+
+getXpEventsByDateRange:
+SELECT id, action_type, xp_amount, description, created_at
+FROM xp_events WHERE created_at BETWEEN ? AND ? ORDER BY created_at DESC;
+
+insertXpEvent:
+INSERT INTO xp_events (action_type, xp_amount, description) VALUES (?, ?, ?);
+
+getTotalXpForDateRange:
+SELECT COALESCE(SUM(xp_amount), 0) AS total_xp
+FROM xp_events WHERE created_at BETWEEN ? AND ?;
+
+getXpByActionType:
+SELECT action_type, SUM(xp_amount) AS total_xp
+FROM xp_events GROUP BY action_type ORDER BY total_xp DESC;
+
+getDailyXpTotals:
+SELECT date(created_at) AS date, SUM(xp_amount) AS total_xp
+FROM xp_events GROUP BY date(created_at) ORDER BY date DESC;
+
+-- User Level queries
+
+getUserLevel:
+SELECT id, total_xp, current_level, rank_title, updated_at
+FROM user_level WHERE id = 1;
+
+initUserLevel:
+INSERT OR IGNORE INTO user_level (id, total_xp, current_level, rank_title) VALUES (1, 0, 1, 'Apprentice');
+
+updateUserLevel:
+UPDATE user_level SET total_xp = ?, current_level = ?, rank_title = ?, updated_at = datetime('now') WHERE id = 1;
+
+-- Achievement queries
+
+getAllAchievements:
+SELECT id, name, description, category, icon, xp_reward, requirement_type, requirement_value, created_at
+FROM achievements ORDER BY category, name;
+
+getAchievementsByCategory:
+SELECT id, name, description, category, icon, xp_reward, requirement_type, requirement_value, created_at
+FROM achievements WHERE category = ? ORDER BY name;
+
+getUnlockedAchievements:
+SELECT a.id, a.name, a.description, a.category, a.icon, a.xp_reward, a.requirement_type, a.requirement_value, a.created_at, ua.unlocked_at
+FROM achievements a
+INNER JOIN user_achievements ua ON ua.achievement_id = a.id
+ORDER BY ua.unlocked_at DESC;
+
+getLockedAchievements:
+SELECT id, name, description, category, icon, xp_reward, requirement_type, requirement_value, created_at
+FROM achievements
+WHERE id NOT IN (SELECT achievement_id FROM user_achievements)
+ORDER BY category, name;
+
+insertAchievement:
+INSERT INTO achievements (name, description, category, icon, xp_reward, requirement_type, requirement_value)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+unlockAchievement:
+INSERT INTO user_achievements (achievement_id) VALUES (?);

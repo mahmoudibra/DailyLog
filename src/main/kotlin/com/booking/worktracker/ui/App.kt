@@ -21,7 +21,7 @@ import com.booking.worktracker.ui.navigation.SideNavBar
 import com.booking.worktracker.ui.screens.*
 
 enum class Screen {
-    DAILY_LOG, LOG_LIST, OBJECTIVES, TIME_TRACKING, ANALYTICS, EXPORT, REVIEWS, FOCUS_ZONES, TIME_BUDGETS, HABITS, SETTINGS
+    DAILY_LOG, LOG_LIST, OBJECTIVES, TIME_TRACKING, ANALYTICS, EXPORT, REVIEWS, FOCUS_ZONES, TIME_BUDGETS, HABITS, ACHIEVEMENTS, SETTINGS
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +50,7 @@ fun App() {
             NavItem(Screen.FOCUS_ZONES, Icons.Default.Psychology, stringResource(Res.string.nav_focus_zones)),
             NavItem(Screen.TIME_BUDGETS, Icons.Default.PieChart, stringResource(Res.string.nav_time_budgets)),
             NavItem(Screen.HABITS, Icons.Default.LocalFireDepartment, stringResource(Res.string.nav_habits)),
+            NavItem(Screen.ACHIEVEMENTS, Icons.Default.EmojiEvents, "XP"),
         )
 
         WorkTrackerTheme(darkTheme = isDarkMode) {
@@ -76,7 +77,8 @@ fun App() {
                         when (currentScreen) {
                             Screen.DAILY_LOG -> DailyLogScreen(
                                 onNavigateToObjectives = { currentScreen = Screen.OBJECTIVES },
-                                onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING }
+                                onNavigateToTimer = { currentScreen = Screen.TIME_TRACKING },
+                                onNavigateToAchievements = { currentScreen = Screen.ACHIEVEMENTS }
                             )
                             Screen.LOG_LIST -> LogListScreen()
                             Screen.OBJECTIVES -> ObjectivesScreen()
@@ -87,6 +89,7 @@ fun App() {
                             Screen.FOCUS_ZONES -> FocusZonesScreen()
                             Screen.TIME_BUDGETS -> TimeBudgetsScreen()
                             Screen.HABITS -> HabitsScreen()
+                            Screen.ACHIEVEMENTS -> AchievementScreen()
                             Screen.SETTINGS -> SettingsScreen(
                                 currentLocale = currentLocale,
                                 isDarkMode = isDarkMode,

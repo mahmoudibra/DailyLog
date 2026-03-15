@@ -101,3 +101,15 @@ RECOMMENDED: Search & Filter
    - Optional daily/weekly XP targets that tie into daily planning as a meta-goal
    - Leverages existing work_entries, time_entries, checklist_items, habit_completions, daily_reviews, time_budgets
    - Inspiration: Habitica, Duolingo XP/levels, Forest, Todoist Karma, GitHub contribution graph
+
+19. Authentication & User Accounts — Local-First (HIGH/HIGH)
+   - Sign-up screen with email/password registration and input validation (strong password rules, email format)
+   - Sign-in screen with email/password login and "remember me" option
+   - Fully local authentication: user credentials stored in the local SQLite database (no remote server required)
+   - User profile management: display name, avatar, password change
+   - Session management with secure token storage and auto-logout on expiry
+   - Auth-gated navigation: show sign-in/sign-up before main app, redirect after authentication
+   - Enables multi-user support on the same machine with isolated data per user
+   - Local-first design can later be extended to a remote backend (custom API) for cloud sync
+   - Leverages existing settings, database infrastructure; future FK linkage to all existing tables
+   - Inspiration: Sunsama, Todoist, Notion, Linear, Obsidian Sync
