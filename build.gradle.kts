@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":features:habits"))
     implementation(project(":features:splash"))
     implementation(project(":features:achievements"))
+    implementation(project(":features:auth"))
 
     // Compose Desktop
     implementation(compose.desktop.currentOs)
@@ -76,6 +77,9 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0")
+
+    // Logging (silence SLF4J warning from JDBC driver)
+    implementation("org.slf4j:slf4j-nop:2.0.9")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

@@ -7,9 +7,13 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.datasource.SettingsLocalDataSource
 import com.booking.worktracker.data.repository.SettingsRepository
+import com.booking.worktracker.di.AuthComponent
+import com.booking.worktracker.presentation.viewmodels.SignInViewModel
+import com.booking.worktracker.presentation.viewmodels.SignUpViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
 import com.booking.worktracker.ui.localization.AppLocale
@@ -24,10 +28,20 @@ enum class Screen {
     DAILY_LOG, LOG_LIST, OBJECTIVES, TIME_TRACKING, ANALYTICS, EXPORT, REVIEWS, FOCUS_ZONES, TIME_BUDGETS, HABITS, ACHIEVEMENTS, SETTINGS
 }
 
+enum class AuthScreen {
+    SIGN_IN, SIGN_UP
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
     val settingsRepository = remember { SettingsRepository(SettingsLocalDataSource(DatabaseProvider.getDatabase())) }
+    val signInViewModel = viewModel { AuthComponent.instance.signInViewModel }
+    val signUpViewModel = viewModel { AuthComponent.instance.signUpViewModel }
+    val signInState by signInViewModel.uiState.collectAsState()
+    val signUpState by signUpViewModel.uiState.collectAsState()
+
+    var authScreen by remember { mutableStateOf(AuthScreen.SIGN_IN) }
     var showSplash by remember { mutableStateOf(true) }
     var currentScreen by remember { mutableStateOf(Screen.DAILY_LOG) }
     var currentLocale by remember { mutableStateOf(AppLocale.ENGLISH) }
@@ -56,6 +70,33 @@ fun App() {
         WorkTrackerTheme(darkTheme = isDarkMode) {
             if (showSplash) {
                 SplashScreen(onSplashFinished = { showSplash = false })
+            } else if (!signInState.isAuthenticated) {
+                when (authScreen) {
+                    AuthScreen.SIGN_IN -> SignInScreen(
+                        onSignIn = { email, password, rememberMe ->
+                            signInViewModel.signIn(email, password, rememberMe)
+                        },
+                        onNavigateToSignUp = {
+                            signInViewModel.clearError()
+                            authScreen = AuthScreen.SIGN_UP
+                        },
+                        isLoading = signInState.isLoading,
+                        error = signInState.error
+                    )
+                    AuthScreen.SIGN_UP -> SignUpScreen(
+                        onSignUp = { email, displayName, password, confirmPassword ->
+                            signUpViewModel.signUp(email, displayName, password, confirmPassword) { e, p ->
+                                signInViewModel.signIn(e, p, rememberMe = false)
+                            }
+                        },
+                        onNavigateToSignIn = {
+                            signUpViewModel.clearError()
+                            authScreen = AuthScreen.SIGN_IN
+                        },
+                        isLoading = signUpState.isLoading,
+                        error = signUpState.error
+                    )
+                }
             } else {
                 Row(
                     modifier = Modifier
@@ -100,7 +141,8 @@ fun App() {
                                 onDarkModeChanged = { enabled ->
                                     settingsRepository.setDarkMode(enabled)
                                     isDarkMode = enabled
-                                }
+                                },
+                                onSignOut = { signInViewModel.signOut() }
                             )
                         }
                     }

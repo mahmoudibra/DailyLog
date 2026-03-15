@@ -1,0 +1,56 @@
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL UNIQUE,
+    display_name TEXT NOT NULL,
+    password_hash TEXT NOT NULL,
+    salt TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS sessions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    token TEXT NOT NULL UNIQUE,
+    expires_at TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- User queries
+getUserByEmail:
+SELECT id, email, display_name, password_hash, salt, created_at, updated_at FROM users WHERE email = ?;
+
+getUserById:
+SELECT id, email, display_name, password_hash, salt, created_at, updated_at FROM users WHERE id = ?;
+
+insertUser:
+INSERT INTO users (email, display_name, password_hash, salt) VALUES (?, ?, ?, ?);
+
+updateUserDisplayName:
+UPDATE users SET display_name = ?, updated_at = datetime('now') WHERE id = ?;
+
+updateUserPassword:
+UPDATE users SET password_hash = ?, salt = ?, updated_at = datetime('now') WHERE id = ?;
+
+deleteUser:
+DELETE FROM users WHERE id = ?;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
+
+-- Session queries
+getSessionByToken:
+SELECT s.id, s.user_id, s.token, s.expires_at, s.created_at FROM sessions s WHERE s.token = ? AND s.expires_at > datetime('now');
+
+insertSession:
+INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, ?);
+
+deleteSession:
+DELETE FROM sessions WHERE token = ?;
+
+deleteUserSessions:
+DELETE FROM sessions WHERE user_id = ?;
+
+deleteExpiredSessions:
+DELETE FROM sessions WHERE expires_at <= datetime('now');

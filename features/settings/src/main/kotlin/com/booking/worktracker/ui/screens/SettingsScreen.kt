@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,7 +26,8 @@ fun SettingsScreen(
     currentLocale: AppLocale = AppLocale.ENGLISH,
     isDarkMode: Boolean = false,
     onLanguageChanged: (AppLocale) -> Unit = {},
-    onDarkModeChanged: (Boolean) -> Unit = {}
+    onDarkModeChanged: (Boolean) -> Unit = {},
+    onSignOut: () -> Unit = {}
 ) {
     val viewModel = viewModel { SettingsComponent.instance.settingsViewModel }
     val morningTime by viewModel.morningTime.collectAsState()
@@ -191,6 +193,35 @@ fun SettingsScreen(
                 text = stringResource(Res.string.save_settings),
                 onClick = { viewModel.saveSettings(savedMsg) }
             )
+        }
+
+        // Sign out
+        DSCard(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.Logout,
+                        contentDescription = null,
+                        tint = DSTheme.colors.primary
+                    )
+                    Text(
+                        text = "Sign Out",
+                        style = DSTheme.font.titleLarge,
+                        color = DSTheme.colors.primary
+                    )
+                }
+                DSButton(
+                    text = "Sign Out",
+                    onClick = onSignOut
+                )
+            }
         }
 
         // Danger zone - Delete all data
