@@ -133,6 +133,89 @@ AWS provides a UI to set environment variables directly — no config files or s
 | AWS EC2 | `.env` file on server | `docker run --env-file .env` |
 | AWS App Runner | AWS Console UI | Set in service configuration |
 
+## SSL / HTTPS
+
+The Ktor server runs on plain HTTP. HTTPS should be handled at the infrastructure level, not inside the app.
+
+```
+Client → HTTPS → SSL Termination Layer → HTTP → Ktor (:8080)
+```
+
+### Option 1: Reverse Proxy (Recommended for Self-Hosted)
+
+Put Nginx or Caddy in front of the server. The proxy handles SSL, the app stays on plain HTTP.
+
+**Caddy** (automatic HTTPS with Let's Encrypt):
+```
+yourdomain.com {
+    reverse_proxy localhost:8080
+}
+```
+
+**Nginx** (with Let's Encrypt via Certbot):
+```nginx
+server {
+    listen 443 ssl;
+    server_name yourdomain.com;
+
+    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### Option 2: Cloud Load Balancer (Recommended for AWS)
+
+Cloud-managed certificates with zero renewal overhead:
+- **AWS ALB** — attach an AWS Certificate Manager cert, routes HTTPS to your container on HTTP
+- **AWS App Runner / CloudFront** — automatic HTTPS, zero config
+- **GCP Cloud Run** — automatic HTTPS
+- **Azure Container Apps** — automatic HTTPS
+
+### Option 3: Ktor Native SSL (Not Recommended)
+
+Ktor can handle HTTPS directly, but you manage certificates yourself (generation, storage, renewal).
+
+1. Add the dependency in `build.gradle.kts`:
+   ```kotlin
+   implementation("io.ktor:ktor-network-tls-certificates:$ktorVersion")
+   ```
+
+2. Configure in `application.conf`:
+   ```hocon
+   ktor {
+       deployment {
+           port = 8080
+           sslPort = 8443
+       }
+       security {
+           ssl {
+               keyStore = keystore.jks
+               keyAlias = mykey
+               keyStorePassword = ${?SSL_KEYSTORE_PASSWORD}
+               privateKeyPassword = ${?SSL_KEY_PASSWORD}
+           }
+       }
+   }
+   ```
+
+Only use this if you have no control over the infrastructure in front of your app.
+
+### Which to Pick
+
+| Scenario | Best option |
+|----------|------------|
+| Local dev | Don't bother — plain HTTP is fine |
+| Self-hosted VPS | Caddy or Nginx with Let's Encrypt |
+| AWS / Cloud | Load balancer with cloud-managed certificates |
+| No infrastructure control | Ktor native SSL |
+
 ## Other Cloud Providers
 
 The same pattern applies — image is clean, secrets are external:
