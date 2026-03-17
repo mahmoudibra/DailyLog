@@ -22,7 +22,7 @@ SELECT id,
         WHEN 'Budget Boss' THEN 'BUDGET_BOSS'
         WHEN 'Century Club' THEN 'CENTURY_CLUB'
         WHEN 'XP Veteran' THEN 'XP_VETERAN'
-        ELSE UPPER(REPLACE(name, ' ', '_'))
+        ELSE name
     END,
     requirement_value,
     created_at
