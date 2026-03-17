@@ -1,6 +1,5 @@
 package com.dailytracker.server.plugins
 
-import com.dailytracker.server.models.Snapshots
 import com.dailytracker.server.models.Users
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -28,7 +27,7 @@ fun Application.configureDatabase() {
     Database.connect(HikariDataSource(config))
 
     transaction {
-        SchemaUtils.create(Users, Snapshots)
+        SchemaUtils.create(Users)
     }
 
     log.info("Database connected at $dbUrl")

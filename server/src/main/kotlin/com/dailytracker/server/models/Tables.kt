@@ -11,15 +11,3 @@ object Users : Table("users") {
 
     override val primaryKey = PrimaryKey(id)
 }
-
-object Snapshots : Table("snapshots") {
-    val id = uuid("id")
-    val userId = uuid("user_id").references(Users.id)
-    val name = text("name")
-    val filePath = text("file_path")
-    val fileSize = long("file_size")
-    val schemaVersion = integer("schema_version").nullable()
-    val createdAt = timestampWithTimeZone("created_at")
-
-    override val primaryKey = PrimaryKey(id)
-}

@@ -24,17 +24,3 @@ data class AuthResponse(
 data class ErrorResponse(
     val message: String
 )
-
-@Serializable
-data class SnapshotInfo(
-    val id: String,
-    val name: String,
-    val fileSize: Long,
-    val schemaVersion: Int?,
-    val createdAt: String
-)
-
-@Serializable
-data class SnapshotListResponse(
-    val snapshots: List<SnapshotInfo>
-)
