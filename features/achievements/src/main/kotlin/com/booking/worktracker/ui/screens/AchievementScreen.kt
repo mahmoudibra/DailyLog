@@ -1,12 +1,8 @@
 package com.booking.worktracker.ui.screens
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -28,11 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.booking.worktracker.data.models.Achievement
 import com.booking.worktracker.data.models.AchievementCategory
+import com.booking.worktracker.data.models.Rank
 import com.booking.worktracker.data.models.UserLevel
 import com.booking.worktracker.di.AchievementComponent
 import com.booking.worktracker.presentation.viewmodels.DailyXpTotal
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.components.*
+import com.booking.worktracker.core.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AchievementScreen() {
@@ -58,26 +57,22 @@ fun AchievementScreen() {
             .padding(DSTheme.spacing.screenPadding),
         verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
-        // Screen title
         item {
-            DSScreenTitle("Achievements")
+            DSScreenTitle(stringResource(Res.string.achievements_title))
         }
 
-        // Level header
         item {
             userLevel?.let { level ->
                 LevelHeaderCard(level)
             }
         }
 
-        // Weekly XP chart
         item {
             if (weeklyXpData.isNotEmpty()) {
                 WeeklyXpChartCard(weeklyXpData)
             }
         }
 
-        // Category filter chips
         item {
             CategoryFilterChips(
                 selectedCategory = selectedCategory,
@@ -85,13 +80,11 @@ fun AchievementScreen() {
             )
         }
 
-        // Achievements grid - use a fixed-height grid inside the LazyColumn item
         item {
-            val filteredAchievements = achievements
-            if (filteredAchievements.isEmpty()) {
-                DSEmptyState(message = "No achievements found")
+            if (achievements.isEmpty()) {
+                DSEmptyState(message = stringResource(Res.string.achievements_empty))
             } else {
-                AchievementsGrid(filteredAchievements)
+                AchievementsGrid(achievements)
             }
         }
     }
@@ -99,21 +92,21 @@ fun AchievementScreen() {
 
 @Composable
 private fun LevelHeaderCard(userLevel: UserLevel) {
+    val rank = Rank.fromName(userLevel.rankTitle)
+
     DSCard(modifier = Modifier.fillMaxWidth()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Rank title
             Text(
-                text = userLevel.rankTitle,
+                text = rank?.let { stringResource(it.nameRes) } ?: userLevel.rankTitle,
                 style = DSTheme.font.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = DSTheme.colors.primary
             )
 
-            // Level badge
             Surface(
                 shape = CircleShape,
                 color = DSTheme.colors.primary,
@@ -129,7 +122,6 @@ private fun LevelHeaderCard(userLevel: UserLevel) {
                 }
             }
 
-            // XP progress bar
             Column(
                 verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.extraSmall),
                 modifier = Modifier.fillMaxWidth()
@@ -139,12 +131,12 @@ private fun LevelHeaderCard(userLevel: UserLevel) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Level ${userLevel.currentLevel}",
+                        text = stringResource(Res.string.achievements_level, userLevel.currentLevel),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
                     Text(
-                        text = "Level ${userLevel.currentLevel + 1}",
+                        text = stringResource(Res.string.achievements_next_level, userLevel.currentLevel + 1),
                         style = DSTheme.font.bodySmall,
                         color = DSTheme.colors.onSurfaceVariant
                     )
@@ -161,7 +153,7 @@ private fun LevelHeaderCard(userLevel: UserLevel) {
                 )
 
                 Text(
-                    text = "${userLevel.totalXp} / ${userLevel.xpForNextLevel} XP",
+                    text = stringResource(Res.string.achievements_xp_progress, userLevel.totalXp, userLevel.xpForNextLevel),
                     style = DSTheme.font.bodyMedium,
                     color = DSTheme.colors.onSurfaceVariant,
                     textAlign = TextAlign.Center,
@@ -169,13 +161,12 @@ private fun LevelHeaderCard(userLevel: UserLevel) {
                 )
             }
 
-            // Total XP
             Surface(
                 shape = DSTheme.shapes.pill,
                 color = DSTheme.colors.primary.copy(alpha = 0.15f)
             ) {
                 Text(
-                    text = "Total: ${userLevel.totalXp} XP",
+                    text = stringResource(Res.string.achievements_total_xp, userLevel.totalXp),
                     style = DSTheme.font.labelLarge,
                     color = DSTheme.colors.primary,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
@@ -189,16 +180,15 @@ private fun LevelHeaderCard(userLevel: UserLevel) {
 private fun WeeklyXpChartCard(weeklyXpData: List<DailyXpTotal>) {
     DSCard(modifier = Modifier.fillMaxWidth()) {
         Column(verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.medium)) {
-            DSSectionHeader(title = "This Week's XP")
+            DSSectionHeader(title = stringResource(Res.string.achievements_weekly_xp))
 
             val totalWeekXp = weeklyXpData.sumOf { it.totalXp }
             Text(
-                text = "Total: $totalWeekXp XP",
+                text = stringResource(Res.string.achievements_weekly_total, totalWeekXp),
                 style = DSTheme.font.bodyMedium,
                 color = DSTheme.colors.onSurfaceVariant
             )
 
-            // Bar chart
             val maxXp = weeklyXpData.maxOfOrNull { it.totalXp } ?: 1L
             val barColor = DSTheme.colors.primary
             val trackColor = DSTheme.colors.surfaceVariant
@@ -219,7 +209,6 @@ private fun WeeklyXpChartCard(weeklyXpData: List<DailyXpTotal>) {
                     val x = index * (barWidth + spacing) + spacing / 2
                     val barHeight = if (maxXp > 0) (dailyXp.totalXp.toFloat() / maxXp.toFloat()) * (chartHeight * 0.85f) else 0f
 
-                    // Track (full height, dim)
                     drawRoundRect(
                         color = trackColor,
                         topLeft = Offset(x, 0f),
@@ -227,7 +216,6 @@ private fun WeeklyXpChartCard(weeklyXpData: List<DailyXpTotal>) {
                         cornerRadius = CornerRadius(barWidth / 4, barWidth / 4)
                     )
 
-                    // Bar (actual value)
                     if (barHeight > 0) {
                         drawRoundRect(
                             color = barColor,
@@ -239,7 +227,6 @@ private fun WeeklyXpChartCard(weeklyXpData: List<DailyXpTotal>) {
                 }
             }
 
-            // Day labels
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -267,11 +254,10 @@ private fun CategoryFilterChips(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
     ) {
-        // "All" chip
         FilterChip(
             selected = selectedCategory == null,
             onClick = { onCategorySelected(null) },
-            label = { Text("All") },
+            label = { Text(stringResource(Res.string.achievements_filter_all)) },
             leadingIcon = if (selectedCategory == null) {
                 { Icon(Icons.Default.Done, contentDescription = null, modifier = Modifier.size(18.dp)) }
             } else null
@@ -281,7 +267,7 @@ private fun CategoryFilterChips(
             FilterChip(
                 selected = selectedCategory == category,
                 onClick = { onCategorySelected(category) },
-                label = { Text(category.name.lowercase().replaceFirstChar { it.uppercase() }) },
+                label = { Text(stringResource(category.nameRes)) },
                 leadingIcon = if (selectedCategory == category) {
                     { Icon(Icons.Default.Done, contentDescription = null, modifier = Modifier.size(18.dp)) }
                 } else null
@@ -292,7 +278,6 @@ private fun CategoryFilterChips(
 
 @Composable
 private fun AchievementsGrid(achievements: List<Achievement>) {
-    // Non-lazy grid inside the LazyColumn item to avoid nested scrolling issues
     val columns = 2
     val rows = (achievements.size + columns - 1) / columns
 
@@ -319,9 +304,10 @@ private fun AchievementsGrid(achievements: List<Achievement>) {
 
 @Composable
 private fun AchievementCard(achievement: Achievement) {
+    val def = achievement.definition
     val alpha = if (achievement.isUnlocked) 1f else 0.5f
     val containerColor = if (achievement.isUnlocked) {
-        categoryColor(achievement.category).copy(alpha = 0.12f)
+        categoryColor(def.category).copy(alpha = 0.12f)
     } else {
         DSTheme.colors.surfaceVariant.copy(alpha = 0.5f)
     }
@@ -337,52 +323,50 @@ private fun AchievementCard(achievement: Achievement) {
             modifier = Modifier.padding(DSTheme.spacing.cardPadding),
             verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small)
         ) {
-            // Icon row with status indicator
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = achievement.icon,
-                    style = DSTheme.font.headlineSmall
+                    text = stringResource(def.subtitleRes),
+                    style = DSTheme.font.headlineSmall,
+                    color = DSTheme.colors.onSurface
                 )
                 if (achievement.isUnlocked) {
                     Icon(
                         Icons.Default.CheckCircle,
-                        contentDescription = "Unlocked",
+                        contentDescription = stringResource(Res.string.achievements_unlocked),
                         tint = DSTheme.colors.primary,
                         modifier = Modifier.size(20.dp)
                     )
                 } else {
                     Icon(
                         Icons.Default.Lock,
-                        contentDescription = "Locked",
+                        contentDescription = stringResource(Res.string.achievements_locked),
                         tint = DSTheme.colors.onSurfaceVariant,
                         modifier = Modifier.size(20.dp)
                     )
                 }
             }
 
-            // Name
             Text(
-                text = achievement.name,
+                text = stringResource(def.titleRes),
                 style = DSTheme.font.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = DSTheme.colors.onSurface
             )
 
-            // Description
             Text(
-                text = achievement.description,
+                text = stringResource(def.descriptionRes),
                 style = DSTheme.font.bodySmall,
                 color = DSTheme.colors.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
-            // XP reward
             Surface(
                 shape = DSTheme.shapes.pill,
                 color = if (achievement.isUnlocked) {
@@ -392,17 +376,16 @@ private fun AchievementCard(achievement: Achievement) {
                 }
             ) {
                 Text(
-                    text = "+${achievement.xpReward} XP",
+                    text = stringResource(Res.string.achievements_xp_reward, def.xpReward),
                     style = DSTheme.font.labelSmall,
                     color = if (achievement.isUnlocked) DSTheme.colors.primary else DSTheme.colors.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                 )
             }
 
-            // Unlock date for unlocked achievements
             if (achievement.isUnlocked && achievement.unlockedAt != null) {
                 Text(
-                    text = "Unlocked: ${achievement.unlockedAt}",
+                    text = stringResource(Res.string.achievements_unlocked_date, achievement.unlockedAt!!),
                     style = DSTheme.font.labelSmall,
                     color = DSTheme.colors.onSurfaceVariant
                 )
@@ -414,9 +397,9 @@ private fun AchievementCard(achievement: Achievement) {
 @Composable
 private fun categoryColor(category: AchievementCategory): Color {
     return when (category) {
-        AchievementCategory.CONSISTENCY -> DSTheme.cardGreen
-        AchievementCategory.MASTERY -> DSTheme.cardPurple
-        AchievementCategory.EXPLORER -> DSTheme.cardBlue
-        AchievementCategory.CHALLENGE -> DSTheme.cardOrange
+        AchievementCategory.CONSISTENCY -> DSTheme.colors.tertiary
+        AchievementCategory.MASTERY -> DSTheme.colors.primary
+        AchievementCategory.EXPLORER -> DSTheme.colors.secondary
+        AchievementCategory.CHALLENGE -> DSTheme.colors.error
     }
 }

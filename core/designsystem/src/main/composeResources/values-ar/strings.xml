@@ -379,4 +379,68 @@
     <string name="budgets_link_objective">ربط بهدف (اختياري)</string>
     <string name="budgets_none">بدون</string>
     <string name="budgets_unknown">غير معروف</string>
+
+    <!-- Achievements Screen -->
+    <string name="achievements_title">الإنجازات</string>
+    <string name="achievements_empty">لا توجد إنجازات</string>
+    <string name="achievements_level">المستوى %1$d</string>
+    <string name="achievements_next_level">المستوى %1$d</string>
+    <string name="achievements_xp_progress">%1$d / %2$d XP</string>
+    <string name="achievements_total_xp">الإجمالي: %1$d XP</string>
+    <string name="achievements_weekly_xp">XP هذا الأسبوع</string>
+    <string name="achievements_weekly_total">الإجمالي: %1$d XP</string>
+    <string name="achievements_filter_all">الكل</string>
+    <string name="achievements_unlocked">مفتوح</string>
+    <string name="achievements_locked">مقفل</string>
+    <string name="achievements_xp_reward">+%1$d XP</string>
+    <string name="achievements_unlocked_date">فُتح: %1$s</string>
+    <string name="achievements_xp_display">%1$d XP</string>
+
+    <!-- Achievement Categories -->
+    <string name="achievements_category_consistency">المثابرة</string>
+    <string name="achievements_category_mastery">الإتقان</string>
+    <string name="achievements_category_explorer">الاستكشاف</string>
+    <string name="achievements_category_challenge">التحدي</string>
+
+    <!-- Rank Titles -->
+    <string name="achievements_rank_apprentice">مبتدئ</string>
+    <string name="achievements_rank_journeyman">متدرّب</string>
+    <string name="achievements_rank_craftsman">حِرَفي</string>
+    <string name="achievements_rank_master">خبير</string>
+    <string name="achievements_rank_grandmaster">أسطورة</string>
+    <string name="nav_achievements">الإنجازات</string>
+
+    <!-- Achievement Names & Descriptions -->
+    <string name="achievement_first_log">أول تسجيل</string>
+    <string name="achievement_first_log_desc">أنشئ أول إدخال يومي</string>
+    <string name="achievement_week_warrior">محارب الأسبوع</string>
+    <string name="achievement_week_warrior_desc">سجّل إدخالات لمدة 7 أيام متتالية</string>
+    <string name="achievement_month_master">سيّد الشهر</string>
+    <string name="achievement_month_master_desc">سجّل إدخالات لمدة 30 يومًا متتاليًا</string>
+    <string name="achievement_time_tracker">متتبع الوقت</string>
+    <string name="achievement_time_tracker_desc">أكمل أول جلسة تتبع وقت</string>
+    <string name="achievement_goal_setter">واضع الأهداف</string>
+    <string name="achievement_goal_setter_desc">أنشئ أول هدف لك</string>
+    <string name="achievement_checklist_champion">بطل القوائم</string>
+    <string name="achievement_checklist_champion_desc">أكمل 10 عناصر من قائمة المهام</string>
+    <string name="achievement_review_rookie">مراجع مبتدئ</string>
+    <string name="achievement_review_rookie_desc">اكتب أول مراجعة يومية</string>
+    <string name="achievement_budget_boss">مدير الميزانية</string>
+    <string name="achievement_budget_boss_desc">حقق هدف ميزانية وقت</string>
+    <string name="achievement_century_club">نادي المئة</string>
+    <string name="achievement_century_club_desc">اكسب 100 نقطة XP</string>
+    <string name="achievement_xp_veteran">محترف XP</string>
+    <string name="achievement_xp_veteran_desc">اكسب 1000 نقطة XP</string>
+
+    <!-- Achievement Icons -->
+    <string name="achievement_icon_pencil">قلم</string>
+    <string name="achievement_icon_fire">نار</string>
+    <string name="achievement_icon_trophy">كأس</string>
+    <string name="achievement_icon_clock">ساعة</string>
+    <string name="achievement_icon_target">هدف</string>
+    <string name="achievement_icon_check">صح</string>
+    <string name="achievement_icon_book">كتاب</string>
+    <string name="achievement_icon_chart">رسم بياني</string>
+    <string name="achievement_icon_star">نجمة</string>
+    <string name="achievement_icon_medal">ميدالية</string>
 </resources>

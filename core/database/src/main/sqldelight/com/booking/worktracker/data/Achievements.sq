@@ -16,13 +16,8 @@ CREATE TABLE IF NOT EXISTS user_level (
 
 CREATE TABLE IF NOT EXISTS achievements (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT NOT NULL,
-    category TEXT NOT NULL,
-    icon TEXT NOT NULL,
-    xp_reward INTEGER NOT NULL DEFAULT 50,
-    requirement_type TEXT NOT NULL,
-    requirement_value INTEGER NOT NULL,
+    achievement_key TEXT NOT NULL UNIQUE,
+    xp_needed INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -73,28 +68,23 @@ UPDATE user_level SET total_xp = ?, current_level = ?, rank_title = ?, updated_a
 -- Achievement queries
 
 getAllAchievements:
-SELECT id, name, description, category, icon, xp_reward, requirement_type, requirement_value, created_at
-FROM achievements ORDER BY category, name;
-
-getAchievementsByCategory:
-SELECT id, name, description, category, icon, xp_reward, requirement_type, requirement_value, created_at
-FROM achievements WHERE category = ? ORDER BY name;
+SELECT id, achievement_key, xp_needed
+FROM achievements ORDER BY achievement_key;
 
 getUnlockedAchievements:
-SELECT a.id, a.name, a.description, a.category, a.icon, a.xp_reward, a.requirement_type, a.requirement_value, a.created_at, ua.unlocked_at
+SELECT a.id, a.achievement_key, a.xp_needed, ua.unlocked_at
 FROM achievements a
 INNER JOIN user_achievements ua ON ua.achievement_id = a.id
 ORDER BY ua.unlocked_at DESC;
 
 getLockedAchievements:
-SELECT id, name, description, category, icon, xp_reward, requirement_type, requirement_value, created_at
+SELECT id, achievement_key, xp_needed
 FROM achievements
 WHERE id NOT IN (SELECT achievement_id FROM user_achievements)
-ORDER BY category, name;
+ORDER BY achievement_key;
 
 insertAchievement:
-INSERT INTO achievements (name, description, category, icon, xp_reward, requirement_type, requirement_value)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT OR IGNORE INTO achievements (achievement_key, xp_needed) VALUES (?, ?);
 
 unlockAchievement:
 INSERT INTO user_achievements (achievement_id) VALUES (?);

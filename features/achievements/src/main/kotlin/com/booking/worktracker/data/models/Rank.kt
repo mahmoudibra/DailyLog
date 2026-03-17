@@ -1,11 +1,14 @@
 package com.booking.worktracker.data.models
 
-enum class Rank(val xpThreshold: Long) {
-    APPRENTICE(0),
-    JOURNEYMAN(500),
-    CRAFTSMAN(2000),
-    MASTER(5000),
-    GRANDMASTER(10000);
+import com.booking.worktracker.core.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
+
+enum class Rank(val xpThreshold: Long, val nameRes: StringResource) {
+    APPRENTICE(0, Res.string.achievements_rank_apprentice),
+    JOURNEYMAN(500, Res.string.achievements_rank_journeyman),
+    CRAFTSMAN(2000, Res.string.achievements_rank_craftsman),
+    MASTER(5000, Res.string.achievements_rank_master),
+    GRANDMASTER(10000, Res.string.achievements_rank_grandmaster);
 
     companion object {
         fun fromXp(totalXp: Long): Rank {
@@ -16,5 +19,7 @@ enum class Rank(val xpThreshold: Long) {
             val nextRank = entries.firstOrNull { it.xpThreshold > totalXp }
             return nextRank?.xpThreshold ?: entries.last().xpThreshold
         }
+
+        fun fromName(name: String): Rank? = entries.find { it.name == name.uppercase() }
     }
 }

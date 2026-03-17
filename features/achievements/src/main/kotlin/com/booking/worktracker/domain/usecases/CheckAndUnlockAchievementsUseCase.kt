@@ -14,9 +14,10 @@ class CheckAndUnlockAchievementsUseCase(private val repository: AchievementRepos
         val newlyUnlocked = mutableListOf<Achievement>()
 
         for (achievement in locked) {
+            val def = achievement.definition
             val met = isRequirementMet(
-                requirementType = achievement.requirementType,
-                requirementValue = achievement.requirementValue,
+                requirementType = def.requirementType,
+                requirementValue = def.requirementValue,
                 totalXp = userLevel.totalXp,
                 xpByAction = xpByAction
             )

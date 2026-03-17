@@ -45,60 +45,62 @@ fun TimeBudgetsScreen() {
         }
     }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(DSTheme.spacing.screenPadding),
         verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.sectionSpacing)
     ) {
         // Header
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            DSScreenTitle(stringResource(Res.string.budgets_title))
-            DSButton(
-                text = stringResource(Res.string.budgets_add),
-                icon = Icons.Default.Add,
-                onClick = { showAddDialog = true }
-            )
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DSScreenTitle(stringResource(Res.string.budgets_title))
+                DSButton(
+                    text = stringResource(Res.string.budgets_add),
+                    icon = Icons.Default.Add,
+                    onClick = { showAddDialog = true }
+                )
+            }
         }
 
         // Message banner
         message?.let { msg ->
-            DSInfoBanner(
-                title = stringResource(Res.string.status),
-                message = msg,
-                icon = { Icon(Icons.Default.Info, contentDescription = null) }
-            )
+            item {
+                DSInfoBanner(
+                    title = stringResource(Res.string.status),
+                    message = msg,
+                    icon = { Icon(Icons.Default.Info, contentDescription = null) }
+                )
+            }
         }
 
         // Pace indicator card
         if (budgetProgress.isNotEmpty()) {
-            PaceIndicatorCard(budgetProgress, periodElapsed, viewModel)
+            item {
+                PaceIndicatorCard(budgetProgress, periodElapsed, viewModel)
+            }
         }
 
         // Budget list
         if (budgetProgress.isEmpty()) {
-            DSEmptyState(
-                message = stringResource(Res.string.budgets_empty),
-                modifier = Modifier.weight(1f)
-            )
+            item {
+                DSEmptyState(
+                    message = stringResource(Res.string.budgets_empty)
+                )
+            }
         } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(DSTheme.spacing.small),
-                modifier = Modifier.weight(1f)
-            ) {
-                items(budgetProgress) { progress ->
-                    BudgetProgressCard(
-                        progress = progress,
-                        periodElapsed = periodElapsed,
-                        viewModel = viewModel,
-                        onEdit = { editingBudget = progress },
-                        onDelete = { viewModel.removeBudget(progress.budget.id) }
-                    )
-                }
+            items(budgetProgress) { progress ->
+                BudgetProgressCard(
+                    progress = progress,
+                    periodElapsed = periodElapsed,
+                    viewModel = viewModel,
+                    onEdit = { editingBudget = progress },
+                    onDelete = { viewModel.removeBudget(progress.budget.id) }
+                )
             }
         }
     }

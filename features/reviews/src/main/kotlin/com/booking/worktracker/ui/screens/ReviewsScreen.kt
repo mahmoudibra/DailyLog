@@ -160,7 +160,8 @@ private fun DailyReviewContent(
             Text(
                 text = selectedDate.toString(),
                 style = DSTheme.font.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = DSTheme.colors.onSurface
             )
             DSIconButton(
                 icon = Icons.Default.ChevronRight,
@@ -178,14 +179,14 @@ private fun DailyReviewContent(
                 Icon(
                     Icons.Default.CheckCircle,
                     contentDescription = null,
-                    tint = DSTheme.completedGreen,
+                    tint = DSTheme.colors.tertiary,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = stringResource(Res.string.review_saved),
                     style = DSTheme.font.bodySmall,
-                    color = DSTheme.completedGreen
+                    color = DSTheme.colors.tertiary
                 )
             }
         }
@@ -196,7 +197,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.went_well_prompt),
             icon = Icons.Default.ThumbUp,
-            iconColor = DSTheme.cardGreen,
+            iconColor = DSTheme.colors.tertiary,
             text = wentWellText,
             placeholder = stringResource(Res.string.went_well_placeholder),
             onTextChange = onWentWellChange
@@ -208,7 +209,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.could_improve_prompt),
             icon = Icons.Default.TrendingUp,
-            iconColor = DSTheme.cardOrange,
+            iconColor = DSTheme.colors.secondary,
             text = couldImproveText,
             placeholder = stringResource(Res.string.could_improve_placeholder),
             onTextChange = onCouldImproveChange
@@ -220,7 +221,7 @@ private fun DailyReviewContent(
         PromptCard(
             title = stringResource(Res.string.tomorrow_priority_prompt),
             icon = Icons.Default.Star,
-            iconColor = DSTheme.cardBlue,
+            iconColor = DSTheme.colors.primary,
             text = tomorrowPriorityText,
             placeholder = stringResource(Res.string.tomorrow_priority_placeholder),
             onTextChange = onTomorrowPriorityChange
@@ -306,7 +307,8 @@ private fun WeeklySummaryContent(
             Text(
                 text = stringResource(Res.string.week_of, weekStartDate.toString()),
                 style = DSTheme.font.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = DSTheme.colors.onSurface
             )
             DSIconButton(
                 icon = Icons.Default.ChevronRight,

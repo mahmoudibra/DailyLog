@@ -11,8 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.booking.worktracker.data.models.Rank
 import com.booking.worktracker.data.models.UserLevel
 import com.booking.worktracker.ui.designsystem.DSTheme
+import com.booking.worktracker.core.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun XpProgressBar(
@@ -21,6 +24,8 @@ fun XpProgressBar(
     modifier: Modifier = Modifier
 ) {
     if (userLevel == null) return
+
+    val rank = Rank.fromName(userLevel.rankTitle)
 
     Surface(
         modifier = modifier
@@ -55,7 +60,7 @@ fun XpProgressBar(
 
             // Rank title
             Text(
-                text = userLevel.rankTitle,
+                text = rank?.let { stringResource(it.nameRes) } ?: userLevel.rankTitle,
                 style = DSTheme.font.labelLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = DSTheme.colors.onSurface
@@ -74,7 +79,7 @@ fun XpProgressBar(
 
             // XP text
             Text(
-                text = "${userLevel.totalXp} XP",
+                text = stringResource(Res.string.achievements_xp_display, userLevel.totalXp),
                 style = DSTheme.font.labelMedium,
                 color = DSTheme.colors.onSurfaceVariant
             )

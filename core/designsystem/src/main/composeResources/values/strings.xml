@@ -348,4 +348,68 @@
     <string name="budgets_link_objective">Link to Objective (optional)</string>
     <string name="budgets_none">None</string>
     <string name="budgets_unknown">Unknown</string>
+
+    <!-- Achievements Screen -->
+    <string name="achievements_title">Achievements</string>
+    <string name="achievements_empty">No achievements found</string>
+    <string name="achievements_level">Level %1$d</string>
+    <string name="achievements_next_level">Level %1$d</string>
+    <string name="achievements_xp_progress">%1$d / %2$d XP</string>
+    <string name="achievements_total_xp">Total: %1$d XP</string>
+    <string name="achievements_weekly_xp">This Week\'s XP</string>
+    <string name="achievements_weekly_total">Total: %1$d XP</string>
+    <string name="achievements_filter_all">All</string>
+    <string name="achievements_unlocked">Unlocked</string>
+    <string name="achievements_locked">Locked</string>
+    <string name="achievements_xp_reward">+%1$d XP</string>
+    <string name="achievements_unlocked_date">Unlocked: %1$s</string>
+    <string name="achievements_xp_display">%1$d XP</string>
+
+    <!-- Achievement Categories -->
+    <string name="achievements_category_consistency">Consistency</string>
+    <string name="achievements_category_mastery">Mastery</string>
+    <string name="achievements_category_explorer">Explorer</string>
+    <string name="achievements_category_challenge">Challenge</string>
+
+    <!-- Rank Titles -->
+    <string name="achievements_rank_apprentice">Apprentice</string>
+    <string name="achievements_rank_journeyman">Journeyman</string>
+    <string name="achievements_rank_craftsman">Craftsman</string>
+    <string name="achievements_rank_master">Master</string>
+    <string name="achievements_rank_grandmaster">Grandmaster</string>
+    <string name="nav_achievements">Achievements</string>
+
+    <!-- Achievement Names & Descriptions -->
+    <string name="achievement_first_log">First Log</string>
+    <string name="achievement_first_log_desc">Create your first daily log entry</string>
+    <string name="achievement_week_warrior">Week Warrior</string>
+    <string name="achievement_week_warrior_desc">Log entries for 7 consecutive days</string>
+    <string name="achievement_month_master">Month Master</string>
+    <string name="achievement_month_master_desc">Log entries for 30 consecutive days</string>
+    <string name="achievement_time_tracker">Time Tracker</string>
+    <string name="achievement_time_tracker_desc">Complete your first time tracking session</string>
+    <string name="achievement_goal_setter">Goal Setter</string>
+    <string name="achievement_goal_setter_desc">Create your first objective</string>
+    <string name="achievement_checklist_champion">Checklist Champion</string>
+    <string name="achievement_checklist_champion_desc">Complete 10 checklist items</string>
+    <string name="achievement_review_rookie">Review Rookie</string>
+    <string name="achievement_review_rookie_desc">Write your first daily review</string>
+    <string name="achievement_budget_boss">Budget Boss</string>
+    <string name="achievement_budget_boss_desc">Hit a time budget target</string>
+    <string name="achievement_century_club">Century Club</string>
+    <string name="achievement_century_club_desc">Earn 100 total XP</string>
+    <string name="achievement_xp_veteran">XP Veteran</string>
+    <string name="achievement_xp_veteran_desc">Earn 1000 total XP</string>
+
+    <!-- Achievement Icons -->
+    <string name="achievement_icon_pencil">Pencil</string>
+    <string name="achievement_icon_fire">Fire</string>
+    <string name="achievement_icon_trophy">Trophy</string>
+    <string name="achievement_icon_clock">Clock</string>
+    <string name="achievement_icon_target">Target</string>
+    <string name="achievement_icon_check">Check</string>
+    <string name="achievement_icon_book">Book</string>
+    <string name="achievement_icon_chart">Chart</string>
+    <string name="achievement_icon_star">Star</string>
+    <string name="achievement_icon_medal">Medal</string>
 </resources>

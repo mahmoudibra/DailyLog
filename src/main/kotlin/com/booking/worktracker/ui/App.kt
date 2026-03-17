@@ -12,8 +12,6 @@ import com.booking.worktracker.data.DatabaseProvider
 import com.booking.worktracker.data.datasource.SettingsLocalDataSource
 import com.booking.worktracker.data.repository.SettingsRepository
 import com.booking.worktracker.di.AuthComponent
-import com.booking.worktracker.presentation.viewmodels.SignInViewModel
-import com.booking.worktracker.presentation.viewmodels.SignUpViewModel
 import com.booking.worktracker.ui.designsystem.DSTheme
 import com.booking.worktracker.ui.designsystem.WorkTrackerTheme
 import com.booking.worktracker.ui.localization.AppLocale
@@ -64,7 +62,7 @@ fun App() {
             NavItem(Screen.FOCUS_ZONES, Icons.Default.Psychology, stringResource(Res.string.nav_focus_zones)),
             NavItem(Screen.TIME_BUDGETS, Icons.Default.PieChart, stringResource(Res.string.nav_time_budgets)),
             NavItem(Screen.HABITS, Icons.Default.LocalFireDepartment, stringResource(Res.string.nav_habits)),
-            NavItem(Screen.ACHIEVEMENTS, Icons.Default.EmojiEvents, "XP"),
+            NavItem(Screen.ACHIEVEMENTS, Icons.Default.EmojiEvents, stringResource(Res.string.nav_achievements)),
         )
 
         WorkTrackerTheme(darkTheme = isDarkMode) {

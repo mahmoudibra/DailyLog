@@ -91,7 +91,8 @@ fun DSIconButton(
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = contentDescription
+            contentDescription = contentDescription,
+            tint = DSTheme.colors.onSurface
         )
     }
 }

@@ -1,0 +1,32 @@
+-- Migrate achievements table: drop UI columns, keep only achievement_key and xp_needed
+
+DROP TABLE IF EXISTS achievements_new;
+
+CREATE TABLE achievements_new (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    achievement_key TEXT NOT NULL UNIQUE,
+    xp_needed INTEGER NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+INSERT OR IGNORE INTO achievements_new (id, achievement_key, xp_needed, created_at)
+SELECT id,
+    CASE name
+        WHEN 'First Log' THEN 'FIRST_LOG'
+        WHEN 'Week Warrior' THEN 'WEEK_WARRIOR'
+        WHEN 'Month Master' THEN 'MONTH_MASTER'
+        WHEN 'Time Tracker' THEN 'TIME_TRACKER'
+        WHEN 'Goal Setter' THEN 'GOAL_SETTER'
+        WHEN 'Checklist Champion' THEN 'CHECKLIST_CHAMPION'
+        WHEN 'Review Rookie' THEN 'REVIEW_ROOKIE'
+        WHEN 'Budget Boss' THEN 'BUDGET_BOSS'
+        WHEN 'Century Club' THEN 'CENTURY_CLUB'
+        WHEN 'XP Veteran' THEN 'XP_VETERAN'
+        ELSE UPPER(REPLACE(name, ' ', '_'))
+    END,
+    requirement_value,
+    created_at
+FROM achievements;
+
+DROP TABLE achievements;
+ALTER TABLE achievements_new RENAME TO achievements;

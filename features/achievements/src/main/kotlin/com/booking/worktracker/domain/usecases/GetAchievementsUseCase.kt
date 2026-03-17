@@ -11,7 +11,7 @@ class GetAchievementsUseCase(private val repository: AchievementRepository) {
     operator fun invoke(category: AchievementCategory?): Result<List<Achievement>> = try {
         val achievements = repository.getAllAchievements()
         val filtered = if (category != null) {
-            achievements.filter { it.category == category }
+            achievements.filter { it.definition.category == category }
         } else {
             achievements
         }
