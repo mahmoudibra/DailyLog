@@ -56,6 +56,9 @@ daily_tracker.db
 *.log
 hs_err_pid*
 
+### Environment ###
+.env
+
 ### OS generated ###
 ehthumbs.db
 Desktop.ini
