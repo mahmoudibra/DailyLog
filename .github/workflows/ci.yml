@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+defaults:
+  run:
+    working-directory: desktop
+
 jobs:
   lint:
     name: Lint (detekt)
@@ -67,7 +71,8 @@ jobs:
             --title "DailyTracker v${VERSION}" \
             --notes "Automated build from commit ${{ github.sha }}" \
             --latest \
-            build/compose/binaries/main/dmg/*.dmg
+            desktop/build/compose/binaries/main/dmg/*.dmg
+        working-directory: .
 
   dependency-submission:
     name: Dependency Submission
@@ -82,3 +87,5 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: gradle/actions/dependency-submission@v4
+        with:
+          build-root-directory: desktop
