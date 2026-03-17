@@ -14,25 +14,28 @@ A Kotlin/JVM desktop application built with Jetpack Compose Desktop for tracking
 
 ## Project Structure
 
-Multi-module Gradle project with feature modules:
+Monorepo with two independent projects (no shared code):
 
 ```
-├── core/
-│   ├── di/            # DI annotations (@Singleton), kotlin-inject runtime, lifecycle-viewmodel
-│   ├── database/      # SQLDelight schema (.sq/.sqm), DatabaseProvider, DatabaseComponent
-│   └── designsystem/  # Theme, tokens, components, localization, composeResources
-├── features/
-│   ├── dailylog/      # Daily log feature: entries, tags, log list
-│   ├── objectives/    # Objectives feature: yearly/quarterly goals with checklists
-│   ├── timetracking/  # Timer & manual time entries
-│   ├── analytics/     # Dashboard & statistics
-│   ├── export/        # Data export (TXT, CSV, MD)
-│   ├── reviews/       # Daily reviews & weekly summaries
-│   ├── focuszones/    # Focus zone analysis
-│   ├── timebudgets/   # Time budget allocation
-│   ├── habits/        # Habit tracking
-│   └── settings/      # App settings
-└── src/           # App entry point (Main.kt, App.kt, notifications)
+DailyReminder/              (repo root)
+├── desktop/                (Compose Desktop app — own Gradle build)
+│   ├── core/
+│   │   ├── di/            # DI annotations (@Singleton), kotlin-inject runtime, lifecycle-viewmodel
+│   │   ├── database/      # SQLDelight schema (.sq/.sqm), DatabaseProvider, DatabaseComponent
+│   │   └── designsystem/  # Theme, tokens, components, localization, composeResources
+│   ├── features/
+│   │   ├── dailylog/      # Daily log feature: entries, tags, log list
+│   │   ├── objectives/    # Objectives feature: yearly/quarterly goals with checklists
+│   │   ├── timetracking/  # Timer & manual time entries
+│   │   ├── analytics/     # Dashboard & statistics
+│   │   ├── export/        # Data export (TXT, CSV, MD)
+│   │   ├── reviews/       # Daily reviews & weekly summaries
+│   │   ├── focuszones/    # Focus zone analysis
+│   │   ├── timebudgets/   # Time budget allocation
+│   │   ├── habits/        # Habit tracking
+│   │   └── settings/      # App settings
+│   └── src/               # App entry point (Main.kt, App.kt, notifications)
+└── server/                 (Ktor backend — own Gradle build, to be added)
 ```
 
 **Core sub-module dependency graph:**
@@ -54,6 +57,7 @@ Each feature module follows a layered architecture:
 ## Build & Run
 
 ```bash
+cd desktop
 ./gradlew run                    # Run the app
 ./gradlew packageDmg             # Build macOS .dmg
 ```
@@ -63,16 +67,16 @@ Each feature module follows a layered architecture:
 - Package: `com.booking.worktracker`
 - Main class: `com.booking.worktracker.MainKt`
 - **Dependency injection (kotlin-inject)**: Uses compile-time DI via kotlin-inject + KSP. Annotate classes with `@Inject`. Use `@Singleton` (from `com.booking.worktracker.di`) on DataSources and Repositories to ensure single instances. UseCases and ViewModels are not singleton — they get fresh instances. Constructor parameters have no default values; kotlin-inject wires everything.
-- **DatabaseComponent (core:database)**: `DatabaseComponent` in `core/database/.../di/DatabaseComponent.kt` is the `@Component @Singleton` that provides database dependencies (`DailyTrackerDatabase`). Accessed via `DatabaseComponent.instance`. When adding new shared core modules (e.g. analytics), each module defines its own `@Component` — feature modules compose multiple parents.
+- **DatabaseComponent (core:database)**: `DatabaseComponent` in `desktop/core/database/.../di/DatabaseComponent.kt` is the `@Component @Singleton` that provides database dependencies (`DailyTrackerDatabase`). Accessed via `DatabaseComponent.instance`. When adding new shared core modules (e.g. analytics), each module defines its own `@Component` — feature modules compose multiple parents.
 - **DI Component per feature module**: Each DI-enabled module has a `@Component` class in its `di/` package (e.g. `DailyLogComponent`) that takes `DatabaseComponent` as a parent via `@Component val parent: DatabaseComponent`. Feature components must **not** use `@Singleton` (the parent already owns that scope). The component only exposes ViewModels — never expose DataSources, Repositories, or UseCases. Access the component via `XxxComponent.instance` (lazy singleton using `XxxComponent::class.create(DatabaseComponent.instance)`).
 - **UI screens get ViewModels from component**: Screens use `viewModel { XxxComponent.instance.xxxViewModel }`. Never access repositories or data sources directly from screens — all data logic belongs in ViewModels. Each screen has its own dedicated ViewModel — never share a single ViewModel across multiple screens.
 - **Cross-module consumers not yet on DI**: Modules not yet migrated to kotlin-inject wire dependencies manually, e.g. `LogRepository(LogLocalDataSource(DatabaseProvider.getDatabase()))`. Migrate them to DI over time.
 - **Always use AndroidX Lifecycle ViewModel**: All ViewModels must extend `androidx.lifecycle.ViewModel` (from `org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose`). Never create custom ViewModel base classes — use the official AndroidX ViewModel which provides built-in `viewModelScope` and proper lifecycle management.
 - **Coroutine dispatching in the DataSource layer**: `Dispatchers.IO` is provided via DI from `DatabaseComponent` as a `CoroutineDispatcher`. DataSources receive it as a constructor parameter and wrap all DB operations with `withContext(ioDispatcher)`. All DataSource methods must be `suspend`. Repository and UseCase methods are also `suspend` (pass-through). ViewModels use plain `viewModelScope.launch` without specifying a dispatcher — threading is handled at the DataSource level.
-- Database schema defined in `.sq` files at `core/database/src/main/sqldelight/com/booking/worktracker/data/`
+- Database schema defined in `.sq` files at `desktop/core/database/src/main/sqldelight/com/booking/worktracker/data/`
 - SQLDelight generates `DailyTrackerDatabase` with typed `*Queries` classes
-- `DatabaseProvider` class in `core/database/.../data/DatabaseProvider.kt` manages driver and database lifecycle. Has `@Inject @Singleton` for DI, plus a `companion object` with static methods for backward compatibility.
-- Design system tokens in `core/designsystem/.../ui/designsystem/tokens/` (colors, spacing, typography)
+- `DatabaseProvider` class in `desktop/core/database/.../data/DatabaseProvider.kt` manages driver and database lifecycle. Has `@Inject @Singleton` for DI, plus a `companion object` with static methods for backward compatibility.
+- Design system tokens in `desktop/core/designsystem/.../ui/designsystem/tokens/` (colors, spacing, typography)
 - **Localization**: All user-facing strings must be added to `strings.xml` resource files — never hardcode strings directly in Compose UI code.
 - Material 3 ExperimentalApi opt-in enabled globally via compiler args
 - **Claude config**: Always update the local project `.claude/` files (inside this repo), never the global `~/.claude/` config.
