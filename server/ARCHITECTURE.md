@@ -12,7 +12,17 @@ The response flows back out the same path.
 
 ### Entry Point — `Application.kt`
 
-Bootstrap layer. Starts the Ktor Netty engine and calls `Application.module()`, which installs plugins in order. The order matters — Database must be configured before Authentication, since auth may need DB access.
+Bootstrap layer. `main()` calls `EngineMain.main()` which starts the Ktor Netty engine. `Application.module()` is **not called directly in code** — Ktor invokes it via reflection based on the config in `application.conf`:
+
+```hocon
+ktor {
+    application {
+        modules = [ com.dailytracker.server.ApplicationKt.module ]
+    }
+}
+```
+
+This is why the IDE may flag `module()` as unused — the call happens through configuration, not code. Inside `module()`, plugins are installed in order. The order matters — Database must be configured before Authentication, since auth may need DB access.
 
 ### Plugins — `plugins/`
 
