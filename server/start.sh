@@ -3,8 +3,14 @@ set -e
 
 cd "$(dirname "$0")"
 
-echo "Starting DailyTracker server..."
-docker-compose up -d
+if [ "$1" = "--fresh" ]; then
+    echo "Starting DailyTracker server (fresh build, no cache)..."
+    docker-compose build --no-cache
+    docker-compose up -d
+else
+    echo "Starting DailyTracker server..."
+    docker-compose up -d --build
+fi
 
 echo ""
 echo "Server is running at http://localhost:8080"
