@@ -17,7 +17,6 @@ fun Application.configureDatabase() {
         jdbcUrl = dbUrl
         username = dbUser
         password = dbPassword
-        driverClassName = "org.postgresql.Driver"
         maximumPoolSize = 10
         isAutoCommit = false
         transactionIsolation = "TRANSACTION_REPEATABLE_READ"

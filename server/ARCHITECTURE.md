@@ -93,6 +93,36 @@ Users.insert {
 
 Everything runs inside `transaction {}` blocks — Exposed manages connections and commits/rollbacks automatically.
 
+#### How `transaction {}` Works
+
+The `transaction {}` block is not about async — it's a **database transaction wrapper**:
+
+1. **Opens** a database connection from the HikariCP pool
+2. **Begins** a SQL transaction (`BEGIN`)
+3. Executes the SQL statements inside the block
+4. **Commits** on success (`COMMIT`) or **rolls back** on exception (`ROLLBACK`)
+
+This guarantees **atomicity** — all operations inside the block either all succeed or all fail. Exposed requires all database operations to run inside a `transaction {}` block.
+
+#### Testing with H2
+
+In unit tests, we bypass HikariCP and connect Exposed directly to an in-memory H2 database:
+
+```kotlin
+Database.connect(
+    url = "jdbc:h2:mem:test_repo_${System.nanoTime()};MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
+    driver = "org.h2.Driver",
+    user = "sa",
+    password = ""
+)
+```
+
+- `System.nanoTime()` gives each test a fresh database (no test interference)
+- `MODE=PostgreSQL` makes H2 behave like PostgreSQL
+- `DB_CLOSE_DELAY=-1` keeps the in-memory DB alive for the test duration
+
+Without `Database.connect(...)`, any call to `transaction {}` would fail since Exposed wouldn't know which database to use.
+
 **DAO API (not used)** — ORM layer on top of the DSL with entity classes. More convenient but less control over generated SQL.
 
 **Why Exposed?** Lightweight, Kotlin-idiomatic, backed by JetBrains, no code generation step required. A good fit for a simple Ktor server.

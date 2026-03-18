@@ -1,6 +1,6 @@
 # Backend Completion Plan
 
-## Phase 1: Input Validation Enhancement
+## ~~Phase 1: Input Validation Enhancement~~ DONE
 **Modify:** `src/main/kotlin/.../routes/AuthRoutes.kt`
 
 - Trim email (not password) before validation
@@ -12,7 +12,7 @@
 
 ---
 
-## Phase 2: CallLogging Plugin
+## ~~Phase 2: CallLogging Plugin~~ DONE
 **Modify:** `Application.kt`
 
 - Install `CallLogging` plugin (already in ktor-server-core, no new dep)
