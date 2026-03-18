@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.slf4j.LoggerFactory
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -16,6 +17,8 @@ data class UserRecord(
 )
 
 class UserRepository {
+
+    private val log = LoggerFactory.getLogger(UserRepository::class.java)
 
     fun findByEmail(email: String): UserRecord? = transaction {
         Users.selectAll().where { Users.email eq email }
@@ -32,6 +35,7 @@ class UserRepository {
             it[passwordHash] = hash
             it[createdAt] = OffsetDateTime.now()
         }
+        log.info("Created user record for {}", email)
         UserRecord(newId, email, hash)
     }
 
